@@ -1,0 +1,240 @@
+.featuredSection {
+  position: relative;
+  padding: 4rem 0;
+  background-color: white;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #EE4922;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #333333;
+  margin-bottom: 4rem;
+}
+
+.carouselContainer {
+  position: relative;
+  width: 70%;
+  height: 50vh;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+.productCard {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(238, 73, 34, 0.15);
+  padding: 1.5rem;
+  cursor: grab;
+}
+
+.productCard:active {
+  cursor: grabbing;
+}
+
+.productImage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.productImage img {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(238, 73, 34, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover .productImage img {
+  transform: scale(1.05) translateY(-10px);
+}
+
+.productInfo {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.productName {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #EE4922;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.productDescription {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333333;
+}
+
+.productPrice {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F14823;
+}
+
+.shopNowButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: #EE4922;
+  color: white;
+  font-weight: 600;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.shopNowButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(238, 73, 34, 0.3);
+  background: #e13d0f;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(238, 73, 34, 0.9);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.navButton:hover {
+  background: #EE4922;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevButton {
+  left: 1rem;
+}
+
+.nextButton {
+  right: 1rem;
+}
+
+.indicators {
+  position: absolute;
+  bottom: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+}
+
+.indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: rgba(238, 73, 34, 0.3);
+  transition: all 0.3s ease;
+}
+
+.activeIndicator {
+  background: #EE4922;
+  transform: scale(1.2);
+}
+
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(238, 73, 34, 0.1);
+  color: #EE4922;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.keyIngredient {
+  font-size: 1rem;
+  color: #333333;
+  line-height: 1.5;
+  background: rgba(238, 73, 34, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .carouselContainer {
+    width: 90%;
+    height: 70vh;
+  }
+
+  .productCard {
+    flex-direction: column;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+
+  .productImage img {
+    max-height: 200px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .productName {
+    font-size: 1.75rem;
+  }
+
+  .productDescription {
+    font-size: 0.875rem;
+  }
+} 
