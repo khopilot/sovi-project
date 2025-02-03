@@ -1,11 +1,9 @@
-import { Configuration, OpenAIApi } from 'openai'
+import OpenAI from 'openai'
 import { NextResponse } from 'next/server'
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
-
-const openai = new OpenAIApi(configuration)
 
 const SYSTEM_PROMPT = `You are a helpful assistant for Naga Balm, a Cambodian company that produces traditional balms and remedies.
 Your role is to help customers with product information, usage guidelines, and general inquiries.
@@ -76,7 +74,7 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json()
     
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
@@ -84,7 +82,7 @@ export async function POST(req: Request) {
       ],
     })
 
-    return new Response(JSON.stringify(completion.data))
+    return new Response(JSON.stringify(completion))
   } catch (error) {
     console.error('Error in chat API:', error)
     return new Response(JSON.stringify({ error: 'Failed to process request' }), { status: 500 })
