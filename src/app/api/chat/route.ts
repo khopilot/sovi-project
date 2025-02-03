@@ -1,9 +1,11 @@
+import { Configuration, OpenAIApi } from 'openai'
 import { NextResponse } from 'next/server'
-import OpenAI from 'openai'
 
-const openai = new OpenAI({
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
 })
+
+const openai = new OpenAIApi(configuration)
 
 const SYSTEM_PROMPT = `You are a helpful assistant for Naga Balm, a Cambodian company that produces traditional balms and remedies.
 Your role is to help customers with product information, usage guidelines, and general inquiries.
@@ -70,22 +72,21 @@ function getResponse(message: string, language: 'en' | 'km'): string {
   return RESPONSES[language].default
 }
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { messages, language } = await request.json() as ChatRequest
-    const lastMessage = messages[messages.length - 1]
+    const { messages } = await req.json()
     
-    // Add a small delay to simulate processing
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    const response = getResponse(lastMessage.content, language)
-    
-    return NextResponse.json({ message: response })
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages
+      ],
+    })
+
+    return new Response(JSON.stringify(completion.data))
   } catch (error) {
     console.error('Error in chat API:', error)
-    return NextResponse.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    )
+    return new Response(JSON.stringify({ error: 'Failed to process request' }), { status: 500 })
   }
 } 
