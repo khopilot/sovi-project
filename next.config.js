@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    optimizeCss: true // This will optimize CSS loading
-  },
-  // Existing config options...
   images: {
     domains: ['localhost', 'your-domain.com'],
   },
