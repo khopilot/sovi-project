@@ -24,9 +24,9 @@ export default function FeaturedSection() {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? 800 : -800,
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
     }),
     center: {
       zIndex: 1,
@@ -36,9 +36,9 @@ export default function FeaturedSection() {
     },
     exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction < 0 ? 800 : -800,
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
     }),
   };
 
@@ -89,9 +89,9 @@ export default function FeaturedSection() {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-                scale: { duration: 0.2 },
+                x: { type: "spring", stiffness: 250, damping: 25 },
+                opacity: { duration: 0.3 },
+                scale: { duration: 0.3 },
               }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}

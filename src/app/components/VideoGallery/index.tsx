@@ -1,196 +1,161 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './VideoGallery.module.css';
 import dynamic from 'next/dynamic';
+import { getFacebookVideoMetrics } from '@/app/utils/facebook';
 
-const DynamicVideoPlayer = dynamic(() => import('@/app/(pages)/home/components/VideoPlayer'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ aspectRatio: '9/16', background: '#f0f0f0', borderRadius: '8px' }} />
-  ),
-});
+const DynamicVideoPlayer = dynamic(
+  () => import('@/app/(pages)/home/components/VideoPlayer'),
+  { ssr: false }
+);
 
-interface Video {
+export default function VideoGallery({ videos }: { videos: Array<{
   id: string;
   title: string;
   videoUrl: string;
   description: string;
-  likes: number;
-  views: number;
-}
-
-interface VideoGalleryProps {
-  videos: Video[];
-}
-
-export default function VideoGallery({ videos }: VideoGalleryProps) {
+}> }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
+  const [isClient, setIsClient] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  const getCardDimensions = () => {
-    if (windowWidth <= 480) {
-      return { width: 200, height: 357 };
-    }
-    return { width: 267, height: 476 };
-  };
-
-  const dimensions = getCardDimensions();
-  const gap = windowWidth <= 768 ? 20 : 40;
+  const [selectedVideo, setSelectedVideo] = useState<null | typeof videos[0]>(null);
+  const [videoMetrics, setVideoMetrics] = useState<Array<{ views: number; likes: number; }>>([]);
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    setIsClient(true);
   }, []);
 
-  const handleNavigation = (direction: 'left' | 'right') => {
+  useEffect(() => {
+    if (isClient && videos.length > 0) {
+      const fetchMetrics = async () => {
+        const metrics = await getFacebookVideoMetrics(videos.map(v => v.videoUrl));
+        setVideoMetrics(metrics);
+      };
+      fetchMetrics();
+    }
+  }, [isClient, videos]);
+
+  const handleSlideChange = (index: number) => {
     if (!trackRef.current) return;
-    
-    const scrollAmount = direction === 'left' 
-      ? -trackRef.current.offsetWidth 
-      : trackRef.current.offsetWidth;
-    
-    trackRef.current.scrollBy({
-      left: scrollAmount,
+    setActiveIndex(index);
+    const slideWidth = trackRef.current.offsetWidth;
+    trackRef.current.scrollTo({
+      left: index * slideWidth,
       behavior: 'smooth'
     });
   };
 
-  const handleDotClick = (index: number) => {
-    const slideWidth = dimensions.width + gap;
-    controls.start({
-      x: -index * slideWidth,
-      transition: { duration: 0.5, ease: 'easeInOut' }
-    });
-    setActiveIndex(index);
-  };
-
-  const handleVideoClick = (video: Video) => {
-    document.body.style.overflow = 'hidden';
+  const handleVideoClick = (video: typeof videos[0]) => {
     setSelectedVideo(video);
+    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
-    document.body.style.overflow = '';
     setSelectedVideo(null);
+    document.body.style.overflow = '';
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Watch Us</h2>
+        <h2 className={styles.sectionTitle}>Experience Natural Relief</h2>
         <p className={styles.sectionDescription}>
-          Discover how Naga Balm helps athletes and everyday people achieve natural pain relief
+          See how Naga Balm brings traditional healing to modern lifestyles
         </p>
       </div>
 
-      <div className={styles.carouselContainer}>
-        <button
-          className={`${styles.navButton} ${styles.prevButton}`}
-          onClick={() => handleNavigation('left')}
-          aria-label="Previous videos"
-        >
-          ‹
-        </button>
+      <div className={styles.carouselWrapper}>
+        {isClient && (
+          <>
+            <div className={styles.navigationButtons}>
+              <button
+                onClick={() => handleSlideChange(Math.max(0, activeIndex - 1))}
+                disabled={activeIndex === 0}
+                className={styles.navButton}
+                aria-label="Previous video"
+              >
+                ←
+              </button>
+              <button
+                onClick={() => handleSlideChange(Math.min(videos.length - 1, activeIndex + 1))}
+                disabled={activeIndex === videos.length - 1}
+                className={styles.navButton}
+                aria-label="Next video"
+              >
+                →
+              </button>
+            </div>
 
-        <div
-          ref={trackRef}
-          className={styles.carouselTrack}
-        >
-          {videos.map((video, index) => (
-            <motion.div
-              key={video.id}
-              className={`${styles.carouselSlide} ${index === activeIndex ? styles.activeSlide : ''}`}
-              onClick={() => handleVideoClick(video)}
-              style={{ minWidth: `${dimensions.width}px` }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className={styles.videoCard}>
-                <div className={styles.thumbnailContainer}>
-                  <DynamicVideoPlayer
-                    url={video.videoUrl}
-                    width={dimensions.width}
-                    height={dimensions.height}
-                  />
-                </div>
-                <div className={styles.videoInfo}>
-                  <h3 className={styles.videoTitle}>{video.title}</h3>
-                  <div className={styles.videoStats}>
-                    <span>{video.views.toLocaleString()} views</span>
-                    <span>•</span>
-                    <span>{video.likes.toLocaleString()} likes</span>
+            <div ref={trackRef} className={styles.carouselTrack}>
+              {videos.map((video, index) => (
+                <div
+                  key={video.id}
+                  className={`${styles.slide} ${index === activeIndex ? styles.activeSlide : ''}`}
+                  onClick={() => handleVideoClick(video)}
+                >
+                  <div className={styles.videoCard}>
+                    <DynamicVideoPlayer
+                      url={video.videoUrl}
+                      width={320}
+                      height={568}
+                    />
+                    <div className={styles.videoInfo}>
+                      <h3>{video.title}</h3>
+                      <div className={styles.stats}>
+                        <span>{videoMetrics[index]?.views?.toLocaleString() || '...'} views</span>
+                        <span>{videoMetrics[index]?.likes?.toLocaleString() || '...'} likes</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              ))}
+            </div>
 
-        <button
-          className={`${styles.navButton} ${styles.nextButton}`}
-          onClick={() => handleNavigation('right')}
-          aria-label="Next videos"
-        >
-          ›
-        </button>
-
-        <div className={styles.dotContainer}>
-          {videos.map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.dot} ${activeIndex === index ? styles.activeDot : ''}`}
-              onClick={() => handleDotClick(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+            <div className={styles.indicators}>
+              {videos.map((_, index) => (
+                <button
+                  key={index}
+                  className={`${styles.indicator} ${index === activeIndex ? styles.activeIndicator : ''}`}
+                  onClick={() => handleSlideChange(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <AnimatePresence>
-        {selectedVideo && (
+        {selectedVideo && isClient && (
           <motion.div
             className={styles.modal}
-            onClick={closeModal}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={closeModal}
           >
             <motion.div
               className={styles.modalContent}
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: 'spring', duration: 0.3, bounce: 0.1 }}
             >
-              <button
-                className={styles.closeButton}
-                onClick={closeModal}
-                aria-label="Close video"
-              >
-                ×
-              </button>
-              <div className={styles.videoWrapper}>
-                <DynamicVideoPlayer
-                  url={selectedVideo.videoUrl}
-                  width={267}
-                  height={476}
-                />
-              </div>
+              <button className={styles.closeButton} onClick={closeModal}>×</button>
+              <DynamicVideoPlayer
+                url={selectedVideo.videoUrl}
+                width={320}
+                height={568}
+                isModal
+              />
               <div className={styles.modalInfo}>
-                <h2>{selectedVideo.title}</h2>
+                <h3>{selectedVideo.title}</h3>
                 <p>{selectedVideo.description}</p>
-                <div className={styles.modalStats}>
-                  <span>{selectedVideo.views.toLocaleString()} views</span>
-                  <span>•</span>
-                  <span>{selectedVideo.likes.toLocaleString()} likes</span>
+                <div className={styles.stats}>
+                  <span>{videoMetrics[videos.findIndex(v => v.id === selectedVideo.id)]?.views?.toLocaleString() || '...'} views</span>
+                  <span>{videoMetrics[videos.findIndex(v => v.id === selectedVideo.id)]?.likes?.toLocaleString() || '...'} likes</span>
                 </div>
               </div>
             </motion.div>

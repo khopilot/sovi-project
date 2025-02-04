@@ -8,7 +8,12 @@
 }
 
 .container {
-  composes: root;
+  --chat-button-size: 60px;
+  --chat-primary-color: #FFD36F;
+  --chat-hover-color: #FFE49F;
+  --chat-window-width: 380px;
+  --chat-window-height: min(600px, 80vh);
+  --chat-window-mobile-height: 100vh;
   position: fixed;
   top: 50%;
   right: 20px;
