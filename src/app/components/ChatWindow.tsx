@@ -10,15 +10,144 @@ interface Message {
   content: string
 }
 
-const WELCOME_MESSAGE: Message = {
-  role: 'assistant',
+// Move constants outside component
+const WELCOME_MESSAGE = {
+  role: 'assistant' as const,
   content: 'Hello! 👋 I\'m your Naga Balm assistant. How can I help you today? Feel free to ask about our products, their uses, or any other questions you might have.'
 }
 
 // Update to use the renamed logo file
 const LOGO_ICON_PATH = '/images/Naga Balm__SecondaryLogomark_Black.png'
 
-// Create a client-only chat interface
+// Create a NoSSR wrapper component
+const NoSSR = ({ children }: { children: React.ReactNode }) => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
+  return <>{children}</>
+}
+
+// Main ChatWindow component wrapped with NoSSR
+const ChatWindow = dynamic(() => Promise.resolve(() => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const [hasShownWelcome, setHasShownWelcome] = useState(false)
+
+  // Welcome message effect
+  useEffect(() => {
+    if (isOpen && !hasShownWelcome && messages.length === 0) {
+      setIsTyping(true)
+      const timer = setTimeout(() => {
+        setMessages([WELCOME_MESSAGE])
+        setIsTyping(false)
+        setHasShownWelcome(true)
+      }, 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen, hasShownWelcome, messages.length])
+
+  const handleSendMessage = async (content: string) => {
+    const newMessage: Message = { role: 'user', content }
+    setMessages(prev => [...prev, newMessage])
+    setIsLoading(true)
+    setIsTyping(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [...messages, newMessage] })
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 500))
+      setIsTyping(false)
+
+      const assistantMessage: Message = {
+        role: 'assistant',
+        content: data.content
+      }
+      
+      setMessages(prev => [...prev, assistantMessage])
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setIsTyping(false)
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.'
+      }])
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className={styles.container}>
+      <button
+        className={styles.chatButton}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle chat"
+        data-open={isOpen}
+      >
+        <Image 
+          src={LOGO_ICON_PATH}
+          alt="Naga Balm Chat"
+          width={40}
+          height={40}
+          className={styles.logo}
+          priority
+        />
+        {messages.length > 0 && !isOpen && (
+          <span className={styles.unreadIndicator}>
+            {messages.filter(m => m.role === 'assistant').length}
+          </span>
+        )}
+      </button>
+
+      {isOpen && (
+        <ChatInterface
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          messages={messages}
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          isTyping={isTyping}
+        />
+      )}
+    </div>
+  )
+}), {
+  ssr: false
+})
+
+// Export wrapped component
+export default function ChatWindowWrapper() {
+  return (
+    <NoSSR>
+      <ChatWindow />
+    </NoSSR>
+  )
+}
+
+// ChatInterface component with fixed Hook order
 const ChatInterface = dynamic(() => Promise.resolve(({
   isOpen,
   onClose,
@@ -34,37 +163,30 @@ const ChatInterface = dynamic(() => Promise.resolve(({
   isLoading: boolean
   isTyping: boolean
 }) => {
+  const [mounted, setMounted] = useState(false)
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  // Group all useEffects together
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
-    onSendMessage(input)
-    setInput('')
-  }
-
-  // Prevent body scroll when chat is open on mobile
-  useEffect(() => {
-    if (isOpen && window.innerWidth <= 768) {
+    if (isOpen) {
       document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+      const inputElement = document.querySelector<HTMLInputElement>(`.${styles.input}`)
+      inputElement?.focus()
     }
     return () => {
-      document.body.style.overflow = ''
+      document.body.style.overflow = 'unset'
     }
   }, [isOpen])
 
-  // Handle escape key to close chat
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -75,15 +197,14 @@ const ChatInterface = dynamic(() => Promise.resolve(({
     return () => window.removeEventListener('keydown', handleEscape)
   }, [isOpen, onClose])
 
-  // Focus input when chat opens
-  useEffect(() => {
-    if (isOpen) {
-      const inputElement = document.querySelector<HTMLInputElement>(`.${styles.input}`)
-      inputElement?.focus()
-    }
-  }, [isOpen])
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+    onSendMessage(input)
+    setInput('')
+  }
 
-  if (!isOpen) return null
+  if (!mounted || !isOpen) return null
 
   return (
     <div className={styles.chatWindow}>
@@ -163,115 +284,5 @@ const ChatInterface = dynamic(() => Promise.resolve(({
     </div>
   )
 }), {
-  ssr: false,
-  loading: () => null
-})
-
-// Main component
-export default function ChatWindow() {
-  const [mounted, setMounted] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [isTyping, setIsTyping] = useState(false)
-  const [hasShownWelcome, setHasShownWelcome] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Add welcome message when chat is first opened
-  useEffect(() => {
-    if (isOpen && !hasShownWelcome && messages.length === 0) {
-      setIsTyping(true)
-      // Simulate typing delay for welcome message
-      setTimeout(() => {
-        setMessages([WELCOME_MESSAGE])
-        setIsTyping(false)
-        setHasShownWelcome(true)
-      }, 1000)
-    }
-  }, [isOpen, hasShownWelcome, messages.length])
-
-  const handleSendMessage = async (content: string) => {
-    const newMessage: Message = { role: 'user', content }
-    setMessages(prev => [...prev, newMessage])
-    setIsLoading(true)
-    setIsTyping(true)
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, newMessage] })
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      
-      if (data.error) {
-        throw new Error(data.error)
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 500))
-      setIsTyping(false)
-
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.content
-      }
-      
-      setMessages(prev => [...prev, assistantMessage])
-    } catch (error) {
-      console.error('Error sending message:', error)
-      setIsTyping(false)
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.'
-      }])
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  if (!mounted) {
-    return null
-  }
-
-  return (
-    <div className={`${styles.container}`}>
-      <button
-        className={styles.chatButton}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle chat"
-        data-open={isOpen}
-      >
-        <Image 
-          src={LOGO_ICON_PATH}
-          alt="Naga Balm Chat"
-          width={40}
-          height={40}
-          className={styles.logo}
-          priority
-        />
-        {messages.length > 0 && !isOpen && (
-          <span className={styles.unreadIndicator}>
-            {messages.filter(m => m.role === 'assistant').length}
-          </span>
-        )}
-      </button>
-
-      <ChatInterface
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        messages={messages}
-        onSendMessage={handleSendMessage}
-        isLoading={isLoading}
-        isTyping={isTyping}
-      />
-    </div>
-  )
-} 
+  ssr: false
+}) 
