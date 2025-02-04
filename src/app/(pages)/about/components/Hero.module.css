@@ -15,18 +15,18 @@
   }
   
   @keyframes floatCloud1 {
-    0%, 100% { transform: translate(25%, 0); }
-    50% { transform: translate(35%, 0); }
+    0%, 100% { transform: translate(5%, 0); }
+    50% { transform: translate(10%, 0); }
   }
   
   @keyframes floatCloud2 {
-    0%, 100% { transform: translate(-25%, 0); }
-    50% { transform: translate(-15%, 0); }
+    0%, 100% { transform: translate(-5%, 0); }
+    50% { transform: translate(-10%, 0); }
   }
   
   @keyframes floatCloud3 {
-    0%, 100% { transform: translate(15%, 0); }
-    50% { transform: translate(25%, 0); }
+    0%, 100% { transform: translate(3%, 0); }
+    50% { transform: translate(8%, 0); }
   }
   
   @keyframes floatCloud4 {
@@ -57,4 +57,22 @@
   
   .cloudFloat5 {
     animation: floatCloud5 16s ease-in-out infinite;
+  }
+  
+  /* Adjusted cloud animations for larger screens */
+  @media (min-width: 768px) {
+    @keyframes floatCloud1 {
+      0%, 100% { transform: translate(10%, 0); }
+      50% { transform: translate(15%, 0); }
+    }
+
+    @keyframes floatCloud2 {
+      0%, 100% { transform: translate(-10%, 0); }
+      50% { transform: translate(-15%, 0); }
+    }
+
+    @keyframes floatCloud3 {
+      0%, 100% { transform: translate(8%, 0); }
+      50% { transform: translate(12%, 0); }
+    }
   } 

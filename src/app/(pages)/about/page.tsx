@@ -6,7 +6,7 @@ import Partners from './components/Partners'
 
 export default function AboutPage() {
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Hero />
       <Mission />
       <History />
