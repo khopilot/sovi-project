@@ -1,28 +1,61 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import styles from './HeroSection.module.css';
 
-// Import ReactPlayer with no SSR
-const ReactPlayer = dynamic(() => import('react-player'), { 
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full bg-[#97D7E3] flex items-center justify-center rounded-2xl">
-      <div className="animate-pulse">Loading video...</div>
+const VideoPlaceholder = () => (
+  <div className={styles.videoPlaceholder}>
+    <Image
+      src="/images/video-thumbnail.jpg"
+      alt="Video thumbnail"
+      fill
+      sizes="(max-width: 768px) 100vw, 50vw"
+      quality={90}
+      priority
+      className={styles.thumbnailImage}
+    />
+    <div className={styles.loadingOverlay}>
+      <div className={styles.loadingSpinner} />
     </div>
-  ),
-});
+  </div>
+);
+
+// Create a separate component for the Facebook Video iframe
+const FacebookVideo = dynamic(
+  () =>
+    Promise.resolve(() => (
+      <iframe
+        src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fnagabalmkh%2Fvideos%2F637876325250858%2F&show_text=false"
+        className={styles.videoIframe}
+        scrolling="no"
+        frameBorder="0"
+        allowFullScreen={true}
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        loading="lazy"
+      />
+    )),
+  {
+    ssr: false,
+    loading: () => <VideoPlaceholder />
+  }
+);
+
+const FacebookVideoEmbed: React.FC = () => {
+  return (
+    <div className={styles.fbVideoWrapper}>
+      <div className={styles.videoContainer}>
+        <Suspense fallback={<VideoPlaceholder />}>
+          <FacebookVideo />
+        </Suspense>
+      </div>
+    </div>
+  );
+};
 
 const HeroSection: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <section className={styles.heroSection}>
       {/* Background Pattern */}
@@ -86,19 +119,7 @@ const HeroSection: React.FC = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className={styles.videoCard}
           >
-            {mounted && (
-              <div className={styles.videoWrapper}>
-                <ReactPlayer
-                  url="https://www.facebook.com/nagabalmkh/videos/637876325250858/"
-                  playing
-                  loop
-                  muted
-                  width="100%"
-                  height="100%"
-                  style={{ borderRadius: '1.5rem', overflow: 'hidden' }}
-                />
-              </div>
-            )}
+            <FacebookVideoEmbed />
           </motion.div>
         </div>
       </div>

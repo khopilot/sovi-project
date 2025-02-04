@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'your-domain.com'],
+    domains: ['www.facebook.com'],
   },
   async headers() {
     return [
@@ -10,12 +10,12 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self' https://www.facebook.com"
+            value: "frame-ancestors 'self' https://www.facebook.com; frame-src 'self' https://www.facebook.com https://*.facebook.com"
           }
-        ]
-      }
-    ]
+        ],
+      },
+    ];
   },
-}
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig; 

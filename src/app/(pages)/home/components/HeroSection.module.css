@@ -83,11 +83,12 @@
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   box-shadow: 0 20px 40px rgba(241, 72, 35, 0.2);
-  transition: transform 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .videoCard:hover {
   transform: scale(1.02);
+  box-shadow: 0 25px 50px rgba(241, 72, 35, 0.25);
 }
 
 .videoWrapper {
@@ -96,15 +97,75 @@
   height: 100%;
   overflow: hidden;
   border-radius: 1.5rem;
+  background-color: #97D7E3;
 }
 
-.videoWrapper > div {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
+.facebookPlayer {
+  border-radius: 1.5rem !important;
+  overflow: hidden !important;
+}
+
+.facebookPlayer > div {
+  border-radius: 1.5rem !important;
+}
+
+.facebookPlayer iframe {
+  border-radius: 1.5rem !important;
+}
+
+.thumbnailContainer {
+  position: absolute;
+  inset: 0;
+  background-color: #97D7E3;
   border-radius: 1.5rem;
+}
+
+.thumbnailWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.thumbnailImage {
+  object-fit: cover;
+  border-radius: 1.5rem;
+  transform: scale(1.02);
+  transition: transform 0.3s ease-in-out;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingSpinnerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loadingText {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .decorativeGradient {
@@ -294,4 +355,122 @@
   .videoCard {
     max-width: 100%;
   }
+}
+
+.videoPlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #97D7E3;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Update existing styles */
+.fbVideoWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background-color: #97D7E3;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.videoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.videoIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 1.5rem;
+}
+
+.fallbackContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  background-color: #97D7E3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.thumbnailImage {
+  object-fit: cover;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  .fbVideoWrapper {
+    min-height: 200px;
+  }
+}
+
+.retryMessage {
+  color: white;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.errorOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.errorOverlay p {
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  max-width: 80%;
 } 
