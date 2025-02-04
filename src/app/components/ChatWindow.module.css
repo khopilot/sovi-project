@@ -21,112 +21,50 @@
   z-index: 50;
 }
 
+.chatButtonContainer {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+}
+
 .chatButton {
-  padding: 0;
-  background-color: var(--chat-primary-color);
+  position: relative;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: none;
-  cursor: pointer;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
-  width: var(--chat-button-size);
-  height: var(--chat-button-size);
-  isolation: isolate;
-  animation: attention 8s infinite;
-}
-
-.chatButton::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: inherit;
-  z-index: -1;
-}
-
-.chatButton::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 3px solid var(--chat-primary-color);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.chatButton:hover::after {
-  opacity: 1;
-  animation: pulse 2s infinite;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .chatButton:hover {
-  animation: vibrate 0.3s linear infinite;
   transform: scale(1.05);
-  background-color: var(--chat-hover-color);
-}
-
-.chatButton[data-open="true"] {
-  animation: none;
-}
-
-.chatButton[data-open="true"]:hover {
-  animation: none;
-  transform: scale(1.05);
-}
-
-.logo, .assistantLogo, .messageAvatar {
-  object-fit: contain;
-  background-color: transparent;
-  border-radius: 0;
-  padding: 4px;
-}
-
-.messageAvatar {
-  background-color: white;
-  border-radius: 50%;
-  padding: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
-  width: calc(var(--chat-button-size) * 0.6);
-  height: calc(var(--chat-button-size) * 0.6);
-  transition: transform 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.chatButton:hover .logo {
-  transform: scale(0.95);
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  70% {
-    transform: scale(1.1);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
-
-/* Optional: Add an unread messages indicator */
 .unreadIndicator {
   position: absolute;
   top: -5px;
   right: -5px;
+  background: #EE4922;
+  color: white;
+  border-radius: 50%;
   width: 20px;
   height: 20px;
-  background-color: #FF4B4B;
-  border-radius: 50%;
-  color: white;
   font-size: 12px;
   display: flex;
   align-items: center;
