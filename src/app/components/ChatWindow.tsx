@@ -15,6 +15,9 @@ const WELCOME_MESSAGE: Message = {
   content: 'Hello! 👋 I\'m your Naga Balm assistant. How can I help you today? Feel free to ask about our products, their uses, or any other questions you might have.'
 }
 
+// Update to use the renamed logo file
+const LOGO_ICON_PATH = '/images/Naga Balm__SecondaryLogomark_Black.png'
+
 // Create a client-only chat interface
 const ChatInterface = dynamic(() => Promise.resolve(({
   isOpen,
@@ -49,13 +52,44 @@ const ChatInterface = dynamic(() => Promise.resolve(({
     setInput('')
   }
 
+  // Prevent body scroll when chat is open on mobile
+  useEffect(() => {
+    if (isOpen && window.innerWidth <= 768) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  // Handle escape key to close chat
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+  }, [isOpen, onClose])
+
+  // Focus input when chat opens
+  useEffect(() => {
+    if (isOpen) {
+      const inputElement = document.querySelector<HTMLInputElement>(`.${styles.input}`)
+      inputElement?.focus()
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   return (
     <div className={styles.chatWindow}>
       <div className={styles.chatHeader}>
         <Image 
-          src="/images/png/Naga Balm__SecondaryLogomark_Primary.png"
+          src={LOGO_ICON_PATH}
           alt="Naga Balm Assistant"
           width={30}
           height={30}
@@ -80,7 +114,7 @@ const ChatInterface = dynamic(() => Promise.resolve(({
           >
             {message.role === 'assistant' && (
               <Image 
-                src="/images/png/Naga Balm__SecondaryLogomark_Primary.png"
+                src={LOGO_ICON_PATH}
                 alt="Assistant"
                 width={24}
                 height={24}
@@ -95,7 +129,7 @@ const ChatInterface = dynamic(() => Promise.resolve(({
         {isTyping && (
           <div className={`${styles.message} ${styles.botMessage}`}>
             <Image 
-              src="/images/png/Naga Balm__SecondaryLogomark_Primary.png"
+              src={LOGO_ICON_PATH}
               alt="Assistant"
               width={24}
               height={24}
@@ -216,7 +250,7 @@ export default function ChatWindow() {
         data-open={isOpen}
       >
         <Image 
-          src="/images/png/Naga Balm__SecondaryLogomark_Primary.png"
+          src={LOGO_ICON_PATH}
           alt="Naga Balm Chat"
           width={40}
           height={40}
