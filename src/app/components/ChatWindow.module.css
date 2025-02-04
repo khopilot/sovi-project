@@ -1,4 +1,4 @@
-:root {
+.root {
   --chat-button-size: 60px;
   --chat-primary-color: #FFD36F;
   --chat-hover-color: #FFE49F;
@@ -8,6 +8,7 @@
 }
 
 .container {
+  composes: root;
   position: fixed;
   top: 50%;
   right: 20px;

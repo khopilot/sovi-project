@@ -208,7 +208,7 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container}`}>
       <button
         className={styles.chatButton}
         onClick={() => setIsOpen(!isOpen)}
