@@ -35,9 +35,21 @@ export async function POST(req: Request) {
       ],
     })
 
-    return new Response(JSON.stringify(completion))
+    // Make sure we have a response
+    if (!completion.choices[0]?.message) {
+      throw new Error('No response from OpenAI')
+    }
+
+    // Return the message directly
+    return Response.json(completion.choices[0].message)
   } catch (error) {
     console.error('Error in chat API:', error)
-    return new Response(JSON.stringify({ error: 'Failed to process request' }), { status: 500 })
+    return Response.json(
+      { 
+        error: 'Failed to process request',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    )
   }
 } 
