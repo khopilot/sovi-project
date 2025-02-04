@@ -99,7 +99,7 @@ export default function BenefitsSection() {
 
             {/* Benefits Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20">
-              {benefits.map((benefit, index) => (
+              {benefits.map((benefit) => (
                 <motion.div
                   key={benefit.title}
                   variants={item}
@@ -135,7 +135,7 @@ export default function BenefitsSection() {
               className="text-center px-4 relative"
               variants={item}
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[#EE4922] opacity-20 text-6xl font-serif">"</div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[#EE4922] opacity-20 text-6xl font-serif">&quot;</div>
               <blockquote className="text-2xl md:text-3xl font-serif text-gray-800 italic max-w-4xl mx-auto leading-relaxed font-medium pt-8">
                 While we appreciate the efficiency of machines, we value people more—the human touch is what makes Naga Balm truly special.
               </blockquote>
