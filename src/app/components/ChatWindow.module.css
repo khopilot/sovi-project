@@ -243,17 +243,6 @@
   margin-right: auto;
 }
 
-.botMessage .messageContent {
-  background-color: rgba(240, 240, 240, 0.9);
-  color: #000;
-  background-image: url('/images/Naga Balm__SecondaryLogomark_Black.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  background-blend-mode: overlay;
-  position: relative;
-}
-
 .botMessage .messageContent::before {
   content: '';
   position: absolute;
