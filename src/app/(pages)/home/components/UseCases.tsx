@@ -1,7 +1,9 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 import styles from './UseCases.module.css';
 
 // Add type for custom CSS properties
@@ -15,23 +17,31 @@ type PatternStyle = React.CSSProperties & {
 const useCases = [
   {
     title: "For Muscle Pain",
-    description: "An active lifestyle can sometimes bring about muscle pain. These aches may have various origins, but they all lead to discomfort that can hold you back. To help you keep moving, Naga Balm® offers a discreet patch that provides long-lasting relief—perfect for both day and night.",
-    icon: "🏃‍♂️",
+    description: "Relief for active lifestyles",
+    image: "/images/NB-Ointments1.jpg",
+    className: "main",
+    link: "/use-cases#muscle-pain"
   },
   {
-    title: "For Stiffness in the Neck, Shoulders, and Back",
-    description: "Regardless of your lifestyle, you may occasionally experience stiffness in your upper back, neck, and shoulders. For many, these recurring tensions can limit your ability to fully enjoy life. Naga Balm® presents an unobtrusive solution with its innovative patch, designed to deliver continuous relief whether you're at work or at rest.",
-    icon: "💆‍♂️",
+    title: "For Stiffness",
+    description: "Neck, shoulders & back relief",
+    image: "/images/NB-ExtremeLinimentOil51.jpg",
+    className: "tall",
+    link: "/use-cases#stiffness"
   },
   {
     title: "For Daily Life",
-    description: "Our everyday routines can sometimes generate stress and tension. Extended periods of standing, repetitive movements, or long hours at a desk can lead to discomfort in the lower back, neck, or shoulders. No matter the source, Naga Balm® products are here to support you, easing tension so you can embrace every moment with ease.",
-    icon: "🌟",
+    description: "Everyday comfort & wellness",
+    image: "/images/NB-EnergizingLinimentOil2.jpg",
+    className: "small",
+    link: "/use-cases#daily-life"
   },
   {
-    title: "For Sports and Exercise",
-    description: "Whether you engage in regular training or enjoy occasional workouts, sports can be demanding. A proper warm-up and recovery are essential to prevent strain. Naga Balm® supports your active lifestyle through a range of products—from massage balms to lotions and fluids—allowing you to choose the formula that best suits your needs.",
-    icon: "🏋️‍♂️",
+    title: "For Sports",
+    description: "Pre & post workout support",
+    image: "/images/NB-MosquitoRepellent3.jpg",
+    className: "small",
+    link: "/use-cases#sports"
   },
 ];
 
@@ -49,7 +59,72 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+const CardContent = ({ useCase }: { useCase: typeof useCases[0] }) => (
+  <Link href={useCase.link} className={styles.cardLink}>
+    <div className={styles.cardContent}>
+      <div className={styles.imageWrapper}>
+        <Image
+          src={useCase.image}
+          alt={useCase.title}
+          fill
+          className={styles.image}
+          sizes="(max-width: 768px) 100vw, 30vw"
+        />
+      </div>
+      <div className={styles.cardOverlay}>
+        <div className={styles.cardInfo}>
+          <h3 className={styles.cardTitle}>{useCase.title}</h3>
+          <p className={styles.description}>{useCase.description}</p>
+        </div>
+        <div className={styles.arrow}>
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              d="M5 12H19M19 12L12 5M19 12L12 19" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </Link>
+);
+
 export default function UseCases() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Initial SSR render
+  if (!mounted) {
+    return (
+      <section className={styles.useCases}>
+        <div className={styles.container}>
+          <div className={styles.titleWrapper}>
+            <h2 className={styles.title}>Use Naga Balm®</h2>
+            <p className={styles.subtitle}>Discover the perfect solution for your needs</p>
+          </div>
+          <div className={styles.grid}>
+            {useCases.map((useCase, index) => (
+              <CardContent key={index} useCase={useCase} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Client-side render with animations
   return (
     <section className={styles.useCases}>
       {/* Pattern Background */}
@@ -71,40 +146,41 @@ export default function UseCases() {
         } as PatternStyle} 
       />
       <div className={styles.container}>
-        <motion.h2
-          className={styles.title}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-        >
-          Use Naga Balm®
-        </motion.h2>
+        <div className={styles.titleWrapper}>
+          <motion.h2
+            className={styles.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            Use Naga Balm®
+          </motion.h2>
+          <motion.p
+            className={styles.subtitle}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Discover the perfect solution for your needs
+          </motion.p>
+        </div>
 
-        <motion.div
-          className={styles.grid}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className={styles.grid}>
           {useCases.map((useCase, index) => (
             <motion.div
               key={index}
-              className={styles.card}
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+              className={`${styles.card} ${styles[useCase.className]}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
             >
-              <div className={styles.iconContainer}>
-                <span className={styles.icon} aria-hidden="true">
-                  {useCase.icon}
-                </span>
-              </div>
-              <h3 className={styles.cardTitle}>{useCase.title}</h3>
-              <p className={styles.description}>{useCase.description}</p>
+              <CardContent useCase={useCase} />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
