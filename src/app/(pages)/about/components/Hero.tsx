@@ -61,11 +61,11 @@ export default function Hero() {
   }, [mosaicImages.length])
 
   return (
-    <section className="relative min-h-[100svh] bg-[#FDD16E] overflow-x-hidden">
+    <section className="relative min-h-[100svh] bg-[#FDD16E] overflow-x-hidden flex items-center">
       {/* Background Clouds - Adjusted positioning and overflow handling */}
       <div className="absolute inset-0 w-full overflow-hidden pointer-events-none">
         {/* Large cloud in top-right - Adjusted positioning */}
-        <div className={`absolute -right-[15%] sm:-right-[20%] top-[5%] w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] ${styles.cloudFloat1}`}>
+        <div className={`absolute -right-[10%] sm:-right-[15%] top-[10%] w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] ${styles.cloudFloat1}`}>
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
@@ -76,7 +76,7 @@ export default function Hero() {
         </div>
 
         {/* Medium cloud in middle-left - Adjusted positioning */}
-        <div className={`absolute -left-[15%] sm:-left-[20%] top-[40%] w-[225px] h-[225px] sm:w-[450px] sm:h-[450px] ${styles.cloudFloat2}`}>
+        <div className={`absolute -left-[10%] sm:-left-[15%] top-[40%] w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] ${styles.cloudFloat2}`}>
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
@@ -87,19 +87,19 @@ export default function Hero() {
         </div>
 
         {/* Small cloud in bottom-right - Adjusted positioning */}
-        <div className={`absolute -right-[10%] sm:-right-[15%] bottom-[15%] w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] ${styles.cloudFloat3}`}>
+        <div className={`absolute -right-[5%] sm:-right-[10%] bottom-[15%] w-[200px] h-[200px] sm:w-[350px] sm:h-[350px] ${styles.cloudFloat3}`}>
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
             fill
-            className="object-contain opacity-90"
+            className="object-contain opacity-95"
             priority
           />
         </div>
       </div>
 
-      <div className="relative h-full max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 md:py-0">
-        <div className="h-full grid md:grid-cols-2 gap-8 md:gap-12">
+      <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Text Content */}
           <div className="flex items-center">
             <div className="relative">
@@ -122,7 +122,7 @@ export default function Hero() {
           </div>
 
           {/* Mosaic Grid */}
-          <div className="relative flex items-center">
+          <div className="relative">
             <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full aspect-square">
               {mosaicImages.map((image, index) => (
                 <div 
@@ -149,14 +149,14 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* Decorative Elements */}
-            <div className="absolute -bottom-12 -left-12 w-24 h-24 sm:w-48 sm:h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute -top-12 -right-12 w-24 h-24 sm:w-48 sm:h-48 bg-amber-600/10 rounded-full blur-3xl"></div>
+            {/* Decorative Elements - Adjusted positioning */}
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-48 sm:h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute -top-8 -right-8 w-24 h-24 sm:w-48 sm:h-48 bg-amber-600/10 rounded-full blur-3xl"></div>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        {/* Scroll Indicator - Adjusted positioning */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <svg 
             className="w-6 h-6 text-amber-800 opacity-75" 
             fill="none" 
