@@ -57,7 +57,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          What Our Community Says
+          What Our <span className="text-[#EE4922]">Community Says</span>
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[200px]">
