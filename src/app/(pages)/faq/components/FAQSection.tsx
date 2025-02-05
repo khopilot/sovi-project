@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import styles from './FAQSection.module.css';
 
 const faqs = [
@@ -114,7 +113,7 @@ export default function FAQSection() {
               <p className={styles.subtitle}>We got you.</p>
               <p className={styles.description}>
                 Find answers to commonly asked questions about Naga Balm®. 
-                Can't find what you're looking for? Feel free to contact us.
+                Can&apos;t find what you&apos;re looking for? Feel free to contact us.
               </p>
             </motion.div>
           </div>
