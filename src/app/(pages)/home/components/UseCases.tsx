@@ -16,30 +16,30 @@ type PatternStyle = React.CSSProperties & {
 
 const useCases = [
   {
-    title: "For Muscle Pain",
-    description: "Relief for active lifestyles",
-    image: "/images/NB-Ointments1.jpg",
+    title: "For Daily Use",
+    description: "Everyday comfort & wellness",
+    image: "/images/use-case/2. For Daily Use.jpg",
     className: "main",
-    link: "/use-cases#muscle-pain"
+    link: "/use-cases#daily-life"
   },
   {
     title: "For Stiffness",
     description: "Neck, shoulders & back relief",
-    image: "/images/NB-ExtremeLinimentOil51.jpg",
+    image: "/images/use-case/For Stiffness .jpg",
     className: "tall",
     link: "/use-cases#stiffness"
   },
   {
-    title: "For Daily Life",
-    description: "Everyday comfort & wellness",
-    image: "/images/NB-EnergizingLinimentOil2.jpg",
+    title: "For Muscle Pain",
+    description: "Relief for active lifestyles",
+    image: "/images/use-case/1. For Muscle Pain.jpg",
     className: "small",
-    link: "/use-cases#daily-life"
+    link: "/use-cases#muscle-pain"
   },
   {
     title: "For Sports",
     description: "Pre & post workout support",
-    image: "/images/NB-MosquitoRepellent3.jpg",
+    image: "/images/use-case/3. For Sport.jpg",
     className: "small",
     link: "/use-cases#sports"
   },
@@ -53,8 +53,10 @@ const CardContent = ({ useCase }: { useCase: typeof useCases[0] }) => (
           src={useCase.image}
           alt={useCase.title}
           fill
-          className={styles.image}
-          sizes="(max-width: 768px) 100vw, 30vw"
+          className={`${styles.image} ${styles[useCase.className]}`}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={useCase.className === 'main'}
+          quality={90}
         />
       </div>
       <div className={styles.cardOverlay}>
