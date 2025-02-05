@@ -3,9 +3,21 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 text-gray-600">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-50 text-gray-600 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 relative">
+        {/* Large Logo on the right */}
+        <div className="absolute -right-20 top-1/2 transform -translate-y-1/2 hidden lg:block">
+          <Image
+            src="/images/Logo/Logo-Portrait-Full.png"
+            alt="Naga Balm Full Logo"
+            width={285}
+            height={356}
+            className="object-contain pointer-events-none select-none"
+            priority
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
           {/* Company Info with Logo */}
           <div className="space-y-4">
             <Link href="/home" className="block">
@@ -150,7 +162,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t border-gray-200 relative z-10">
           <p className="text-center text-gray-500 text-sm">
             © {new Date().getFullYear()} Naga Balm®. All rights reserved.
           </p>

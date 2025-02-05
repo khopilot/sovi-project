@@ -6,13 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './UseCases.module.css';
 
-// Add type for custom CSS properties
-type PatternStyle = React.CSSProperties & {
-  '--s': string;
-  '--c1': string;
-  '--c2': string;
-  '--_g': string;
-};
 
 const useCases = [
   {
@@ -117,24 +110,7 @@ export default function UseCases() {
   // Client-side render with animations
   return (
     <section className={styles.useCases}>
-      {/* Pattern Background */}
-      <div 
-        className={styles.backgroundPattern}
-        style={{
-          '--s': '150px',
-          '--c1': '#FDD26E',
-          '--c2': '#FDD26E',
-          '--_g': 'var(--c1) 0% 5%, var(--c2) 6% 15%, var(--c1) 16% 25%, var(--c2) 26% 35%, var(--c1) 36% 45%, var(--c2) 46% 55%, var(--c1) 56% 65%, var(--c2) 66% 75%, var(--c1) 76% 85%, var(--c2) 86% 95%, transparent 96%',
-          background: `
-            radial-gradient(50% 50% at 100% 0, var(--_g)),
-            radial-gradient(50% 50% at 0 100%, var(--_g)),
-            radial-gradient(50% 50%, var(--_g)),
-            radial-gradient(50% 50%, var(--_g)) calc(var(--s) / 2) calc(var(--s) / 2)
-            var(--c1)
-          `,
-          backgroundSize: 'var(--s) var(--s)'
-        } as PatternStyle} 
-      />
+      
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
           <motion.h2

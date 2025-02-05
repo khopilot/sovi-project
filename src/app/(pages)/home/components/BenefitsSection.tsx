@@ -87,11 +87,11 @@ export default function BenefitsSection() {
               className="text-center mb-20"
               variants={item}
             >
-              <span className="text-fire text-lg font-medium mb-4 block">Our Philosophy</span>
-              <h2 className="font-karla text-headline text-fire tracking-tight uppercase">
+              <span className="text-gray-700 text-lg font-medium mb-4 block">Our Philosophy</span>
+              <h2 className="font-karla text-headline text-gray-800 tracking-tight uppercase">
                 The Essence of Naga Balm
               </h2>
-              <p className="font-karla text-subheading text-ochre max-w-3xl mx-auto leading-relaxed">
+              <p className="font-karla text-subheading text-gray-700 max-w-3xl mx-auto leading-relaxed">
                 Proudly rooted in Cambodia, we are dedicated to providing effective and safe pain relief solutions
                 that honor tradition while embracing innovation.
               </p>
@@ -116,13 +116,13 @@ export default function BenefitsSection() {
                     </div>
                   </div>
                   <div className="text-center md:text-left">
-                    <h3 className="font-karla text-xl md:text-2xl font-bold mb-3 text-fire group-hover:translate-x-1 transition-transform duration-300">
+                    <h3 className="font-karla text-xl md:text-2xl font-bold mb-3 text-gray-800 group-hover:translate-x-1 transition-transform duration-300">
                       {benefit.title}
                     </h3>
-                    <p className="font-karla text-subheading text-ochre font-semibold mb-4">
+                    <p className="font-karla text-subheading text-gray-700 font-semibold mb-4">
                       {benefit.subtitle}
                     </p>
-                    <p className="font-karla text-body text-ochre leading-relaxed">
+                    <p className="font-karla text-body text-gray-600 leading-relaxed">
                       {benefit.description}
                     </p>
                   </div>
@@ -135,11 +135,11 @@ export default function BenefitsSection() {
               className="text-center px-4 relative"
               variants={item}
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 text-fire opacity-20 text-6xl font-serif">&quot;</div>
-              <blockquote className="font-karla text-2xl md:text-3xl text-ochre italic max-w-4xl mx-auto leading-relaxed font-medium pt-8">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 text-gray-400 opacity-20 text-6xl font-serif">&quot;</div>
+              <blockquote className="font-karla text-2xl md:text-3xl text-gray-700 italic max-w-4xl mx-auto leading-relaxed font-medium pt-8">
                 While we appreciate the efficiency of machines, we value people more—the human touch is what makes Naga Balm truly special.
               </blockquote>
-              <div className="mt-6 w-20 h-1 bg-fire mx-auto rounded-full opacity-50" />
+              <div className="mt-6 w-20 h-1 bg-gray-400 mx-auto rounded-full opacity-50" />
             </motion.div>
           </div>
         </motion.section>
