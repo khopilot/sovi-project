@@ -1,39 +1,70 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-50 text-gray-600">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
+          {/* Company Info with Logo */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Naga Balm</h3>
-            <p className="text-gray-400 text-sm">
-              Traditional Cambodian healing balm, handcrafted with care and respect for ancient wisdom.
+            <Link href="/home" className="block">
+              <Image
+                src="/images/Naga Balm__SecondaryLogomark_Black.png"
+                alt="Naga Balm"
+                width={150}
+                height={50}
+                className="w-auto h-10"
+              />
+            </Link>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Naga Balm® combines ancient Khmer healing traditions with modern innovation. 
+              Our premium balms are handcrafted in Cambodia, bringing traditional wellness 
+              to the modern world.
             </p>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/images/Flag_of_Cambodia.svg.png"
+                alt="Flag of Cambodia"
+                width={24}
+                height={16}
+                className="rounded-sm shadow-sm"
+              />
+              <span className="text-sm text-gray-500">Made in Cambodia</span>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white text-sm">
+                <Link href="/home" className="text-gray-600 hover:text-gray-900 text-sm">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="text-gray-400 hover:text-white text-sm">
+                <Link href="/products" className="text-gray-600 hover:text-gray-900 text-sm">
                   Products
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white text-sm">
+                <Link href="/use-cases" className="text-gray-600 hover:text-gray-900 text-sm">
+                  Use Cases
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-gray-600 hover:text-gray-900 text-sm">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white text-sm">
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">
                   Contact
                 </Link>
               </li>
@@ -42,23 +73,54 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>Email: info@nagabalm.com</li>
-              <li>Phone: +855 12 345 678</li>
-              <li>Address: Phnom Penh, Cambodia</li>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900">Contact</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link 
+                  href="/contact" 
+                  className="text-gray-600 hover:text-gray-900 inline-flex items-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  info@nagabalm.com
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/contact" 
+                  className="text-gray-600 hover:text-gray-900 inline-flex items-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  +855 12 345 678
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/contact" 
+                  className="text-gray-600 hover:text-gray-900 inline-flex items-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Phnom Penh, Cambodia
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Social Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900">Connect With Us</h3>
             <div className="flex space-x-4">
               <a
-                href="https://facebook.com"
+                href="https://facebook.com/nagabalmkh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <span className="sr-only">Facebook</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -70,10 +132,10 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/nagabalm"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <span className="sr-only">Instagram</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -88,9 +150,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-800">
-          <p className="text-center text-gray-400 text-sm">
-            © {new Date().getFullYear()} Naga Balm. All rights reserved.
+        <div className="mt-8 pt-8 border-t border-gray-200">
+          <p className="text-center text-gray-500 text-sm">
+            © {new Date().getFullYear()} Naga Balm®. All rights reserved.
           </p>
         </div>
       </div>

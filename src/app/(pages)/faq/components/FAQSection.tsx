@@ -101,46 +101,43 @@ export default function FAQSection() {
 
   return (
     <section className={styles.faqSection}>
-      <div className={styles.hero}>
-        <Image
-          src="/images/about-grid/430720496_388817580758751_2341257138742686116_n.jpg"
-          alt="Naga Balm FAQ Hero"
-          fill
-          priority
-          quality={100}
-          sizes="100vw"
-          className={styles.heroImage}
-        />
-        <div className={styles.heroOverlay} />
-        <motion.h1
-          className={styles.heroTitle}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          Frequently Asked Questions
-          <br />
-          About Naga Balm®
-        </motion.h1>
-      </div>
-
       <div className={styles.container}>
-        <motion.div
-          className={styles.faqList}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {faqs.map((faq, index) => (
-            <FAQItem
-              key={index}
-              question={faq.question}
-              answer={faq.answer}
-              isOpen={openIndex === index}
-              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-            />
-          ))}
-        </motion.div>
+        <div className={styles.content}>
+          <div className={styles.leftColumn}>
+            <motion.div
+              className={styles.header}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className={styles.title}>Any questions?</h1>
+              <p className={styles.subtitle}>We got you.</p>
+              <p className={styles.description}>
+                Find answers to commonly asked questions about Naga Balm®. 
+                Can't find what you're looking for? Feel free to contact us.
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className={styles.rightColumn}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className={styles.faqList}>
+              {faqs.map((faq, index) => (
+                <FAQItem
+                  key={index}
+                  question={faq.question}
+                  answer={faq.answer}
+                  isOpen={openIndex === index}
+                  onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
