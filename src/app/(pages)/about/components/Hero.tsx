@@ -61,7 +61,7 @@ export default function Hero() {
   }, [mosaicImages.length])
 
   return (
-    <section className="relative min-h-[100svh] bg-[#FDD16E] overflow-x-hidden flex items-center">
+    <section className="relative min-h-[100svh] bg-buttercup overflow-x-hidden flex items-center">
       {/* Background Clouds - Adjusted positioning and overflow handling */}
       <div className="absolute inset-0 w-full overflow-hidden pointer-events-none">
         {/* Large cloud in top-right - Adjusted positioning */}
@@ -104,18 +104,21 @@ export default function Hero() {
           <div className="flex items-center">
             <div className="relative">
               {/* Decorative line */}
-              <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-1 h-24 bg-amber-500 rounded-r hidden md:block"></div>
+              <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-1 h-24 bg-fire rounded-r hidden md:block"></div>
               
               <div className={`space-y-6 md:space-y-8 relative ${styles.fadeUpAnimation}`}>
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-amber-900">
+                <h1 className="font-karla text-2xl sm:text-3xl md:text-headline font-bold text-fire uppercase tracking-wide">
                   <span className="block mb-2">About Us</span>
                   <span className="block">
                     Our Journey &<br className="hidden sm:block" /> Values
                   </span>
                 </h1>
-                <p className="text-lg sm:text-xl md:text-2xl text-amber-800 max-w-2xl leading-relaxed">
-                  From traditional roots to modern innovation, discover how we blend ancient Cambodian 
-                  healing wisdom with contemporary practices to create effective natural remedies.
+                <h2 className="font-karla text-subheading text-ochre max-w-2xl">
+                  From traditional roots to modern innovation
+                </h2>
+                <p className="font-karla text-body text-ochre max-w-2xl">
+                  Discover how we blend ancient Cambodian healing wisdom with contemporary practices 
+                  to create effective natural remedies.
                 </p>
               </div>
             </div>
@@ -141,7 +144,7 @@ export default function Hero() {
                       priority={index < 6}
                     />
                     <div 
-                      className="absolute inset-0 bg-gradient-to-t from-amber-900/30 via-black/0 to-black/0 
+                      className="absolute inset-0 bg-gradient-to-t from-fire/30 via-black/0 to-black/0 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     ></div>
                   </div>
@@ -150,15 +153,15 @@ export default function Hero() {
             </div>
 
             {/* Decorative Elements - Adjusted positioning */}
-            <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-48 sm:h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute -top-8 -right-8 w-24 h-24 sm:w-48 sm:h-48 bg-amber-600/10 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-48 sm:h-48 bg-salmon/10 rounded-full blur-3xl"></div>
+            <div className="absolute -top-8 -right-8 w-24 h-24 sm:w-48 sm:h-48 bg-bubblegum/10 rounded-full blur-3xl"></div>
           </div>
         </div>
 
         {/* Scroll Indicator - Adjusted positioning */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <svg 
-            className="w-6 h-6 text-amber-800 opacity-75" 
+            className="w-6 h-6 text-fire opacity-75" 
             fill="none" 
             strokeLinecap="round" 
             strokeLinejoin="round" 

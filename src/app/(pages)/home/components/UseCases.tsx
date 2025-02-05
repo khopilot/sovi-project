@@ -122,8 +122,8 @@ export default function UseCases() {
         className={styles.backgroundPattern}
         style={{
           '--s': '150px',
-          '--c1': '#FFD36F',
-          '--c2': '#FFA500',
+          '--c1': '#FDD26E',
+          '--c2': '#FDD26E',
           '--_g': 'var(--c1) 0% 5%, var(--c2) 6% 15%, var(--c1) 16% 25%, var(--c2) 26% 35%, var(--c1) 36% 45%, var(--c2) 46% 55%, var(--c1) 56% 65%, var(--c2) 66% 75%, var(--c1) 76% 85%, var(--c2) 86% 95%, transparent 96%',
           background: `
             radial-gradient(50% 50% at 100% 0, var(--_g)),

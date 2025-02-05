@@ -1,7 +1,17 @@
 /* VideoGallery.module.css */
 
 .container {
-  @apply py-16 bg-[#FED26F] overflow-hidden;
+  @apply py-16 overflow-hidden;
+  background-color: #FDD26E;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
 }
 
 .sectionHeader {

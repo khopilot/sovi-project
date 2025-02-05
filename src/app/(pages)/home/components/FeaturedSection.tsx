@@ -73,92 +73,96 @@ export default function FeaturedSection() {
   }
 
   return (
-    <section className={styles.featuredSection}>
-      <div className={styles.backgroundPattern} style={{ opacity: 0.05 }} />
-      <div className={styles.container}>
-        <h2 className={styles.title}>Featured Products</h2>
-        <p className={styles.subtitle}>Discover our most popular solutions for pain relief</p>
-        
-        <div className={styles.carouselContainer}>
-          <AnimatePresence initial={false} custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 250, damping: 25 },
-                opacity: { duration: 0.3 },
-                scale: { duration: 0.3 },
-              }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
-                const swipe = swipePower(offset.x, velocity.x);
-                if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                  paginate(-1);
-                }
-              }}
-              className={styles.productCard}
-            >
-              <div className={styles.productImage}>
-                <Image
-                  src={products[currentIndex].image}
-                  alt={products[currentIndex].name.en}
-                  width={400}
-                  height={400}
-                  priority
-                />
-              </div>
-              <div className={styles.productInfo}>
-                <h3 className={styles.productName}>{products[currentIndex].name.en}</h3>
-                <p className={styles.productDescription}>{products[currentIndex].description.en}</p>
-                <div className={styles.productDetails}>
-                  <span className={styles.category}>{products[currentIndex].category}</span>
-                  <span className={styles.keyIngredient}>
-                    Key Ingredient: {products[currentIndex].keyIngredient.name}
-                  </span>
-                </div>
-                <Link 
-                  href="/products"
-                  className={styles.shopNowButton}
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <button 
-            className={`${styles.navButton} ${styles.prevButton}`}
-            onClick={() => paginate(-1)}
-          >
-            ←
-          </button>
-          <button 
-            className={`${styles.navButton} ${styles.nextButton}`}
-            onClick={() => paginate(1)}
-          >
-            →
-          </button>
-
-          <div className={styles.indicators}>
-            {products.map((_, index) => (
-              <button
-                key={index}
-                className={`${styles.indicator} ${index === currentIndex ? styles.activeIndicator : ''}`}
-                onClick={() => {
-                  const direction = index - currentIndex;
-                  setDirection(direction);
-                  setCurrentIndex(index);
+    <section className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#FDD26E]" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent to-[#FDD26E]/50" />
+      <div className={styles.featuredSection}>
+        <div className={styles.container}>
+          <h2 className={styles.title}>Featured Products</h2>
+          <p className={styles.subtitle}>Discover our most popular solutions for pain relief</p>
+          
+          <div className={styles.carouselContainer}>
+            <AnimatePresence initial={false} custom={direction}>
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 250, damping: 25 },
+                  opacity: { duration: 0.3 },
+                  scale: { duration: 0.3 },
                 }}
-              />
-            ))}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={1}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = swipePower(offset.x, velocity.x);
+                  if (swipe < -swipeConfidenceThreshold) {
+                    paginate(1);
+                  } else if (swipe > swipeConfidenceThreshold) {
+                    paginate(-1);
+                  }
+                }}
+                className={styles.productCard}
+              >
+                <div className={styles.productImage}>
+                  <Image
+                    src={products[currentIndex].image}
+                    alt={products[currentIndex].name.en}
+                    width={400}
+                    height={400}
+                    priority
+                  />
+                </div>
+                <div className={styles.productInfo}>
+                  <h3 className={styles.productName}>{products[currentIndex].name.en}</h3>
+                  <p className={styles.productDescription}>{products[currentIndex].description.en}</p>
+                  <div className={styles.productDetails}>
+                    <span className={styles.category}>{products[currentIndex].category}</span>
+                    <span className={styles.keyIngredient}>
+                      Key Ingredient: {products[currentIndex].keyIngredient.name}
+                    </span>
+                  </div>
+                  <Link 
+                    href="/products"
+                    className={styles.shopNowButton}
+                  >
+                    Shop Now
+                  </Link>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <button 
+              className={`${styles.navButton} ${styles.prevButton}`}
+              onClick={() => paginate(-1)}
+            >
+              ←
+            </button>
+            <button 
+              className={`${styles.navButton} ${styles.nextButton}`}
+              onClick={() => paginate(1)}
+            >
+              →
+            </button>
+
+            <div className={styles.indicators}>
+              {products.map((_, index) => (
+                <button
+                  key={index}
+                  className={`${styles.indicator} ${index === currentIndex ? styles.activeIndicator : ''}`}
+                  onClick={() => {
+                    const direction = index - currentIndex;
+                    setDirection(direction);
+                    setCurrentIndex(index);
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
