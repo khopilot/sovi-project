@@ -45,20 +45,6 @@ const useCases = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 const CardContent = ({ useCase }: { useCase: typeof useCases[0] }) => (
   <Link href={useCase.link} className={styles.cardLink}>
     <div className={styles.cardContent}>
