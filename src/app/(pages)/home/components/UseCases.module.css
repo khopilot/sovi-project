@@ -25,6 +25,10 @@
   margin-bottom: 0.75rem;
 }
 
+.brandText {
+  color: #F14823;
+}
+
 .subtitle {
   font-size: 1.125rem;
   color: #666;

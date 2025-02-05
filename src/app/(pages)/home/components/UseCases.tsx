@@ -111,7 +111,9 @@ export default function UseCases() {
       <section className={styles.useCases}>
         <div className={styles.container}>
           <div className={styles.titleWrapper}>
-            <h2 className={styles.title}>Use Naga Balm®</h2>
+            <h2 className={styles.title}>
+              Use <span className={styles.brandText}>Naga Balm®</span>
+            </h2>
             <p className={styles.subtitle}>Discover the perfect solution for your needs</p>
           </div>
           <div className={styles.grid}>
@@ -154,7 +156,7 @@ export default function UseCases() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Use Naga Balm®
+            Use <span className={styles.brandText}>Naga Balm®</span>
           </motion.h2>
           <motion.p
             className={styles.subtitle}
