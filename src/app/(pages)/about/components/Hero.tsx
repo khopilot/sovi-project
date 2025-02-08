@@ -61,7 +61,24 @@ export default function Hero() {
   }, [mosaicImages.length])
 
   return (
-    <section className="relative min-h-[100svh] bg-buttercup overflow-x-hidden flex items-center">
+    <section className="relative min-h-[100svh] overflow-x-hidden flex items-center">
+      {/* Main Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/Naga Balm Element (Cloud)/Background 2.png"
+          alt="Background Pattern"
+          fill
+          quality={100}
+          sizes="100vw"
+          style={{ 
+            objectFit: 'cover',
+            objectPosition: 'center'
+          }}
+          priority
+          className={styles.backgroundImage}
+        />
+      </div>
+
       {/* Background Clouds - Adjusted positioning and overflow handling */}
       <div className="absolute inset-0 w-full overflow-hidden pointer-events-none">
         {/* Large cloud in top-right - Adjusted positioning */}

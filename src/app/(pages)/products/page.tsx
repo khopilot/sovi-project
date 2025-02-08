@@ -10,30 +10,24 @@ export default async function ProductsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0" style={{
-          '--s': '140px',
-          '--c1': '#01B288',
-          '--c2': '#F2A81C',
-          '--_g': 'rgba(255,255,255,0) 25%, rgba(255,255,255,0.5) 47%, var(--c1) 53% 147%, var(--c2) 153% 247%, var(--c1) 253% 347%, var(--c2) 353% 447%, var(--c1) 453% 547%, rgba(255,255,255,0.5) 553%, rgba(255,255,255,0) 575%',
-          '--_s': 'calc(25% / 3) calc(25% / 4) at 50%',
-          backgroundImage: `
-            radial-gradient(var(--_s) 100%, var(--_g)),
-            radial-gradient(var(--_s) 100%, var(--_g)),
-            radial-gradient(var(--_s) 0, var(--_g)),
-            radial-gradient(var(--_s) 0, var(--_g)),
-            repeating-linear-gradient(90deg, #01B288 calc(25% / -6) calc(25% / 6), #F2A81C 0 calc(25% / 2))
-          `,
-          backgroundPosition: `
-            0 0,
-            calc(var(--s) / 2) calc(3 * var(--s) / 4),
-            calc(var(--s) / 2) 0,
-            0 calc(3 * var(--s) / 4),
-            0 0
-          `,
-          backgroundSize: 'var(--s) calc(3 * var(--s) / 2)'
-        } as React.CSSProperties}></div>
+        <div className="absolute inset-0 w-screen h-screen">
+          <Image
+            src="/images/Naga Balm Element (Cloud)/Background 4.png"
+            alt="Background Pattern"
+            fill
+            quality={100}
+            sizes="100vw"
+            className="object-cover w-full h-full"
+            style={{ 
+              transform: 'scale(1.1)',
+              transformOrigin: 'center'
+            }}
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/10" />
+        </div>
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 text-center">

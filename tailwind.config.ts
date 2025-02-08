@@ -13,8 +13,8 @@ export default {
         // Primary Colors
         fire: '#FA4616',
         ice: {
-          DEFAULT: '#00AFD7',
-          light: '#A5DDEA', // Secondary Ice
+          DEFAULT: '#97D6E3',
+          light: '#BFE5ED', // Lighter version of #97D6E3
         },
         gamboge: '#F1A91E',
         // Secondary Colors
@@ -53,9 +53,9 @@ export default {
             'max-width': '65ch',
             color: 'inherit',
             a: {
-              color: '#00AFD7',
+              color: '#97D6E3',
               '&:hover': {
-                color: '#4EC3E0',
+                color: '#BFE5ED',
               },
             },
             strong: {
