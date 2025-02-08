@@ -103,6 +103,18 @@
   font-size: 1rem;
 }
 
+.inlineLink {
+  color: #F14823;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.inlineLink:hover {
+  color: #d13d1c;
+  text-decoration: underline;
+}
+
 @media (max-width: 1024px) {
   .content {
     grid-template-columns: 1fr;

@@ -2,56 +2,81 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import styles from './FAQSection.module.css';
 
 const faqs = [
   {
-    question: "What is Naga Balm®?",
-    answer: "Naga Balm® is a premium, natural herbal remedy that unites Cambodia's rich traditional healing practices with modern scientific innovation. Designed to relieve muscle discomfort, ease stiffness, and alleviate tension, it's a trusted solution for both everyday wellness and active lifestyles around the world."
+    question: "What is Naga Balm?",
+    answer: "Naga Balm is a brand of premium, petroleum-free topical pain relief solutions. Explore our products at "
   },
   {
-    question: "How Do I Use Naga Balm®?",
-    answer: "For immediate relief, apply a thin layer of Naga Balm® to the affected area and massage gently until it's fully absorbed. For long-lasting support, our innovative patch delivers continuous relief and can be comfortably worn day or night."
+    question: "How does Naga Balm Work?",
+    answer: `Through a powerful blend of herbal ingredients, Naga Balm products work to provide pain relief to targeted muscles, joints, through three key bio-mechanisms:
+
+1. Overriding pain signals by activating cooling and warming receptors on the skin;
+2. Reducing inflammation, swelling, and stiffness in affected tissues;
+3. Stimulating blood circulation and promoting recovery by increasing oxygen and nutrient delivery to affected areas
+
+Whether in balm, oil or spray format, Naga Balm products deliver the same relief.`
   },
   {
-    question: "Who Can Benefit from Naga Balm®?",
-    answer: "Our products are ideal for anyone experiencing occasional muscle pain, stiffness, or stress—whether you're part of our local Khmer community or an international customer. Naga Balm® is also a great ally for athletes and professionals who demand optimal performance and recovery."
+    question: "How Do I Use Naga Balm?",
+    answer: `Depending on the format and product, Naga Balm can be applied in a number of ways. Firstly, please read the packaging instructions. Apply liberally onto the affected area as needed.
+
+If using the Inhaler, insert the Inhaler into each nostril and take a light inhale.`
   },
   {
-    question: "Is Naga Balm® Suitable for Sensitive Skin?",
-    answer: "Naga Balm® is formulated with natural ingredients and is generally gentle. However, if you have sensitive skin, we recommend performing a patch test before full application. Should any irritation occur, please discontinue use and consult a healthcare professional."
+    question: "Who Can Benefit from Naga Balm?",
+    answer: "Naga Balm is designed for anyone who needs fast, effective relief from pain, tension, and everyday discomfort without compromise to health. Whether you're active, dealing with chronic pain, or simply looking for natural relief, Naga Balm® has a solution for you."
   },
   {
-    question: "Can I Use Naga Balm® During Physical Activities?",
-    answer: "Absolutely. Whether you're preparing for a workout or recovering afterward, Naga Balm® can help reduce muscle tension and speed up recovery, keeping you ready for whatever your day brings."
+    question: "How often can Naga Balm be used?",
+    answer: "Naga Balm can be applied 3-4 times daily, unless instructed otherwise by a healthcare professional."
   },
   {
-    question: "How Is Naga Balm® Made?",
-    answer: "Proudly produced in Cambodia, Naga Balm® harnesses time-honored Khmer wellness traditions alongside modern research. We adhere to strict quality controls and international safety standards to ensure that every product delivers effective, reliable relief."
+    question: "Has Naga Balm Been Clinically Tested and Is It Considered A Valid Medical Treatment?",
+    answer: `All Naga Balm products are independently and rigorously lab-tested to ensure conformity with stated ingredients and to ensure that there are no microbiological contaminants.
+
+Naga Balm is designed as a complementary, non-invasive support for an active and pain-free lifestyle. Formulated with herbal ingredients that have been tried, tested, and trusted for generations, it provides natural relief that has stood the test of time. While on its own cannot be considered a medical treatment, it can be used alongside other wellness practices to help manage everyday discomfort, especially as a frontline first-to-act tool.
+
+If you have specific medical concerns, we recommend consulting a healthcare professional before use.`
   },
   {
-    question: "Where Can I Purchase Naga Balm®?",
-    answer: "You can order Naga Balm® directly from our official website or through our network of selected retail partners. For our international B2B clients interested in distribution or wholesale opportunities, please visit our dedicated B2B inquiry page or contact our sales team directly."
+    question: "Can Children Use Naga Balm?",
+    answer: `Most Naga Balm products are advised for children aged 12 and older.
+The Naga Balm Original can be used for children aged 6 and older.
+The Naga Balm 20% Picaridin Mosquito Repellent can be used on children 6 months (yes, months!) and older.`
   },
   {
-    question: "Do You Offer B2B Partnerships?",
-    answer: "Yes. We welcome partnerships with international distributors, retailers, and wellness professionals. Our B2B program provides competitive pricing, comprehensive marketing support, and personalized service to help you successfully introduce Naga Balm® to your market."
+    question: "Is Naga Balm Suitable for Sensitive Skin or Pregnancy?",
+    answer: `Naga Balm is formulated with herbal, petroleum-free ingredients and is generally gentle on the skin. The base oil is coconut oil, which also provides deep hydration and quick absorption. However, if you have sensitive skin, we recommend performing a patch test before full application, as some essential oils may react adversely. Should any irritation occur, please discontinue use and consult a healthcare professional.
+
+If pregnant or breastfeeding, ask a health professional before use.`
   },
   {
-    question: "How Should I Store Naga Balm®?",
-    answer: "To maintain its quality, store Naga Balm® in a cool, dry place away from direct sunlight. Always keep the product out of reach of children."
+    question: "Can I Use Naga Balm During Physical Activities?",
+    answer: "Absolutely. Whether you're preparing for a workout, needing a touch up, or recovering afterward, Naga Balm can help activate the body, reduce muscle tension and speed up recovery, keeping you ready for whatever your day brings."
+  },
+  {
+    question: "How Should I Store Naga Balm?",
+    answer: "To maintain its quality, store Naga Balm® in a cool, dry place away from direct sunlight under 30°C (86°F ). Always keep products out of reach of children."
   },
   {
     question: "Are There Any Side Effects?",
-    answer: "Naga Balm® is made with natural ingredients and is generally well-tolerated. However, individual reactions may vary. If you experience any irritation or discomfort, please stop using the product and consult a healthcare professional."
+    answer: "Naga Balm products are generally well-tolerated. However, individual reactions may vary. If you experience any irritation or discomfort, please stop using the product and consult a healthcare professional."
   },
   {
-    question: "Where Can I Learn More About Naga Balm®?",
-    answer: "For further details on the science, ingredients, and traditional inspirations behind Naga Balm®, please visit our \"About Us\" or \"Research\" sections on our website. We're committed to transparency and quality, ensuring that our products meet the highest standards of wellness and efficacy."
+    question: "Does Naga Balm contain any NSAIDs?",
+    answer: "No, Naga Balm does not contain any Non-Steroidal Anti-Inflammatory Drugs (NSAIDs). Instead, we opt for an all-herbal formulation."
   },
   {
-    question: "Who Do I Contact for More Information?",
-    answer: "Whether you're a consumer with a question about usage or an international partner interested in collaboration, our dedicated customer support team is here to help. Reach out via our contact page, and we'll be happy to assist you."
+    question: "Where Can I Purchase Naga Balm?",
+    answer: "If you're in Cambodia, you can order Naga Balm directly from our Telegram, or you can purchase at one of our retail partner locations. For our international inquiries, we're working hard to make products available near you!"
+  },
+  {
+    question: "Is Naga Balm available for B2B Partnerships for Distribution and Wholesale?",
+    answer: "If you're interested in distribution or wholesale opportunities, please "
   }
 ];
 
@@ -61,6 +86,39 @@ const FAQItem = ({ question, answer, isOpen, onToggle }: {
   isOpen: boolean;
   onToggle: () => void;
 }) => {
+  // Special handling for FAQs that contain links
+  const isFirstFAQ = question === "What is Naga Balm?";
+  const isB2BFAQ = question === "Is Naga Balm available for B2B Partnerships for Distribution and Wholesale?";
+  
+  // Format the answer text to handle line breaks properly
+  const formattedAnswer = answer.split('\n').map((line, index, array) => {
+    if (isFirstFAQ) {
+      return (
+        <React.Fragment key={index}>
+          {line}
+          <Link href="/products" className={styles.inlineLink}>our products page</Link>
+          {index < array.length - 1 && <br />}
+        </React.Fragment>
+      );
+    }
+    if (isB2BFAQ) {
+      return (
+        <React.Fragment key={index}>
+          {line}
+          <Link href="/contact" className={styles.inlineLink}>send us a message</Link>
+          {" - we would love to talk."}
+          {index < array.length - 1 && <br />}
+        </React.Fragment>
+      );
+    }
+    return (
+      <React.Fragment key={index}>
+        {line}
+        {index < array.length - 1 && <br />}
+      </React.Fragment>
+    );
+  });
+
   return (
     <motion.div
       className={styles.faqItem}
@@ -87,7 +145,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }: {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <p>{answer}</p>
+            {formattedAnswer}
           </motion.div>
         )}
       </AnimatePresence>
@@ -112,7 +170,7 @@ export default function FAQSection() {
               <h1 className={styles.title}>Any questions?</h1>
               <p className={styles.subtitle}>We got you.</p>
               <p className={styles.description}>
-                Find answers to commonly asked questions about Naga Balm®. 
+                Find answers to commonly asked questions about Naga Balm. 
                 Can&apos;t find what you&apos;re looking for? Feel free to contact us.
               </p>
             </motion.div>

@@ -12,48 +12,42 @@ const videos = [
     title: 'Naga Balm Athletes',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/637876325250858/',
     description: 'Athletes using Naga Balm for performance and recovery',
-    likes: 1200,
-    views: 5000
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '2',
     title: 'Traditional Healing',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/1269625507619812/',
     description: 'Discover our traditional healing methods',
-    likes: 800,
-    views: 3500
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '3',
     title: 'Natural Pain Relief',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/498660102779675/',
     description: 'Experience natural pain relief with Naga Balm',
-    likes: 950,
-    views: 4200
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '4',
     title: 'Product Showcase',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/1323579092381033/',
     description: 'Explore our range of natural healing products',
-    likes: 1100,
-    views: 4800
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '5',
     title: 'Customer Stories',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/804614788535316/',
     description: 'Real people sharing their Naga Balm experiences',
-    likes: 750,
-    views: 3200
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '6',
     title: 'Application Guide',
     videoUrl: 'https://www.facebook.com/nagabalmkh/videos/1077255727366703/',
     description: 'How to apply Naga Balm for best results',
-    likes: 890,
-    views: 4100
+    thumbnailUrl: 'https://scontent.fpnh1-1.fna.fbcdn.net/v/t15.5256-10/428987492_1122570042307012_8518983982873796844_n.jpg'
   },
   {
     id: '7',

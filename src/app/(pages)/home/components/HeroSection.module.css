@@ -294,8 +294,8 @@
   }
 
   .backgroundBrandmark {
-    left: -30%;
-    top: 25%;
+    left: -40%;
+    top: 34%;
     width: 80%;
     height: 80%;
   }
@@ -356,7 +356,7 @@
   }
 
   .heroContent {
-    padding: 4rem 1rem 5rem;
+    padding: 6rem 1rem 5rem;
   }
 
   .contentGrid {
@@ -392,8 +392,8 @@
     left: 50%;
     top: 25%;
     transform: translate(-50%, -50%);
-    width: 150%;
-    height: 150%;
+    width: 1200%;
+    height: 120%;
   }
 
   .wordmarkContainer {
@@ -423,7 +423,7 @@
   }
 
   .heroContent {
-    padding: 3rem 1rem 4rem;
+    padding: 6rem 1rem 4rem;
   }
 
   .textContent {
