@@ -29,6 +29,18 @@ export default function HeroSection() {
         />
       </div>
 
+      {/* Background Brandmark */}
+      <div className={styles.backgroundBrandmark}>
+        <Image
+          src="/images/Logo/Naga Balm__Brandmark_Fire.png"
+          alt="Naga Balm Brandmark"
+          width={600}
+          height={600}
+          className={styles.brandmarkImage}
+          priority
+        />
+      </div>
+
       {/* Top Right Cloud */}
       <div className={styles.topRightCloud}>
         <Image
@@ -58,21 +70,19 @@ export default function HeroSection() {
         <div className={styles.contentGrid}>
           {/* Text Content */}
           <div className={styles.textContent}>
-            {/* Background Brandmark */}
-            <div className={styles.backgroundBrandmark}>
-              <Image
-                src="/images/Logo/Naga Balm__Brandmark_Fire.png"
-                alt="Naga Balm Brandmark"
-                width={600}
-                height={600}
-                className={styles.brandmarkImage}
-                priority
-              />
-            </div>
-            
             <h1 className={styles.headline}>
               Say Goodbye to Pain
             </h1>
+            <div className={styles.wordmarkContainer}>
+              <Image
+                src="/images/png/Naga Balm_Primary_Wordmark_Primary.png"
+                alt="Naga Balm"
+                width={300}
+                height={80}
+                className={styles.wordmarkImage}
+                priority
+              />
+            </div>
             <p className={styles.description}>
               Naga Balm - we blend tradition with modern innovation, delivering clean pain relief solutions to soothe, relieve, and heal.
             </p>
