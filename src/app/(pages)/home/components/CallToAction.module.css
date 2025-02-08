@@ -5,33 +5,237 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 6rem 0;
+  background-color: var(--buttercup);
 }
 
 .backgroundPattern {
   position: absolute;
   inset: 0;
-  --s: 100px; /* control the size */
-  --c1: #FFD36F;
-  --c2: #FFA500;
-  --c3: #FFD36F;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
 
-  --_g: var(--c2) 4% 14%, var(--c1) 14% 24%, var(--c2) 22% 34%,
-    var(--c1) 34% 44%, var(--c2) 44% 56%, var(--c1) 56% 66%, var(--c2) 66% 76%,
-    var(--c1) 76% 86%, var(--c2) 86% 96%;
-  background: radial-gradient(
-      100% 100% at 100% 0,
-      var(--c1) 4%,
-      var(--_g),
-      var(--c3) 96%,
-      #0000
-    ),
-    radial-gradient(
-        100% 100% at 0 100%,
-        #0000,
-        var(--c3) 4%,
-        var(--_g),
-        var(--c1) 96%
-      )
-      var(--c1);
-  background-size: var(--s) var(--s);
+.backgroundImage {
+  object-fit: cover;
+  object-position: center;
+  width: 100% !important;
+  height: 100% !important;
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* Main CTA Content */
+.mainContent {
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mainTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--fire);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mainDescription {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  color: var(--gray-800);
+  max-width: 32rem;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.shopButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 1.25rem 2.5rem;
+  background: var(--fire);
+  color: white;
+  font-weight: 600;
+  border-radius: 100px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(var(--fire-rgb), 0.15), 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.shopButton:hover {
+  background: var(--salmon);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--fire-rgb), 0.2), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Partners Section */
+.partnersSection {
+  margin-top: 4rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.partnersTitle {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--fire);
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.partnerCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.partnerCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(var(--fire-rgb), 0.1);
+}
+
+.logoContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+}
+
+.logo {
+  object-fit: contain !important;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+  filter: brightness(1) contrast(1.05);
+}
+
+.partnerCard:hover .logo {
+  transform: scale(1.05);
+}
+
+.discoverButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.25rem 2.5rem;
+  background: transparent;
+  color: var(--fire);
+  font-weight: 600;
+  border-radius: 100px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--fire);
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(var(--fire-rgb), 0.1);
+  backdrop-filter: blur(8px);
+  outline: 1px solid rgba(0, 0, 0, 0.15);
+  outline-offset: -1px;
+}
+
+.discoverButton:hover {
+  background: var(--fire);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--fire-rgb), 0.15), 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+  outline-color: rgba(0, 0, 0, 0.25);
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.discoverButton:hover .arrowIcon {
+  transform: translateX(3px);
+}
+
+@media (max-width: 1200px) {
+  .partnersGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .partnersGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .callToAction {
+    padding: 4rem 0;
+  }
+
+  .partnersGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .partnerCard {
+    padding: 1rem;
+  }
+
+  .mainContent {
+    margin-bottom: 3rem;
+  }
+
+  .partnersSection {
+    margin-top: 3rem;
+    padding-top: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .callToAction {
+    padding: 3rem 0;
+  }
+
+  .partnersGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .partnerCard {
+    padding: 0.75rem;
+  }
+
+  .mainContent {
+    margin-bottom: 2rem;
+  }
+
+  .partnersSection {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+
+  .shopButton,
+  .discoverButton {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
 } 

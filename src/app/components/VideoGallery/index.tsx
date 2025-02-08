@@ -1,200 +1,115 @@
 'use client';
 
-import { useState, useRef, useLayoutEffect, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import styles from './VideoGallery.module.css';
+import { useState, useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import styles from './VideoGallery.module.css';
 
-const DynamicVideoPlayer = dynamic(
+const VideoPlayer = dynamic(
   () => import('@/app/(pages)/home/components/VideoPlayer'),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className={styles.videoPlaceholder}>
-        <div className={styles.loadingSpinner} />
-      </div>
-    )
-  }
+  { ssr: false }
 );
 
-export default function VideoGallery({ videos }: { videos: Array<{
+interface Video {
   id: string;
   title: string;
   videoUrl: string;
-  description: string;
-}> }) {
-  // Filter out videos at indices 0, 9, and 13
-  const filteredVideos = videos.filter((_, index) => 
-    index !== 0 && index !== 10 && index !== 14 && index !== 20 && index !== 13
-  );
-  
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isClient, setIsClient] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(7); // Start with video #8 (index 7)
-  const [selectedVideo, setSelectedVideo] = useState<null | typeof videos[0]>(null);
-  const [isFullScreen, setIsFullScreen] = useState(false);
+}
 
-  // Use useLayoutEffect to avoid hydration mismatch
-  useLayoutEffect(() => {
-    setIsClient(true);
+export default function VideoGallery({ videos }: { videos: Video[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+
+    if (carouselRef.current) {
+      observer.observe(carouselRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
-  // Add scroll snap detection
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const handleScroll = () => {
-      const slideWidth = track.offsetWidth;
-      const newIndex = Math.round(track.scrollLeft / slideWidth);
-      if (newIndex !== activeIndex) {
-        setActiveIndex(newIndex);
-      }
-    };
-
-    track.addEventListener('scroll', handleScroll);
-    return () => track.removeEventListener('scroll', handleScroll);
-  }, [activeIndex]);
-
-  // Don't render anything during SSR
-  if (!isClient) {
-    return null;
-  }
-
-  const handleSlideChange = (index: number) => {
-    if (!trackRef.current) return;
-    setActiveIndex(index);
-    const slideWidth = trackRef.current.offsetWidth;
-    trackRef.current.scrollTo({
-      left: index * slideWidth,
-      behavior: 'smooth'
-    });
+  const nextVideo = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex((prev) => (prev + 1) % videos.length);
+    }
   };
 
-  const handleVideoClick = (video: typeof videos[0], e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event bubbling
-    setSelectedVideo(video);
-    document.body.style.overflow = 'hidden';
+  const previousVideo = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex((prev) => (prev - 1 + videos.length) % videos.length);
+    }
   };
 
-  const closeModal = () => {
-    setSelectedVideo(null);
-    setIsFullScreen(false);
-    document.body.style.overflow = '';
-  };
-
-  const toggleFullScreen = () => {
-    setIsFullScreen(!isFullScreen);
+  const handleVideoLoad = () => {
+    setIsTransitioning(false);
   };
 
   return (
     <section className={styles.container}>
-      <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Experience Natural Relief</h2>
-        <p className={styles.sectionDescription}>
-          See how Naga Balm brings traditional healing to modern lifestyles
-        </p>
+      <div className={styles.carouselHeader}>
+        <h2 className={styles.title}>Featured Videos</h2>
+        <p className={styles.subtitle}>Watch our latest content</p>
       </div>
 
-      <div className={styles.carouselWrapper}>
-        <>
-          <div className={styles.navigationButtons}>
-            <button
-              onClick={() => handleSlideChange(Math.max(0, activeIndex - 1))}
-              disabled={activeIndex === 0}
-              className={styles.navButton}
-              aria-label="Previous video"
-            >
-              ←
-            </button>
-            <button
-              onClick={() => handleSlideChange(Math.min(filteredVideos.length - 1, activeIndex + 1))}
-              disabled={activeIndex === filteredVideos.length - 1}
-              className={styles.navButton}
-              aria-label="Next video"
-            >
-              →
-            </button>
-          </div>
+      <div className={styles.carouselContainer}>
+        <button 
+          className={`${styles.navButton} ${styles.prevButton}`}
+          onClick={previousVideo}
+          aria-label="Previous video"
+        >
+          ←
+        </button>
 
-          <div ref={trackRef} className={styles.carouselTrack}>
-            {filteredVideos.map((video, index) => (
-              <div
-                key={video.id}
-                className={`${styles.slide} ${index === activeIndex ? styles.activeSlide : ''}`}
-                onClick={(e) => handleVideoClick(video, e)}
-              >
-                <div className={styles.videoCard}>
-                  <DynamicVideoPlayer
-                    key={`player-${video.id}`}
-                    url={video.videoUrl}
-                    width={320}
-                    height={568}
-                  />
-                  <div className={styles.videoInfo}>
-                    <h3>{video.title}</h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.indicators}>
-            {filteredVideos.map((video, index) => (
-              <button
-                key={video.id}
-                className={`${styles.indicator} ${index === activeIndex ? styles.activeIndicator : ''}`}
-                onClick={() => handleSlideChange(index)}
-                role="tab"
-                aria-selected={index === activeIndex}
-                aria-label={`Go to video "${video.title}"`}
-                tabIndex={0}
-              />
-            ))}
-          </div>
-        </>
-      </div>
-
-      <AnimatePresence>
-        {selectedVideo && (
-          <motion.div
-            className={`${styles.modal} ${isFullScreen ? styles.fullScreen : ''}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeModal}
+        <div className={styles.carouselTrack} ref={carouselRef}>
+          <div 
+            className={styles.carouselSlide}
+            style={{ opacity: isTransitioning ? 0.5 : 1 }}
           >
-            <motion.div
-              className={styles.modalContent}
-              onClick={e => e.stopPropagation()}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-            >
-              <div className={styles.modalControls}>
-                <button className={styles.fullScreenButton} onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFullScreen();
-                }}>
-                  {isFullScreen ? '↙' : '↗'}
-                </button>
-                <button className={styles.closeButton} onClick={closeModal}>×</button>
-              </div>
-              <DynamicVideoPlayer
-                key={selectedVideo.id} // Force new instance when video changes
-                url={selectedVideo.videoUrl}
-                width={320}
-                height={568}
-                isModal={true}
-              />
-              <div className={styles.modalInfo}>
-                <h3>{selectedVideo.title}</h3>
-                <p>{selectedVideo.description}</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <VideoPlayer 
+              url={videos[currentIndex].videoUrl}
+              onLoad={handleVideoLoad}
+              autoplay={isInView}
+            />
+            <div className={styles.videoInfo}>
+              <h3>{videos[currentIndex].title}</h3>
+            </div>
+          </div>
+        </div>
+
+        <button 
+          className={`${styles.navButton} ${styles.nextButton}`}
+          onClick={nextVideo}
+          aria-label="Next video"
+        >
+          →
+        </button>
+      </div>
+
+      <div className={styles.indicators}>
+        {videos.map((_, index) => (
+          <button
+            key={index}
+            className={`${styles.indicator} ${index === currentIndex ? styles.activeIndicator : ''}`}
+            onClick={() => {
+              if (!isTransitioning) {
+                setIsTransitioning(true);
+                setCurrentIndex(index);
+              }
+            }}
+            aria-label={`Go to video ${index + 1}`}
+          />
+        ))}
+      </div>
     </section>
   );
 }
