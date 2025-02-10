@@ -3,6 +3,7 @@ import { getProducts } from './products'
 import ProductGrid from './components/ProductGrid'
 import SearchWrapper from './components/SearchWrapper'
 import BackToTop from '../home/components/BackToTop'
+import UseCasesSection from './components/UseCasesSection'
 
 export default async function ProductsPage() {
   const products = await getProducts()
@@ -83,6 +84,9 @@ export default async function ProductsPage() {
           </div>
         </div>
       </section>
+
+      {/* Use Cases Section */}
+      <UseCasesSection />
 
       {/* Products Section */}
       <section className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
