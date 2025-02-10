@@ -33,18 +33,18 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Cloud Elements */}
         <div className={`absolute top-[20%] ${styles.floatLR}`}>
-          <div className="relative w-64 h-64 opacity-80">
+          <div className="relative w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 opacity-80">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 3.png"
               alt=""
               fill
-              className="object-contain"
+              className={`object-contain ${styles.rotate}`}
             />
           </div>
         </div>
 
         <div className={`absolute top-[40%] ${styles.floatRL}`}>
-          <div className="relative w-48 h-48 opacity-80">
+          <div className="relative w-24 sm:w-36 md:w-48 h-24 sm:h-36 md:h-48 opacity-80">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 2.png"
               alt=""
@@ -55,19 +55,19 @@ export default function Hero() {
         </div>
 
         <div className={`absolute top-[60%] ${styles.floatLR2}`}>
-          <div className="relative w-56 h-56 opacity-80">
+          <div className="relative w-28 sm:w-40 md:w-56 h-28 sm:h-40 md:h-56 opacity-80">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 3.png"
               alt=""
               fill
-              className="object-contain"
+              className={`object-contain ${styles.rotate}`}
             />
           </div>
         </div>
 
         {/* Brand Mark Elements */}
         <div className={`absolute top-[15%] ${styles.floatRL2}`}>
-          <div className="relative w-32 h-32 opacity-80">
+          <div className="relative w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 opacity-80">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Black.png"
               alt=""
@@ -78,7 +78,7 @@ export default function Hero() {
         </div>
 
         <div className={`absolute top-[35%] ${styles.floatLR3}`}>
-          <div className="relative w-40 h-40 opacity-80">
+          <div className="relative w-24 sm:w-32 md:w-40 h-24 sm:h-32 md:h-40 opacity-80">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Fire.png"
               alt=""
@@ -89,7 +89,7 @@ export default function Hero() {
         </div>
 
         <div className={`absolute top-[55%] ${styles.floatRL3}`}>
-          <div className="relative w-36 h-36 opacity-80">
+          <div className="relative w-22 sm:w-28 md:w-36 h-22 sm:h-28 md:h-36 opacity-80">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Gambodge.png"
               alt=""
@@ -100,7 +100,7 @@ export default function Hero() {
         </div>
 
         <div className={`absolute top-[75%] ${styles.floatLR}`}>
-          <div className="relative w-44 h-44 opacity-80">
+          <div className="relative w-28 sm:w-36 md:w-44 h-28 sm:h-36 md:h-44 opacity-80">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Ice.png"
               alt=""
@@ -111,7 +111,7 @@ export default function Hero() {
         </div>
 
         <div className={`absolute top-[85%] ${styles.floatRL}`}>
-          <div className="relative w-38 h-38 opacity-80">
+          <div className="relative w-24 sm:w-32 md:w-38 h-24 sm:h-32 md:h-38 opacity-80">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_White.png"
               alt=""
@@ -129,7 +129,7 @@ export default function Hero() {
             <div className="relative">
               {/* Decorative Line with Glow */}
               <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-fire/0 via-fire/30 to-fire/0
-                shadow-[0_0_10px_rgba(255,166,0,0.2)]"></div>
+                shadow-[0_0_15px_rgba(255,166,0,0.3)]"></div>
               
               <div className="space-y-4 sm:space-y-6 md:space-y-8 relative pl-8">
                 {/* Title Section with Enhanced Effects */}
@@ -222,7 +222,10 @@ export default function Hero() {
               <div className="absolute -inset-4 bg-gradient-to-br from-fire/20 to-amber-600/20 
                 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
               <div className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-sm 
-                group-hover:bg-white/10 transition-all duration-500 p-4 sm:p-6 md:p-8">
+                group-hover:bg-white/10 transition-all duration-500 p-4 sm:p-6 md:p-8
+                before:absolute before:inset-0 before:rounded-full before:border-2 
+                before:border-fire/20 before:scale-90 before:opacity-0
+                group-hover:before:scale-100 before:opacity-100 before:transition-all before:duration-500">
                 <Image
                   src="/images/Logo/Naga Balm_Primary_Logomark_Primary.png"
                   alt="Naga Balm Logo"

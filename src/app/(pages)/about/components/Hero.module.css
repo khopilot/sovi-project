@@ -11,8 +11,11 @@
   0% {
     transform: translateX(-100vw) translateY(0);
   }
+  50% {
+    transform: translateX(0vw) translateY(-20px);
+  }
   100% {
-    transform: translateX(100vw) translateY(-20px);
+    transform: translateX(100vw) translateY(0);
   }
 }
 
@@ -20,37 +23,57 @@
   0% {
     transform: translateX(100vw) translateY(0);
   }
+  50% {
+    transform: translateX(0vw) translateY(20px);
+  }
   100% {
-    transform: translateX(-100vw) translateY(20px);
+    transform: translateX(-100vw) translateY(0);
   }
 }
 
+/* Slower animations for larger elements */
 .floatLR {
-  animation: floatLeftToRight 45s linear infinite;
+  animation: floatLeftToRight 60s ease-in-out infinite;
   will-change: transform;
 }
 
 .floatRL {
-  animation: floatRightToLeft 45s linear infinite;
+  animation: floatRightToLeft 65s ease-in-out infinite;
   will-change: transform;
 }
 
+/* Medium speed for medium elements */
 .floatLR2 {
-  animation: floatLeftToRight 60s linear infinite;
+  animation: floatLeftToRight 50s ease-in-out infinite;
   will-change: transform;
 }
 
 .floatRL2 {
-  animation: floatRightToLeft 60s linear infinite;
+  animation: floatRightToLeft 55s ease-in-out infinite;
   will-change: transform;
 }
 
+/* Faster animations for smaller elements */
 .floatLR3 {
-  animation: floatLeftToRight 75s linear infinite;
+  animation: floatLeftToRight 45s ease-in-out infinite;
   will-change: transform;
 }
 
 .floatRL3 {
-  animation: floatRightToLeft 75s linear infinite;
+  animation: floatRightToLeft 40s ease-in-out infinite;
   will-change: transform;
+}
+
+/* Add subtle rotation to elements */
+@keyframes slowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: slowRotate 30s linear infinite;
 }
