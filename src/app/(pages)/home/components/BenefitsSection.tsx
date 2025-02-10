@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HeritageIcon, HandcraftIcon, QualityIcon } from './icons'
 import Image from 'next/image'
@@ -52,6 +52,15 @@ const benefits = [
 
 export default function BenefitsSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return null
+  }
 
   return (
     <div className="relative w-full">
@@ -103,26 +112,45 @@ export default function BenefitsSection() {
                 <motion.div
                   key={benefit.title}
                   variants={item}
-                  className="group bg-[#FDD26E] backdrop-blur-sm rounded-2xl shadow-lg p-8 md:p-10 h-full transform hover:translate-y-[-8px] transition-all duration-500 hover:shadow-xl border border-white/20"
+                  className="group relative rounded-2xl shadow-lg p-8 md:p-10 h-full transform hover:translate-y-[-8px] transition-all duration-500 hover:shadow-xl border border-white/20 overflow-hidden"
                 >
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 mx-auto md:mx-0">
-                    <div className="absolute inset-0 bg-ice/20 rounded-2xl transform rotate-6 transition-transform group-hover:rotate-12" />
-                    <div className="absolute inset-0 bg-white rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 border border-ice/20">
-                      <div className="text-ice">
-                        <benefit.Icon />
+                  {/* Background Image */}
+                  <div className="absolute -inset-1">
+                    <Image
+                      src="/images/Naga Balm Element (Cloud)/Background 1.png"
+                      alt="Card Background"
+                      fill
+                      quality={100}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      style={{ 
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        transform: 'scale(1.1)'
+                      }}
+                      className="opacity-90"
+                    />
+                  </div>
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 mx-auto md:mx-0">
+                      <div className="absolute inset-0 bg-ice/20 rounded-2xl transform rotate-6 transition-transform group-hover:rotate-12" />
+                      <div className="absolute inset-0 bg-white rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 border border-ice/20">
+                        <div className="text-ice">
+                          <benefit.Icon />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-center md:text-left">
-                    <h3 className="font-karla text-xl md:text-2xl font-bold mb-3 text-white group-hover:translate-x-1 transition-transform duration-300">
-                      {benefit.title}
-                    </h3>
-                    <p className="font-karla text-subheading text-white/90 font-semibold mb-4">
-                      {benefit.subtitle}
-                    </p>
-                    <p className="font-karla text-body text-white/80 leading-relaxed">
-                      {benefit.description}
-                    </p>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-karla text-xl md:text-2xl font-bold mb-3 text-white group-hover:translate-x-1 transition-transform duration-300">
+                        {benefit.title}
+                      </h3>
+                      <p className="font-karla text-subheading text-white/90 font-semibold mb-4">
+                        {benefit.subtitle}
+                      </p>
+                      <p className="font-karla text-body text-white/80 leading-relaxed">
+                        {benefit.description}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
