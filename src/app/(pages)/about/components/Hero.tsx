@@ -1,193 +1,241 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
 import styles from './Hero.module.css'
 
 export default function Hero() {
-  const [visibleImages, setVisibleImages] = useState<number[]>([])
-
-  const mosaicImages = [
-    { 
-      src: '/images/about-grid/430720496_388817580758751_2341257138742686116_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/391671432_294858683487975_2328397320296936_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/475543227_611132651860575_6219166345296305196_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/391619663_294858813487962_4740528239290929594_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/420033960_348959618077881_592468932604044747_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/469337321_17914579515030307_4981590020092049347_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/475753767_611132935193880_5434604327035901400_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/370182647_262382353402275_462936422139193930_n.jpg',
-    },
-    { 
-      src: '/images/about-grid/370867629_262382400068937_5776579610531504209_n.jpg',
-    }
-  ]
-
-  useEffect(() => {
-    const remainingIndices = [...Array(mosaicImages.length)].map((_, i) => i)
-    let timeoutId: NodeJS.Timeout
-
-    const showNextImage = () => {
-      if (remainingIndices.length > 0) {
-        const randomIndex = Math.floor(Math.random() * remainingIndices.length)
-        const imageIndex = remainingIndices[randomIndex]
-        remainingIndices.splice(randomIndex, 1)
-        
-        setVisibleImages(prev => [...prev, imageIndex])
-        
-        if (remainingIndices.length > 0) {
-          timeoutId = setTimeout(showNextImage, 500)
-        }
-      }
-    }
-
-    timeoutId = setTimeout(showNextImage, 100)
-
-    return () => clearTimeout(timeoutId)
-  }, [mosaicImages.length])
-
   return (
-    <section className="relative min-h-[100svh] overflow-x-hidden flex items-center">
+    <section className="relative min-h-[100svh] w-screen overflow-hidden flex items-center">
       {/* Main Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 w-screen h-screen">
         <Image
-          src="/images/Naga Balm Element (Cloud)/Background 2.png"
+          src="/images/Naga Balm Element (Cloud)/Background 3.png"
           alt="Background Pattern"
           fill
           quality={100}
           sizes="100vw"
+          className="object-cover w-full h-full"
           style={{ 
-            objectFit: 'cover',
-            objectPosition: 'center'
+            transform: 'scale(1.1)',
+            transformOrigin: 'center'
           }}
           priority
-          className={styles.backgroundImage}
         />
+        {/* Enhanced Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/10 via-transparent to-amber-900/5"></div>
+        
+        {/* Decorative Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,theme(colors.amber.600)_1px,transparent_0)] 
+          [background-size:40px_40px] opacity-[0.03]"></div>
       </div>
 
-      {/* Background Clouds - Adjusted positioning and overflow handling */}
-      <div className="absolute inset-0 w-full overflow-hidden pointer-events-none">
-        {/* Large cloud in top-right - Adjusted positioning */}
-        <div className={`absolute -right-[10%] sm:-right-[15%] top-[10%] w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] ${styles.cloudFloat1}`}>
-          <Image
-            src="/images/png/cloud-balm.avif"
-            alt=""
-            fill
-            className="object-contain opacity-90 rotate-12"
-            priority
-          />
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Cloud Elements */}
+        <div className={`absolute top-[20%] ${styles.floatLR}`}>
+          <div className="relative w-64 h-64 opacity-80">
+            <Image
+              src="/images/Naga Balm Element (Cloud)/Element 3.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
 
-        {/* Medium cloud in middle-left - Adjusted positioning */}
-        <div className={`absolute -left-[10%] sm:-left-[15%] top-[40%] w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] ${styles.cloudFloat2}`}>
-          <Image
-            src="/images/png/cloud-balm.avif"
-            alt=""
-            fill
-            className="object-contain opacity-90 -rotate-12"
-            priority
-          />
+        <div className={`absolute top-[40%] ${styles.floatRL}`}>
+          <div className="relative w-48 h-48 opacity-80">
+            <Image
+              src="/images/Naga Balm Element (Cloud)/Element 2.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
 
-        {/* Small cloud in bottom-right - Adjusted positioning */}
-        <div className={`absolute -right-[5%] sm:-right-[10%] bottom-[15%] w-[200px] h-[200px] sm:w-[350px] sm:h-[350px] ${styles.cloudFloat3}`}>
-          <Image
-            src="/images/png/cloud-balm.avif"
-            alt=""
-            fill
-            className="object-contain opacity-95"
-            priority
-          />
+        <div className={`absolute top-[60%] ${styles.floatLR2}`}>
+          <div className="relative w-56 h-56 opacity-80">
+            <Image
+              src="/images/Naga Balm Element (Cloud)/Element 3.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        {/* Brand Mark Elements */}
+        <div className={`absolute top-[15%] ${styles.floatRL2}`}>
+          <div className="relative w-32 h-32 opacity-80">
+            <Image
+              src="/images/Logo/Naga Balm__Brandmark_Black.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        <div className={`absolute top-[35%] ${styles.floatLR3}`}>
+          <div className="relative w-40 h-40 opacity-80">
+            <Image
+              src="/images/Logo/Naga Balm__Brandmark_Fire.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        <div className={`absolute top-[55%] ${styles.floatRL3}`}>
+          <div className="relative w-36 h-36 opacity-80">
+            <Image
+              src="/images/Logo/Naga Balm__Brandmark_Gambodge.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        <div className={`absolute top-[75%] ${styles.floatLR}`}>
+          <div className="relative w-44 h-44 opacity-80">
+            <Image
+              src="/images/Logo/Naga Balm__Brandmark_Ice.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        <div className={`absolute top-[85%] ${styles.floatRL}`}>
+          <div className="relative w-38 h-38 opacity-80">
+            <Image
+              src="/images/Logo/Naga Balm__Brandmark_White.png"
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+      <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16 lg:py-24">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-          {/* Text Content */}
-          <div className="flex items-center">
+          {/* Text Content with Enhanced Typography */}
+          <div className="flex items-center order-2 md:order-1">
             <div className="relative">
-              {/* Decorative line */}
-              <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 w-1 h-24 bg-fire rounded-r hidden md:block"></div>
+              {/* Decorative Line with Glow */}
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-fire/0 via-fire/30 to-fire/0
+                shadow-[0_0_10px_rgba(255,166,0,0.2)]"></div>
               
-              <div className={`space-y-6 md:space-y-8 relative ${styles.fadeUpAnimation}`}>
-                <h1 className="font-karla text-2xl sm:text-3xl md:text-headline font-bold text-fire uppercase tracking-wide">
-                  <span className="block mb-2">About Us</span>
-                  <span className="block">
-                    Our Journey &<br className="hidden sm:block" /> Values
-                  </span>
-                </h1>
-                <h2 className="font-karla text-subheading text-ochre max-w-2xl">
-                  From traditional roots to modern innovation
-                </h2>
-                <p className="font-karla text-body text-ochre max-w-2xl">
-                  Discover how we blend ancient Cambodian healing wisdom with contemporary practices 
-                  to create effective natural remedies.
-                </p>
+              <div className="space-y-4 sm:space-y-6 md:space-y-8 relative pl-8">
+                {/* Title Section with Enhanced Effects */}
+                <div className="relative group">
+                  <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full 
+                    bg-gradient-to-br from-fire to-amber-600 opacity-20
+                    before:absolute before:inset-0 before:rounded-full before:bg-fire/40 
+                    before:animate-ping before:animation-delay-2000
+                    after:absolute after:inset-0 after:rounded-full after:bg-fire/20 
+                    after:animate-pulse after:animation-delay-1000"></div>
+                  
+                  <h1 className="font-karla text-xl sm:text-2xl md:text-3xl lg:text-headline font-bold tracking-wide
+                    text-fire drop-shadow-[0_2px_10px_rgba(255,166,0,0.2)] uppercase">
+                    <span className="block mb-2 transform transition-all duration-500 ease-out
+                      hover:translate-x-2 hover:text-amber-600 hover:drop-shadow-[0_5px_15px_rgba(255,166,0,0.3)]">
+                      About Us
+                    </span>
+                    <span className="block transform transition-all duration-500 ease-out
+                      hover:translate-x-2 hover:text-amber-600 hover:drop-shadow-[0_5px_15px_rgba(255,166,0,0.3)]">
+                      Our Journey &<br className="hidden sm:block" /> Values
+                    </span>
+                  </h1>
+                </div>
+
+                {/* Subtitle with Refined Styling */}
+                <div className="relative group">
+                  <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full 
+                    bg-gradient-to-br from-ochre to-amber-600 opacity-40
+                    group-hover:opacity-60 transition-opacity duration-300"></div>
+                  <h2 className="font-karla text-lg sm:text-xl md:text-subheading font-medium text-ochre
+                    max-w-2xl transform transition-all duration-500 ease-out
+                    hover:translate-x-2 hover:text-amber-700 group-hover:drop-shadow-[0_2px_5px_rgba(255,166,0,0.2)]">
+                    From traditional roots to modern innovation
+                  </h2>
+                </div>
+
+                {/* Description with Enhanced Readability */}
+                <div className="relative group">
+                  <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full 
+                    bg-gradient-to-br from-ochre to-amber-600 opacity-40
+                    group-hover:opacity-60 transition-opacity duration-300"></div>
+                  <p className="font-karla text-sm sm:text-base md:text-body text-ochre/90 max-w-2xl leading-relaxed
+                    transform transition-all duration-500 ease-out hover:translate-x-2
+                    group-hover:text-amber-800">
+                    Discover how we blend ancient Cambodian healing wisdom with contemporary practices 
+                    to create effective natural remedies.
+                  </p>
+                </div>
+
+                {/* Enhanced CTA Button with Better Visual Feedback */}
+                <div className="pt-4 sm:pt-6 md:pt-8 group">
+                  <div className="relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-fire/50 to-amber-600/50 
+                      rounded-lg blur-lg group-hover:blur-xl opacity-70 group-hover:opacity-100 
+                      transition-all duration-500"></div>
+                    <a 
+                      href="#mission" 
+                      className="relative inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 
+                        bg-fire hover:bg-amber-600 text-white rounded-lg 
+                        transition-all duration-500 hover:translate-x-2 
+                        group-hover:shadow-[0_5px_15px_rgba(255,166,0,0.3)]
+                        text-sm sm:text-base"
+                    >
+                      <span className="relative flex items-center font-medium tracking-wide">
+                        Explore Our Story
+                        <svg 
+                          className="w-4 h-4 sm:w-5 sm:h-5 ml-2 transform transition-transform duration-500 group-hover:translate-x-1" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Mosaic Grid */}
-          <div className="relative">
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full aspect-square">
-              {mosaicImages.map((image, index) => (
-                <div 
-                  key={index}
-                  className={`relative overflow-hidden rounded-lg sm:rounded-2xl shadow-lg hover:shadow-xl 
-                    transition-all duration-500 group ${visibleImages.includes(index) ? styles.fadeUpAnimation : 'opacity-0'}`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={image.src}
-                      alt={`Naga Balm team and process ${index + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      sizes="(max-width: 768px) 33vw, 20vw"
-                      priority={index < 6}
-                    />
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-t from-fire/30 via-black/0 to-black/0 
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    ></div>
-                  </div>
-                </div>
-              ))}
+          {/* Logo Side with Enhanced Effects */}
+          <div className="flex justify-center items-center order-1 md:order-2 mb-8 md:mb-0">
+            <div className="relative w-1/2 sm:w-2/5 md:w-3/4 aspect-square group">
+              <div className="absolute -inset-4 bg-gradient-to-br from-fire/20 to-amber-600/20 
+                rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-sm 
+                group-hover:bg-white/10 transition-all duration-500 p-4 sm:p-6 md:p-8">
+                <Image
+                  src="/images/Logo/Naga Balm_Primary_Logomark_Primary.png"
+                  alt="Naga Balm Logo"
+                  fill
+                  className="object-contain scale-90 group-hover:scale-95 transition-transform duration-500"
+                  priority
+                />
+              </div>
+              <div className="absolute -inset-4 rounded-full border border-fire/20 
+                group-hover:border-fire/30 transition-colors duration-500
+                group-hover:scale-105 transition-transform duration-500"></div>
             </div>
-
-            {/* Decorative Elements - Adjusted positioning */}
-            <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-48 sm:h-48 bg-salmon/10 rounded-full blur-3xl"></div>
-            <div className="absolute -top-8 -right-8 w-24 h-24 sm:w-48 sm:h-48 bg-bubblegum/10 rounded-full blur-3xl"></div>
           </div>
-        </div>
-
-        {/* Scroll Indicator - Adjusted positioning */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg 
-            className="w-6 h-6 text-fire opacity-75" 
-            fill="none" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth="2" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
         </div>
       </div>
     </section>

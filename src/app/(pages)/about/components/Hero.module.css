@@ -1,81 +1,56 @@
-@keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(2rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .fadeUpAnimation {
-    opacity: 0;
-    animation: fadeUp 0.6s ease-out forwards;
-  }
-  
-  @keyframes floatCloud1 {
-    0%, 100% { transform: translate(3%, -3%); }
-    50% { transform: translate(7%, 3%); }
-  }
-  
-  @keyframes floatCloud2 {
-    0%, 100% { transform: translate(-3%, -2%); }
-    50% { transform: translate(-7%, 2%); }
-  }
-  
-  @keyframes floatCloud3 {
-    0%, 100% { transform: translate(2%, -1%); }
-    50% { transform: translate(5%, 1%); }
-  }
-  
-  @keyframes floatCloud4 {
-    0%, 100% { transform: translate(-20%, 0); }
-    50% { transform: translate(-10%, 0); }
-  }
-  
-  @keyframes floatCloud5 {
-    0%, 100% { transform: translate(20%, 0); }
-    50% { transform: translate(30%, 0); }
-  }
-  
-  .cloudFloat1 {
-    animation: floatCloud1 15s ease-in-out infinite;
-    will-change: transform;
-  }
-  
-  .cloudFloat2 {
-    animation: floatCloud2 18s ease-in-out infinite;
-    will-change: transform;
-  }
-  
-  .cloudFloat3 {
-    animation: floatCloud3 20s ease-in-out infinite;
-    will-change: transform;
-  }
-  
-  .cloudFloat4 {
-    animation: floatCloud4 20s ease-in-out infinite;
-  }
-  
-  .cloudFloat5 {
-    animation: floatCloud5 16s ease-in-out infinite;
-  }
-  
-  /* Adjusted cloud animations for larger screens */
-  @media (min-width: 768px) {
-    @keyframes floatCloud1 {
-      0%, 100% { transform: translate(5%, -3%); }
-      50% { transform: translate(10%, 3%); }
-    }
+.backgroundImage {
+  position: fixed !important;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+  padding: 0;
+  object-fit: cover !important;
+}
 
-    @keyframes floatCloud2 {
-      0%, 100% { transform: translate(-5%, -2%); }
-      50% { transform: translate(-10%, 2%); }
-    }
+@keyframes floatLeftToRight {
+  0% {
+    transform: translateX(-100vw) translateY(0);
+  }
+  100% {
+    transform: translateX(100vw) translateY(-20px);
+  }
+}
 
-    @keyframes floatCloud3 {
-      0%, 100% { transform: translate(3%, -1%); }
-      50% { transform: translate(7%, 1%); }
-    }
-  } 
+@keyframes floatRightToLeft {
+  0% {
+    transform: translateX(100vw) translateY(0);
+  }
+  100% {
+    transform: translateX(-100vw) translateY(20px);
+  }
+}
+
+.floatLR {
+  animation: floatLeftToRight 45s linear infinite;
+  will-change: transform;
+}
+
+.floatRL {
+  animation: floatRightToLeft 45s linear infinite;
+  will-change: transform;
+}
+
+.floatLR2 {
+  animation: floatLeftToRight 60s linear infinite;
+  will-change: transform;
+}
+
+.floatRL2 {
+  animation: floatRightToLeft 60s linear infinite;
+  will-change: transform;
+}
+
+.floatLR3 {
+  animation: floatLeftToRight 75s linear infinite;
+  will-change: transform;
+}
+
+.floatRL3 {
+  animation: floatRightToLeft 75s linear infinite;
+  will-change: transform;
+}

@@ -1,7 +1,7 @@
 .faqSection {
   width: 100%;
   background-color: white;
-  padding: 7.2rem 2rem 6rem;
+  padding: 11rem 2rem 6rem;
   min-height: 100vh;
 }
 
@@ -20,7 +20,7 @@
 
 .leftColumn {
   position: sticky;
-  top: 8rem;
+  top: 11rem;
 }
 
 .header {
@@ -124,6 +124,7 @@
   .leftColumn {
     position: relative;
     top: 0;
+    padding-top: 1rem;
   }
 
   .header {
@@ -139,7 +140,7 @@
 
 @media (max-width: 768px) {
   .faqSection {
-    padding: 4.8rem 1.5rem 4rem;
+    padding: 9rem 1.5rem 4rem;
   }
 
   .title {
@@ -157,7 +158,7 @@
 
 @media (max-width: 480px) {
   .faqSection {
-    padding: 3.6rem 1rem 3rem;
+    padding: 8rem 1rem 3rem;
   }
 
   .title {

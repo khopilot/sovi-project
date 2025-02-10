@@ -1,7 +1,11 @@
-import Image from 'next/image'
-import styles from './Hero.module.css'
+'use client';
 
-export default function Partners() {
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import styles from './Hero.module.css'
+import { FC } from 'react'
+
+const Partners: FC = () => {
   const partners = [
     {
       name: "7-11",
@@ -130,127 +134,196 @@ export default function Partners() {
     }
   ]
 
+  // Group partners by type for better organization
+  const partnerTypes = {
+    'Retail': partners.filter(p => p.description.includes('Retail')),
+    'Pharmacy': partners.filter(p => p.description.includes('Pharmacy')),
+    'Sports & Fitness': partners.filter(p => 
+      p.description.includes('Sports') || 
+      p.description.includes('Fitness') || 
+      p.description.includes('Martial Arts')
+    ),
+    'Other': partners.filter(p => 
+      !p.description.includes('Retail') && 
+      !p.description.includes('Pharmacy') && 
+      !p.description.includes('Sports') && 
+      !p.description.includes('Fitness') && 
+      !p.description.includes('Martial Arts')
+    )
+  }
+
   return (
-    <section className="py-16 md:py-32 bg-[#FDD16E] relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,theme(colors.white)_1px,transparent_0)] [background-size:48px_48px] opacity-10"></div>
+    <section className="bg-gradient-to-b from-[#FDD16E] to-amber-100 py-24 overflow-hidden relative">
+      {/* Decorative Background Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,theme(colors.amber.600)_1px,transparent_0)] 
+        [background-size:48px_48px] opacity-5"></div>
 
       {/* Decorative Clouds */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Top left cloud */}
-        <div className={`absolute -left-[250px] top-[10%] w-[600px] h-[600px] ${styles.cloudFloat1}`}>
+        <motion.div 
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className={`absolute -left-[250px] top-[10%] w-[600px] h-[600px] ${styles.cloudFloat1}`}
+        >
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
             fill
-            className="object-contain opacity-90"
+            className="object-contain opacity-80"
             priority
           />
-        </div>
+        </motion.div>
 
-        {/* Top right cloud */}
-        <div className={`absolute -right-[200px] top-[15%] w-[450px] h-[450px] ${styles.cloudFloat2}`}>
+        <motion.div 
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className={`absolute -right-[200px] top-[15%] w-[450px] h-[450px] ${styles.cloudFloat2}`}
+        >
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
             fill
-            className="object-contain opacity-90"
+            className="object-contain opacity-80"
             priority
           />
-        </div>
+        </motion.div>
 
-        {/* Bottom left cloud */}
-        <div className={`absolute -left-[180px] bottom-[10%] w-[500px] h-[500px] ${styles.cloudFloat3}`}>
+        <motion.div 
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className={`absolute -left-[180px] bottom-[10%] w-[500px] h-[500px] ${styles.cloudFloat3}`}
+        >
           <Image
             src="/images/png/cloud-balm.avif"
             alt=""
             fill
-            className="object-contain opacity-90"
+            className="object-contain opacity-80"
             priority
           />
-        </div>
+        </motion.div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="container mx-auto px-4 relative">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <h2 className="text-3xl md:text-5xl font-bold text-amber-900 mb-4 md:mb-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <h2 className="text-5xl md:text-6xl font-bold text-amber-900 mb-6 leading-tight">
             Our Partners
           </h2>
-          <p className="text-lg md:text-xl text-amber-800">
+          <p className="text-xl md:text-2xl text-amber-800/90 leading-relaxed">
             Working together with trusted partners across Cambodia to deliver quality and authenticity in every product.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Partners Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
-          {partners.map((partner, index) => (
-            <div 
-              key={index}
-              className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl 
-                transition-all duration-300 hover:-translate-y-1"
+        {/* Partners Grid by Category */}
+        {Object.entries(partnerTypes).map(([type, typePartners]) => (
+          typePartners.length > 0 && (
+            <motion.div
+              key={type}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="mb-16 last:mb-0"
             >
-              {/* Logo Container */}
-              <div className="relative w-full aspect-square mb-4 bg-white/80 rounded-xl 
-                overflow-hidden flex items-center justify-center p-3">
-                <div className="relative w-full h-full">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    fill
-                    className="object-contain transition-all duration-500 group-hover:scale-105"
-                    priority
-                  />
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-amber-900/80 opacity-0 group-hover:opacity-100
-                    transition-all duration-500 flex items-center justify-center p-2">
-                    <h3 className="text-white text-center font-bold text-lg md:text-xl
-                      transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      {partner.name}
-                    </h3>
-                  </div>
-                </div>
-              </div>
+              <h3 className="text-2xl font-bold text-amber-900 mb-8 pl-4 border-l-4 border-amber-600">
+                {type} Partners
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                {typePartners.map((partner, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group"
+                  >
+                    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg
+                      transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl 
+                      hover:bg-white/95 relative">
+                      {/* Logo Container */}
+                      <div className="relative aspect-square mb-3 bg-white rounded-lg 
+                        overflow-hidden flex items-center justify-center">
+                        <div className="relative w-full h-full p-3">
+                          <Image
+                            src={partner.logo}
+                            alt={partner.name}
+                            fill
+                            className="object-contain transition-transform duration-500 
+                              group-hover:scale-105"
+                            priority
+                          />
+                        </div>
+                        
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-amber-900/0 group-hover:bg-amber-900/5
+                          transition-colors duration-300"></div>
+                      </div>
 
-              {/* Partner Info */}
-              <div className="text-center">
-                <h3 className="text-sm font-semibold text-amber-900 mb-1 line-clamp-2">
-                  {partner.name}
-                </h3>
-                <p className="text-xs text-amber-700 line-clamp-1">
-                  {partner.description}
-                </p>
-              </div>
+                      {/* Partner Info */}
+                      <div className="text-center">
+                        <h4 className="text-sm font-medium text-amber-900 mb-1 line-clamp-1
+                          group-hover:text-amber-700 transition-colors duration-300">
+                          {partner.name}
+                        </h4>
+                      </div>
 
-              {/* Decorative corner */}
-              <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 
-                  border-amber-200 rounded-tl-2xl transition-all duration-300 
-                  group-hover:border-amber-400"></div>
-                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 
-                  border-amber-200 rounded-br-2xl transition-all duration-300 
-                  group-hover:border-amber-400"></div>
+                      {/* Corner Accents */}
+                      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 
+                        border-amber-600/0 group-hover:border-amber-600/20 rounded-tl-lg transition-colors duration-300"></div>
+                      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 
+                        border-amber-600/0 group-hover:border-amber-600/20 rounded-tr-lg transition-colors duration-300"></div>
+                      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 
+                        border-amber-600/0 group-hover:border-amber-600/20 rounded-bl-lg transition-colors duration-300"></div>
+                      <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 
+                        border-amber-600/0 group-hover:border-amber-600/20 rounded-br-lg transition-colors duration-300"></div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            </motion.div>
+          )
+        ))}
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
-          <p className="text-lg text-amber-800 mb-6">
-            Interested in partnering with us?
-          </p>
-          <a 
-            href="/contact" 
-            className="inline-flex items-center justify-center px-8 py-3 
-              border border-transparent text-base font-medium rounded-md 
-              text-white bg-amber-600 hover:bg-amber-700 
-              transition-colors duration-300"
-          >
-            Get in Touch
-          </a>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mt-20"
+        >
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto
+            shadow-xl hover:shadow-2xl transition-shadow duration-500 hover:bg-white/95">
+            <h3 className="text-2xl font-bold text-amber-900 mb-4">
+              Become a Partner
+            </h3>
+            <p className="text-lg text-amber-800/90 mb-6">
+              Join our growing network of partners and be part of the Naga Balm success story.
+            </p>
+            <a 
+              href="/contact" 
+              className="inline-flex items-center justify-center px-8 py-3 
+                border-2 border-amber-600 text-base font-medium rounded-xl 
+                text-amber-900 bg-transparent hover:bg-amber-600 hover:text-white
+                transition-all duration-300"
+            >
+              Get in Touch
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
-} 
+}
+
+export default Partners 
