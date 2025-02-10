@@ -32,91 +32,99 @@ export default function Hero() {
       {/* Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Cloud Elements */}
-        <div className={`absolute top-[20%] ${styles.floatLR}`}>
-          <div className="relative w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 opacity-80">
+        <div className={`absolute top-[25%] ${styles.floatLR}`}>
+          <div className="relative w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 opacity-90">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 3.png"
               alt=""
               fill
               className={`object-contain ${styles.rotate}`}
+              priority
             />
           </div>
         </div>
 
-        <div className={`absolute top-[40%] ${styles.floatRL}`}>
-          <div className="relative w-24 sm:w-36 md:w-48 h-24 sm:h-36 md:h-48 opacity-80">
+        <div className={`absolute top-[45%] ${styles.floatRL}`}>
+          <div className="relative w-24 sm:w-36 md:w-48 h-24 sm:h-36 md:h-48 opacity-90">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 2.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
 
-        <div className={`absolute top-[60%] ${styles.floatLR2}`}>
-          <div className="relative w-28 sm:w-40 md:w-56 h-28 sm:h-40 md:h-56 opacity-80">
+        <div className={`absolute top-[65%] ${styles.floatLR2}`}>
+          <div className="relative w-28 sm:w-40 md:w-56 h-28 sm:h-40 md:h-56 opacity-90">
             <Image
               src="/images/Naga Balm Element (Cloud)/Element 3.png"
               alt=""
               fill
               className={`object-contain ${styles.rotate}`}
+              priority
             />
           </div>
         </div>
 
         {/* Brand Mark Elements */}
         <div className={`absolute top-[15%] ${styles.floatRL2}`}>
-          <div className="relative w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 opacity-80">
+          <div className="relative w-16 sm:w-20 md:w-28 h-16 sm:h-20 md:h-28 opacity-90">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Black.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
 
         <div className={`absolute top-[35%] ${styles.floatLR3}`}>
-          <div className="relative w-24 sm:w-32 md:w-40 h-24 sm:h-32 md:h-40 opacity-80">
+          <div className="relative w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 opacity-90">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Fire.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
 
         <div className={`absolute top-[55%] ${styles.floatRL3}`}>
-          <div className="relative w-22 sm:w-28 md:w-36 h-22 sm:h-28 md:h-36 opacity-80">
+          <div className="relative w-18 sm:w-22 md:w-30 h-18 sm:h-22 md:h-30 opacity-90">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Gambodge.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
 
         <div className={`absolute top-[75%] ${styles.floatLR}`}>
-          <div className="relative w-28 sm:w-36 md:w-44 h-28 sm:h-36 md:h-44 opacity-80">
+          <div className="relative w-24 sm:w-28 md:w-36 h-24 sm:h-28 md:h-36 opacity-90">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_Ice.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
 
         <div className={`absolute top-[85%] ${styles.floatRL}`}>
-          <div className="relative w-24 sm:w-32 md:w-38 h-24 sm:h-32 md:h-38 opacity-80">
+          <div className="relative w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 opacity-90">
             <Image
               src="/images/Logo/Naga Balm__Brandmark_White.png"
               alt=""
               fill
               className="object-contain"
+              priority
             />
           </div>
         </div>
