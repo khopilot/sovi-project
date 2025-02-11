@@ -61,11 +61,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/use-cases" className="text-gray-600 hover:text-gray-900 text-sm">
-                  Use Cases
-                </Link>
-              </li>
-              <li>
                 <Link href="/faq" className="text-gray-600 hover:text-gray-900 text-sm">
                   FAQ
                 </Link>

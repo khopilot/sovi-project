@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion, useInView, useAnimation, AnimatePresence, useDragControls } from 'framer-motion';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './UseCasesSection.module.css';
 
 interface UseCase {
@@ -79,25 +80,46 @@ const useCases: UseCase[] = [
   }
 ];
 
-const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) => {
+const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: number; isActive: boolean }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-100px" });
   const controls = useAnimation();
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
     }
+    // Check if device supports touch
+    setIsTouchDevice('ontouchstart' in window);
   }, [isInView, controls]);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouchDevice || !cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    
+    setMousePosition({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) {
+      setMousePosition({ x: 0.5, y: 0.5 });
+    }
+  };
+
+  const rotateX = isTouchDevice ? 0 : mousePosition.y * 20 - 10;
+  const rotateY = isTouchDevice ? 0 : mousePosition.x * 20 - 10;
+
   const handleExploreProducts = () => {
-    // Scroll to products section
     const productsSection = document.getElementById('products-section');
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Dispatch custom event to update product filter
     const event = new CustomEvent('updateProductFilter', {
       detail: { useCase: useCase.id }
     });
@@ -107,14 +129,14 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
   return (
     <motion.div
       ref={cardRef}
-      className={styles.useCase}
+      className={`${styles.useCase} ${isActive ? styles.active : ''}`}
       initial="hidden"
       animate={controls}
       variants={{
-        hidden: { opacity: 0, x: 50 },
+        hidden: { opacity: 0, scale: 0.9 },
         visible: {
           opacity: 1,
-          x: 0,
+          scale: 1,
           transition: {
             duration: 0.6,
             delay: index * 0.2,
@@ -122,31 +144,51 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
           }
         }
       }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+        transition: 'transform 0.2s ease-out'
+      }}
     >
       <div className={`${styles.content} ${useCase.className}`}>
-        <Image
-          src={useCase.backgroundImage}
-          alt={useCase.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          quality={90}
-          priority={index === 0}
-          style={{
-            objectFit: 'cover',
-            zIndex: 0
-          }}
-        />
+        <div className="absolute inset-0 overflow-hidden rounded-3xl">
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              scale: isActive ? 1.1 : 1,
+              filter: isActive ? 'brightness(0.8)' : 'brightness(0.6)'
+            }}
+            transition={{ duration: 0.6 }}
+          >
+            <Image
+              src={useCase.backgroundImage}
+              alt={useCase.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={90}
+              priority={index === 0}
+              className="object-cover"
+            />
+          </motion.div>
+        </div>
+
         <motion.div 
           className={styles.contentInner}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className={styles.iconContainer}>
+          <motion.div 
+            className={styles.iconContainer}
+            whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 0] }}
+            transition={{ duration: 0.5 }}
+          >
             <span className={styles.icon} aria-hidden="true">
               {useCase.icon}
             </span>
-          </div>
+          </motion.div>
+
           <motion.h2 
             className={styles.title}
             initial={{ opacity: 0, x: -20 }}
@@ -155,6 +197,7 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
           >
             {useCase.title}
           </motion.h2>
+
           <motion.p 
             className={styles.description}
             initial={{ opacity: 0 }}
@@ -163,6 +206,7 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
           >
             {useCase.description}
           </motion.p>
+
           <motion.ul 
             className={styles.benefits}
             initial={{ opacity: 0 }}
@@ -175,23 +219,32 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + idx * 0.1 }}
+                className="relative"
               >
+                <motion.div
+                  className="absolute -left-2 w-1 h-1 rounded-full bg-emerald-400"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ delay: 0.8 + idx * 0.1 }}
+                />
                 {benefit}
               </motion.li>
             ))}
           </motion.ul>
           
-          {/* Add Explore Products Button */}
           <motion.button
             onClick={handleExploreProducts}
             className={styles.exploreButton}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)"
+            }}
             whileTap={{ scale: 0.95 }}
           >
-            Explore Products
+            <span>Explore Products</span>
           </motion.button>
         </motion.div>
       </div>
@@ -202,6 +255,32 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
 export default function UseCasesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const dragControls = useDragControls();
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!containerRef.current || !touchStart) return;
+
+    const touchEnd = e.touches[0].clientX;
+    const diff = touchStart - touchEnd;
+    
+    if (Math.abs(diff) > 50) { // Minimum swipe distance
+      const direction = diff > 0 ? 1 : -1;
+      const newIndex = Math.max(0, Math.min(activeIndex + direction, useCases.length - 1));
+      scrollToIndex(newIndex);
+      setTouchStart(0);
+    }
+  };
 
   const scrollToIndex = (index: number) => {
     if (containerRef.current) {
@@ -209,7 +288,9 @@ export default function UseCasesSection() {
       const cards = container.children;
       if (cards[index]) {
         const cardWidth = cards[0].clientWidth;
-        const scrollPosition = cardWidth * index + (index * 32); // 32px is the gap
+        const gap = parseInt(window.getComputedStyle(container).gap);
+        const scrollPosition = index * (cardWidth + gap);
+        
         container.scrollTo({
           left: scrollPosition,
           behavior: 'smooth'
@@ -220,24 +301,31 @@ export default function UseCasesSection() {
   };
 
   const handleScroll = () => {
-    if (containerRef.current) {
+    if (containerRef.current && !isDragging) {
       const container = containerRef.current;
       const scrollPosition = container.scrollLeft;
-      const cardWidth = container.children[0].clientWidth + 32; // width + gap
-      const newIndex = Math.round(scrollPosition / cardWidth);
+      const cardWidth = container.children[0].clientWidth;
+      const gap = parseInt(window.getComputedStyle(container).gap);
+      const newIndex = Math.round(scrollPosition / (cardWidth + gap));
       setActiveIndex(newIndex);
     }
   };
 
-  const scrollPrev = () => {
-    if (activeIndex > 0) {
-      scrollToIndex(activeIndex - 1);
-    }
-  };
-
-  const scrollNext = () => {
-    if (activeIndex < useCases.length - 1) {
-      scrollToIndex(activeIndex + 1);
+  const handleDragEnd = (event: any, info: any) => {
+    setIsDragging(false);
+    if (containerRef.current) {
+      const container = containerRef.current;
+      const cardWidth = container.children[0].clientWidth + 32;
+      const delta = info.offset.x;
+      
+      if (Math.abs(delta) > cardWidth / 3) {
+        const newIndex = delta > 0 
+          ? Math.max(activeIndex - 1, 0)
+          : Math.min(activeIndex + 1, useCases.length - 1);
+        scrollToIndex(newIndex);
+      } else {
+        scrollToIndex(activeIndex);
+      }
     }
   };
 
@@ -249,70 +337,85 @@ export default function UseCasesSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h1
-          className={styles.mainTitle}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          How to Use Naga Balm®
-        </motion.h1>
-        <motion.div 
-          className={styles.subtitle}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Discover the perfect solution for your needs
-        </motion.div>
+        <h2 className={styles.sectionTitle}>
+          Find Your Perfect Solution
+        </h2>
+        <p className={styles.sectionDescription}>
+          Discover our range of products tailored to your specific needs
+        </p>
       </motion.div>
 
-      <div 
-        ref={containerRef}
-        className={styles.useCasesContainer}
-        onScroll={handleScroll}
-      >
-        <AnimatePresence>
+      <div className="relative">
+        <motion.div
+          ref={containerRef}
+          className={styles.useCasesContainer}
+          onScroll={handleScroll}
+          drag={isTouchDevice ? false : "x"}
+          dragControls={dragControls}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={handleDragEnd}
+          whileTap={{ cursor: "grabbing" }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+        >
           {useCases.map((useCase, index) => (
-            <UseCaseCard 
-              key={useCase.id} 
-              useCase={useCase} 
-              index={index} 
+            <UseCaseCard
+              key={useCase.id}
+              useCase={useCase}
+              index={index}
+              isActive={index === activeIndex}
             />
           ))}
-        </AnimatePresence>
-      </div>
+        </motion.div>
 
-      {/* Navigation Buttons */}
-      <div className={styles.navigationButtons}>
-        <button 
-          className={styles.navButton}
-          onClick={scrollPrev}
-          disabled={activeIndex === 0}
-          aria-label="Previous use case"
-        >
-          ←
-        </button>
-        <button 
-          className={styles.navButton}
-          onClick={scrollNext}
-          disabled={activeIndex === useCases.length - 1}
-          aria-label="Next use case"
-        >
-          →
-        </button>
-      </div>
+        {/* Navigation Dots - Show only on mobile */}
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2 md:hidden">
+          {useCases.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={styles.navigationDot}
+              aria-label={`Go to slide ${index + 1}`}
+            >
+              <motion.div
+                className={`w-full h-full rounded-full transition-all duration-300 ${
+                  index === activeIndex 
+                    ? 'bg-emerald-500 scale-125' 
+                    : 'bg-emerald-200'
+                }`}
+                whileTap={{ scale: 0.8 }}
+              />
+            </button>
+          ))}
+        </div>
 
-      {/* Indicators */}
-      <div className={styles.indicators}>
-        {useCases.map((_, index) => (
-          <button
-            key={index}
-            className={`${styles.indicator} ${index === activeIndex ? styles.indicatorActive : ''}`}
-            onClick={() => scrollToIndex(index)}
-            aria-label={`Go to use case ${index + 1}`}
-          />
-        ))}
+        {/* Navigation Arrows - Hide on mobile */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 hidden md:flex justify-between pointer-events-none">
+          <motion.button
+            onClick={() => scrollToIndex(Math.max(activeIndex - 1, 0))}
+            className={`p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg pointer-events-auto transition-opacity duration-300 ${
+              activeIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white'
+            }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            disabled={activeIndex === 0}
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
+          </motion.button>
+          <motion.button
+            onClick={() => scrollToIndex(Math.min(activeIndex + 1, useCases.length - 1))}
+            className={`p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg pointer-events-auto transition-opacity duration-300 ${
+              activeIndex === useCases.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white'
+            }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            disabled={activeIndex === useCases.length - 1}
+          >
+            <ChevronRight className="w-6 h-6 text-gray-700" />
+          </motion.button>
+        </div>
       </div>
     </section>
   );
