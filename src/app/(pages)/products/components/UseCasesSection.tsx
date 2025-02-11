@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useAnimation, AnimatePresence, useDragControls } from 'framer-motion';
+import { motion, useInView, useAnimation, useDragControls } from 'framer-motion';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './UseCasesSection.module.css';
@@ -252,6 +252,17 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
   );
 };
 
+interface DragEndInfo {
+  offset: {
+    x: number;
+    y: number;
+  };
+  velocity: {
+    x: number;
+    y: number;
+  };
+}
+
 export default function UseCasesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -311,7 +322,7 @@ export default function UseCasesSection() {
     }
   };
 
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: DragEndInfo) => {
     setIsDragging(false);
     if (containerRef.current) {
       const container = containerRef.current;
