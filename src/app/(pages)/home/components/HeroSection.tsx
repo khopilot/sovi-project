@@ -1,120 +1,118 @@
 'use client'
 
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import styles from './HeroSection.module.css';
-
-// Dynamically import ReactPlayer to avoid hydration issues
-const ReactPlayer = dynamic(() => import('react-player'), {
-  ssr: false, // Disable server-side rendering
-});
+import Link from 'next/link';
 
 export default function HeroSection() {
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
     <section className={styles.heroSection}>
-      {/* Background Pattern */}
-      <div className={styles.backgroundPattern}>
-        <Image
-          src="/images/Naga Balm Element (Cloud)/Background 3.png"
-          alt="Background Pattern"
-          fill
-          quality={100}
-          sizes="100vw"
-          style={{ 
-            objectFit: 'cover',
-            objectPosition: 'center'
-          }}
-          priority
-        />
+      <div className={styles.videoBackground}>
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={styles.backgroundVideo}
+        >
+          <source src="/video/naga-balm.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
-
-      {/* Background Brandmark */}
-      <div className={styles.backgroundBrandmark}>
-        <Image
-          src="/images/Logo/Naga Balm__Brandmark_Fire.png"
-          alt="Naga Balm Brandmark"
-          width={600}
-          height={600}
-          className={styles.brandmarkImage}
-          priority
-        />
-      </div>
-
-      {/* Top Right Cloud */}
-      <div className={styles.topRightCloud}>
-        <Image
-          src="/images/Naga Balm Element (Cloud)/Element 4.png"
-          alt="Decorative Cloud"
-          width={300}
-          height={180}
-          className={styles.cloudImage}
-          priority
-        />
-      </div>
-
-      {/* Wave Pattern */}
-      <div className={styles.wavePattern}>
-        <Image
-          src="/images/Naga Balm Element (Cloud)/Element 1.png"
-          alt="Wave Pattern"
-          width={1920}
-          height={120}
-          className={styles.waveImage}
-          priority
-        />
-      </div>
-
-      {/* Hero Content Container */}
+      
+      <div className={styles.overlay} />
+      
       <div className={styles.heroContent}>
-        <div className={styles.contentGrid}>
-          {/* Text Content */}
+        <motion.div 
+          className={styles.contentGrid}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <div className={styles.textContent}>
-            <h1 className={styles.headline}>
-              Say Goodbye to Pain
-            </h1>
-            <div className={styles.wordmarkContainer}>
+            <motion.div 
+              className={styles.wordmarkContainer}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               <Image
                 src="/images/png/Naga Balm_Primary_Wordmark_Primary.png"
                 alt="Naga Balm"
                 width={300}
-                height={80}
+                height={100}
                 className={styles.wordmarkImage}
                 priority
               />
-            </div>
-            <p className={styles.description}>
+            </motion.div>
+            
+            <motion.h1 
+              className={styles.headline}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              Say Goodbye to Pain
+            </motion.h1>
+            
+            <motion.p 
+              className={styles.description}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+            >
               Naga Balm - we blend tradition with modern innovation, delivering clean pain relief solutions to soothe, relieve, and heal.
-            </p>
-            <div className={styles.ctaContainer}>
-              <a href="#relief" className={styles.primaryButton}>
+            </motion.p>
+            
+            <motion.div 
+              className={styles.ctaContainer}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+            >
+              <Link href="/products" className={styles.primaryButton}>
                 Find Your Relief
-              </a>
-              <a href="#learn" className={styles.secondaryButton}>
+              </Link>
+              <Link href="/about" className={styles.secondaryButton}>
                 Learn More
-              </a>
-            </div>
+              </Link>
+            </motion.div>
           </div>
-
-          {/* Video Content */}
-          <div className={styles.videoContainer}>
-            <div className={styles.videoWrapper}>
-              <Suspense fallback={<div className={styles.videoPlaceholder} />}>
-                <ReactPlayer
-                  url="/videos/naga-showcase.mp4"
-                  width="100%"
-                  height="100%"
-                  playing
-                  loop
-                  muted
-                  playsinline
-                  className={styles.reactPlayer}
-                />
-              </Suspense>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
+
+      <button 
+        className={styles.soundControl}
+        onClick={toggleMute}
+        aria-label={isMuted ? "Unmute video" : "Mute video"}
+      >
+        {isMuted ? (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+        )}
+        <span className={styles.soundLabel}>
+          {isMuted ? 'Unmute' : 'Mute'}
+        </span>
+      </button>
     </section>
   );
 } 
