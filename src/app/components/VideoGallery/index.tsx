@@ -1,10 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './VideoGallery.module.css';
-import VideoPlayer from '@/app/(pages)/home/components/VideoPlayer';
+
+// Dynamically import VideoPlayer with no SSR
+const VideoPlayer = dynamic(
+  () => import('@/app/(pages)/home/components/VideoPlayer'),
+  { ssr: false }
+);
 
 interface Video {
   id: string;
@@ -16,96 +22,158 @@ interface Video {
 
 export default function VideoGallery({ videos }: { videos: Video[] }) {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
-  const handleVideoClick = (video: Video) => {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const openModal = (video: Video) => {
     setSelectedVideo(video);
-    setIsPlaying(true);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden';
   };
 
-  return (
-    <section className="relative w-full bg-gray-900 py-24">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 opacity-50" />
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+    document.body.style.overflow = 'unset';
+  };
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <section className={styles.container}>
+      <div className={styles.backgroundPattern} />
+      <div className={styles.contentContainer}>
+        <div className={styles.header}>
+          <motion.div 
+            className={styles.logoWrapper}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Image
+              src="/images/Naga Balm__SecondaryLogomark_Black.png"
+              alt="Naga Balm Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </motion.div>
+          <motion.h2 
+            className={styles.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Experience Our Story
+          </motion.h2>
+          <motion.p 
+            className={styles.subtitle}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            Discover the power of traditional Cambodian healing through our collection of stories, testimonials, and expert insights. See how Naga Balm is making a difference in people's lives across the country.
+          </motion.p>
+        </div>
+
+        <motion.div 
+          className={styles.mosaicGrid}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-yellow-400 mb-4 uppercase tracking-wide">
-            Discover Our Story
-          </h2>
-          <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
-            Journey through our collection of videos showcasing the ancient wisdom and modern applications of Naga Balm.
-          </p>
-        </motion.div>
-
-        {/* Video Grid */}
-        <div className={styles.videoGrid}>
-          {videos.map((video, index) => (
+          {videos.slice(0, 6).map((video, index) => (
             <motion.div
               key={video.id}
-              className={styles.videoCard}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => handleVideoClick(video)}
+              className={`${styles.mosaicItem} ${styles[`item${index + 1}`]}`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => openModal(video)}
             >
-              {/* Thumbnail */}
-              <div className={styles.thumbnail}>
-                <div className="relative w-full h-full">
+              <div className={styles.thumbnailWrapper}>
+                {video.thumbnailUrl ? (
                   <Image
-                    src={video.thumbnailUrl || '/images/default-thumbnail.jpg'}
-                    alt={`${video.title} thumbnail`}
+                    src={video.thumbnailUrl}
+                    alt={video.title}
+                    className={styles.thumbnailImage}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
+                ) : (
+                  <div className={styles.placeholderThumbnail}>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.placeholderIcon}>
+                      <path d="M21 12c0 1.1-.9 2-2 2h-2v2c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-2H3c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h2V3c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2h2c1.1 0 2 .9 2 2v5zm-4-2V5c0-.55-.45-1-1-1H8c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-5zm-1 0h-8V6h8v4z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                )}
+                <div className={styles.mosaicContent}>
+                  <div className={styles.playIcon}>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 5v14l11-7z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <h3 className={styles.videoTitle}>{video.title}</h3>
+                  <p className={styles.videoDescription}>{video.description}</p>
                 </div>
-                <div className={styles.playButton}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-12 h-12"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Video Info */}
-              <div className={styles.videoInfo}>
-                <h3 className="text-xl font-bold text-yellow-400">{video.title}</h3>
-                <p className="text-gray-400 mt-2">{video.description}</p>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Video Player Modal */}
-        {selectedVideo && (
-          <VideoPlayer
-            isOpen={isPlaying}
-            onClose={() => {
-              setIsPlaying(false);
-              setSelectedVideo(null);
-            }}
-            videoUrl={selectedVideo.videoUrl}
-            title={selectedVideo.title}
-            description={`Experience the power of Naga Balm&apos;s healing touch through this enlightening video.`}
-          />
-        )}
+        <AnimatePresence>
+          {isModalOpen && selectedVideo && (
+            <motion.div 
+              className={styles.modal}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className={styles.modalOverlay} onClick={closeModal} />
+              <motion.div 
+                className={styles.modalContent}
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              >
+                <button className={styles.closeButton} onClick={closeModal}>
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                <div className={styles.modalVideoWrapper}>
+                  <VideoPlayer 
+                    url={selectedVideo.videoUrl} 
+                    autoplay={true}
+                  />
+                </div>
+                <div className={styles.modalInfo}>
+                  <h3>{selectedVideo.title}</h3>
+                  <p>{selectedVideo.description}</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
