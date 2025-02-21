@@ -1,17 +1,10 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
 import styles from './VideoGallery.module.css';
 import VideoPlayer from '@/app/(pages)/home/components/VideoPlayer';
-
-// Dynamically import VideoPlayer with no SSR
-const VideoPlayerComponent = dynamic(
-  () => import('@/app/(pages)/home/components/VideoPlayer'),
-  { ssr: false }
-);
 
 interface Video {
   id: string;
@@ -66,11 +59,15 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
             >
               {/* Thumbnail */}
               <div className={styles.thumbnail}>
-                <img
-                  src={video.thumbnailUrl}
-                  alt={`${video.title} thumbnail`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={video.thumbnailUrl || '/images/default-thumbnail.jpg'}
+                    alt={`${video.title} thumbnail`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
                 <div className={styles.playButton}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
