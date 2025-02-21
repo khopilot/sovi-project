@@ -37,7 +37,11 @@ try {
       longitude: typeof row['Longitude'] === 'string' ? parseFloat(row['Longitude']) : (row['Longitude'] || 0),
       category: row['Category'] || 'Retail & Convenience'
     }))
-    .filter((r: Reseller): boolean => r.name && r.latitude && r.longitude);
+    .filter((r: Reseller): boolean => 
+      r.name !== '' && 
+      typeof r.latitude === 'number' && !isNaN(r.latitude) && 
+      typeof r.longitude === 'number' && !isNaN(r.longitude)
+    );
 
   // Write to JSON file
   fs.writeFileSync(
