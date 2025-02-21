@@ -4,13 +4,6 @@ import History from './components/History'
 import Team from './components/Team'
 import Partners from './components/Partners'
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
-
 export default function AboutPage() {
   return (
     <main className="w-full overflow-x-hidden">

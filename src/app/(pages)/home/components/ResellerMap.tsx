@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Map, ShoppingBag, Heart, Home, Store, Thermometer, Search } from 'lucide-react';
+import { MapPin, Map, ShoppingBag, Heart, Home, Store, Thermometer, Search, Navigation, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
 const MapWithNoSSR = dynamic(() => import('@/app/(pages)/home/components/MapComponent'), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-100 animate-pulse rounded-xl" aria-hidden="true" />
+  ),
 });
 
 interface Reseller {
@@ -19,14 +22,90 @@ interface Reseller {
   city: string;
   website: string;
   notes: string;
+  imageUrl?: string; // Optional image URL for the location
 }
 
+const getPartnerLogo = (name: string): string | undefined => {
+  // First, create a normalized version of the input name (remove extra spaces, case-insensitive)
+  const normalizedName = name.trim().toLowerCase();
+  
+  // Create a mapping with normalized keys
+  const logoMap: { [key: string]: string } = {
+    // 7-Eleven stores (handle all variations)
+    '7-eleven central market': '/images/partners/7-11.png',
+    '7-eleven prek leap': '/images/partners/7-11.png',
+    '7-eleven prek pnov': '/images/partners/7-11.png',
+    '7-eleven siem reap': '/images/partners/7-11.png',
+    '7-eleven sihanoukville': '/images/partners/7-11.png',
+    '7-eleven prey kei': '/images/partners/7-11.png',
+    '7-eleven independence monument': '/images/partners/7-11.png',
+    '7-eleven wat phnom': '/images/partners/7-11.png',
+    '7-eleven sen sok': '/images/partners/7-11.png',
+    '7-eleven battambang': '/images/partners/7-11.png',
+    '7-eleven kampong cham': '/images/partners/7-11.png',
+    '7-eleven takhmao': '/images/partners/7-11.png',
+    
+    // Pharmacies
+    'medilance pharmacy': '/images/partners/Medilance Pharmacy.jpg',
+    'our pharmacy bkk': '/images/partners/Our Pharmacy BKK.jpg',
+    'pharmacy chhat': '/images/partners/Pharmacy Chhat.jpg',
+    'pharmacy phsar chas': '/images/partners/Pharmacy Phsar Chas.jpg',
+    'point sante pharmacy': '/images/partners/Point Sante Pharmacy.jpg',
+    
+    // Fitness & Sports
+    'inter badminton club': '/images/partners/Inter Badminton Club.jpg',
+    'interter club': '/images/partners/Interter Club.jpg',
+    'kingdom fight gym': '/images/partners/Kingdom Fight Gym.jfif',
+    'kun khmer international federation': '/images/partners/Kun Khmer international Federation.jpg',
+    'phnom penh sport club': '/images/partners/Phnom Penh Sport CLub.jpg',
+    'sen bunthen club': '/images/partners/Sen Bunthen Club.png',
+    'the ring fitness club': '/images/partners/The Ring Fitness Club.png',
+    'villa martial art': '/images/partners/Villa Martial Art.jpg',
+    
+    // Retail & Convenience
+    'circle k riverside': '/images/partners/Circle K.png',
+    'for someone i like': '/images/partners/For Someone I Like.jpg',
+    'kabas concept store': '/images/partners/Kabas Concept store.jpg',
+    'shop satu': '/images/partners/Shop Satu.jpg',
+    'superduper': '/images/partners/SuperDuper.png',
+    'total bonjour mart': '/images/partners/Total Bonjour Mart.png',
+    
+    // Healthcare
+    'hrk care': '/images/partners/HRK Care.jpg',
+    'aosot plus': '/images/partners/Aosot Plus.jpg',
+    
+    // Hospitality & Travel
+    '21 degree': '/images/partners/21 Degree.jpg',
+    'babel guesthouse': '/images/partners/Babel Guesthouse.jpg',
+    'phnom penh international airport': '/images/partners/Phnom Penh International Airport.png',
+  };
+
+  // Return the logo path for the normalized name
+  return logoMap[normalizedName];
+};
+
+// Update the imageConfig
+const imageConfig = {
+  unoptimized: true,
+  loading: "lazy" as const,
+  style: { objectFit: 'contain' as const },
+  priority: false
+};
+
 const ResellerMap = () => {
+  const [isClient, setIsClient] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [resellers, setResellers] = useState<Reseller[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const fetchData = async () => {
       try {
         const response = await fetch('/resellers.json');
@@ -34,7 +113,6 @@ const ResellerMap = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const text = await response.text();
-        console.log('Raw response:', text);
         
         const cleanedText = text.trim();
         const data = JSON.parse(cleanedText);
@@ -43,9 +121,13 @@ const ResellerMap = () => {
           throw new Error('Data is not an array');
         }
 
-        console.log('Loaded resellers:', data.length, data);
+        // Add imageUrl to each reseller
+        const resellersWithImages = data.map(reseller => ({
+          ...reseller,
+          imageUrl: getPartnerLogo(reseller.name)
+        }));
         
-        const validData = data.every(item => 
+        const validData = resellersWithImages.every(item => 
           item.name && 
           item.address && 
           typeof item.latitude === 'number' && 
@@ -57,14 +139,14 @@ const ResellerMap = () => {
           throw new Error('Some items are missing required fields');
         }
 
-        setResellers(data);
+        setResellers(resellersWithImages);
       } catch (error) {
         console.error('Error loading data:', error);
         setResellers([]);
       }
     };
     fetchData();
-  }, []);
+  }, [isClient]);
 
   const categories = [
     { name: 'all', label: 'All Locations', icon: Map },
@@ -207,63 +289,150 @@ const ResellerMap = () => {
             </div>
           </div>
 
-          {/* Map */}
-          <div className="relative rounded-xl overflow-hidden" style={{ height: '600px' }}>
-            <MapWithNoSSR 
-              resellers={filteredResellers}
-              selectedCategory={selectedCategory}
-              onLocationClick={(name: string) => {
-                const element = document.getElementById(`location-${name}`);
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            />
-          </div>
-
-          {/* Location Cards */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto" style={{ maxHeight: '400px' }}>
-            {filteredResellers.map((location, idx) => (
-              <motion.div
-                key={idx}
-                id={`location-${location.name}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 1) }}
-                className="bg-white p-4 rounded-xl shadow-md border border-gray-100 cursor-pointer hover:shadow-lg transition-shadow"
-              >
-                <h4 className="font-bold text-[#F14823] text-lg">{location.name}</h4>
-                <p className="text-gray-600 text-sm">{location.address}</p>
-                <p className="text-gray-500 text-xs">{location.city}</p>
-                <p className="text-gray-500 text-xs mt-1">{location.category}</p>
-                {location.notes && (
-                  <p className="text-gray-500 text-xs mt-1 italic">{location.notes}</p>
-                )}
-                {location.website && (
-                  <a 
-                    href={location.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-500 hover:text-blue-700 mt-1 block"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Visit Website
-                  </a>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Legend */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <h4 className="font-semibold text-[#F14823] mb-2">Map Legend</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {categories.slice(1).map((category) => (
-                <div key={category.name} className="flex items-center gap-2">
-                  <MapPin className={`w-4 h-4 ${getLocationColor(category.name)}`} />
-                  <span className="text-sm text-gray-700">{category.label}</span>
+          {/* Map & Cards Layout */}
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Map Container */}
+            <div className="lg:w-2/3">
+              <div className="relative rounded-xl overflow-hidden" style={{ height: '500px' }}>
+                <MapWithNoSSR 
+                  resellers={filteredResellers}
+                  hoveredLocation={hoveredLocation}
+                  onLocationHover={setHoveredLocation}
+                  onLocationClick={(name: string) => {
+                    const element = document.getElementById(`location-${name}`);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                />
+              </div>
+              
+              {/* Legend moved under map */}
+              <div className="mt-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                <h4 className="font-semibold text-[#F14823] text-sm mb-2">Map Legend</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {categories.slice(1).map((category) => (
+                    <div key={category.name} className="flex items-center gap-2">
+                      <MapPin className={`w-4 h-4 ${getLocationColor(category.name)}`} />
+                      <span className="text-xs text-gray-700">{category.label}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* Location Cards */}
+            <div className="lg:w-1/3 overflow-y-auto rounded-xl" style={{ maxHeight: '500px' }}>
+              <div className="grid grid-cols-1 gap-3 pr-2">
+                {filteredResellers.map((location, idx) => (
+                  <motion.div
+                    key={idx}
+                    id={`location-${location.name}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 1) }}
+                    className={`
+                      bg-white p-3 rounded-lg border transition-all cursor-pointer
+                      ${hoveredLocation === location.name 
+                        ? 'shadow-md border-[#F14823] transform -translate-y-0.5' 
+                        : 'shadow-sm border-gray-100 hover:shadow-md'
+                      }
+                    `}
+                    onMouseEnter={() => setHoveredLocation(location.name)}
+                    onMouseLeave={() => setHoveredLocation(null)}
+                    onClick={() => {
+                      setHoveredLocation(location.name);
+                      setTimeout(() => setHoveredLocation(null), 1500);
+                    }}
+                  >
+                    <div className="flex items-start gap-3">
+                      {/* Location Image or Fallback */}
+                      <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                        {location.imageUrl ? (
+                          <div className="relative w-16 h-16">
+                            <Image
+                              src={location.imageUrl}
+                              alt={location.name}
+                              width={64}
+                              height={64}
+                              className="object-contain"
+                              {...imageConfig}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Store className="w-8 h-8 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Location Details */}
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-bold text-[#F14823] text-base truncate">{location.name}</h4>
+                        <p className="text-gray-600 text-sm truncate">{location.address}</p>
+                        <p className="text-gray-500 text-xs">{location.city}</p>
+                        
+                        {/* Category Badge */}
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
+                            style={{ 
+                              backgroundColor: `${getLocationColor(location.category)}20`, 
+                              color: getLocationColor(location.category) 
+                            }}>
+                            {location.category}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Links */}
+                    <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-2">
+                      {/* Get Directions Link */}
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Navigation className="w-3 h-3" />
+                        Get Directions
+                      </a>
+
+                      {/* View on Maps Link */}
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MapPin className="w-3 h-3" />
+                        View on Maps
+                      </a>
+
+                      {/* Website Link */}
+                      {location.website && (
+                        <a 
+                          href={location.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          Visit Website
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Notes */}
+                    {location.notes && (
+                      <p className="text-gray-500 text-xs mt-2 italic">{location.notes}</p>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>

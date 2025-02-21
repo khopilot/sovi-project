@@ -1,5 +1,3 @@
-'use client';
-
 import HeroSection from './components/HeroSection'
 import BenefitsSection from './components/BenefitsSection'
 import FeaturedSection from './components/FeaturedSection'
@@ -8,13 +6,6 @@ import UseCases from './components/UseCases'
 import TestimonialsSection from './components/TestimonialsSection'
 import CallToAction from './components/CallToAction'
 import ResellerMap from './components/ResellerMap'
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
 
 const videos = [
   {
