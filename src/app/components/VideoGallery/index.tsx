@@ -90,7 +90,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Discover the power of traditional Cambodian healing through our collection of stories, testimonials, and expert insights. See how Naga Balm is making a difference in people's lives across the country.
+            Discover the power of traditional Cambodian healing through our collection of stories, testimonials, and expert insights. See how Naga Balm is making a difference in people&apos;s lives across the country.
           </motion.p>
         </div>
 
