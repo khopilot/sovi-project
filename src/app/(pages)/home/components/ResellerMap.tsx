@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Map, ShoppingBag, Heart, Home, Store, Thermometer, Search } from 'lucide-react';
 import Image from 'next/image';
-import { MapContainer, TileLayer } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
+
+const MapWithNoSSR = dynamic(() => import('@/app/(pages)/home/components/MapComponent'), {
+  ssr: false,
+});
 
 interface Reseller {
   name: string;
@@ -19,16 +21,10 @@ interface Reseller {
   notes: string;
 }
 
-// Center of Cambodia approximately
-const center: [number, number] = [12.5, 104.9]; // Adjusted more north to center all locations
-const defaultZoom = 7; // Zoomed out to show more of the country
-
 const ResellerMap = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [resellers, setResellers] = useState<Reseller[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [map, setMap] = useState<L.Map | null>(null);
-  const markersRef = useRef<{ [key: string]: L.Marker }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,9 +34,8 @@ const ResellerMap = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const text = await response.text();
-        console.log('Raw response:', text); // Debug raw response
+        console.log('Raw response:', text);
         
-        // Clean the text and ensure it's valid JSON
         const cleanedText = text.trim();
         const data = JSON.parse(cleanedText);
         
@@ -48,9 +43,8 @@ const ResellerMap = () => {
           throw new Error('Data is not an array');
         }
 
-        console.log('Loaded resellers:', data.length, data); // Debug log
+        console.log('Loaded resellers:', data.length, data);
         
-        // Verify data has required fields
         const validData = data.every(item => 
           item.name && 
           item.address && 
@@ -81,23 +75,6 @@ const ResellerMap = () => {
     { name: 'Hospitality & Travel', label: 'Hospitality', icon: Home }
   ];
 
-  const getMarkerColor = useCallback((category: string) => {
-    switch (category) {
-      case 'Pharmacy':
-        return '#EF4444';
-      case 'Fitness & Sports':
-        return '#3B82F6';
-      case 'Retail & Convenience':
-        return '#10B981';
-      case 'Healthcare':
-        return '#8B5CF6';
-      case 'Hospitality & Travel':
-        return '#F59E0B';
-      default:
-        return '#6B7280';
-    }
-  }, []);
-
   const getLocationColor = (category: string) => {
     switch (category) {
       case 'Pharmacy':
@@ -114,26 +91,6 @@ const ResellerMap = () => {
         return 'text-gray-500';
     }
   };
-
-  // Create custom marker icons for each category
-  const createMarkerIcon = useCallback((category: string) => {
-    return L.divIcon({
-      html: `<div class="flex items-center justify-center w-8 h-8">
-              <div class="w-6 h-6 transform -translate-y-3 relative">
-                <svg viewBox="0 0 24 24" fill="${getMarkerColor(category)}" class="w-full h-full filter drop-shadow">
-                  <path d="M12 0C7.802 0 4 3.403 4 7.602C4 11.8 7.469 16.812 12 24C16.531 16.812 20 11.8 20 7.602C20 3.403 16.199 0 12 0ZM12 11C10.343 11 9 9.657 9 8C9 6.343 10.343 5 12 5C13.657 5 15 6.343 15 8C15 9.657 13.657 11 12 11Z"/>
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center transform -translate-y-1">
-                  <div class="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-              </div>
-            </div>`,
-      className: 'custom-marker',
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32]
-    });
-  }, [getMarkerColor]);
 
   // Filter & search logic - made case-insensitive
   const filteredResellers = resellers
@@ -153,16 +110,6 @@ const ResellerMap = () => {
       );
     });
 
-  // Fit bounds when filtered resellers change
-  useEffect(() => {
-    if (map && filteredResellers.length > 0) {
-      const bounds = L.latLngBounds(
-        filteredResellers.map(r => [r.latitude, r.longitude])
-      );
-      map.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }, [map, filteredResellers]);
-
   // Debug counters
   console.log('Total resellers:', resellers.length);
   console.log('Filtered resellers:', filteredResellers.length);
@@ -172,58 +119,6 @@ const ResellerMap = () => {
   // Add counter display
   const totalLocations = resellers.length;
   const filteredLocations = filteredResellers.length;
-
-  // Add this function to handle zooming to a location
-  const zoomToLocation = (latitude: number, longitude: number, name: string) => {
-    if (map) {
-      map.setView([latitude, longitude], 16); // Zoom level 16 for close-up view
-      const marker = markersRef.current[name];
-      if (marker) {
-        marker.openPopup();
-      }
-    }
-  };
-
-  // Update markers when filtered resellers change
-  useEffect(() => {
-    // Clear existing markers from the map
-    Object.values(markersRef.current).forEach(marker => {
-      marker.remove();
-    });
-    markersRef.current = {};
-
-    if (!map) return;
-
-    // Add new markers
-    filteredResellers.forEach((reseller) => {
-      const marker = L.marker(
-        [reseller.latitude, reseller.longitude],
-        { icon: createMarkerIcon(reseller.category) }
-      ).bindPopup(
-        `<div class="p-2">
-          <h3 class="font-bold text-lg">${reseller.name}</h3>
-          <p class="text-gray-600">${reseller.address}</p>
-          <p class="text-gray-600">${reseller.city}</p>
-          ${reseller.website ? 
-            `<a href="${reseller.website}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Visit Website</a>` 
-            : ''}
-          ${reseller.notes ? 
-            `<p class="text-gray-500 mt-2 text-sm italic">${reseller.notes}</p>` 
-            : ''}
-        </div>`
-      );
-      marker.addTo(map);
-      markersRef.current[reseller.name] = marker;
-    });
-
-    // Fit bounds if there are markers
-    if (filteredResellers.length > 0) {
-      const bounds = L.latLngBounds(
-        filteredResellers.map(r => [r.latitude, r.longitude])
-      );
-      map.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }, [filteredResellers, map, createMarkerIcon]);
 
   return (
     <section className="relative py-24 md:py-32 bg-[#97D6E3] overflow-hidden">
@@ -314,17 +209,16 @@ const ResellerMap = () => {
 
           {/* Map */}
           <div className="relative rounded-xl overflow-hidden" style={{ height: '600px' }}>
-            <MapContainer
-              center={center}
-              zoom={defaultZoom}
-              style={{ height: '100%', width: '100%' }}
-              ref={setMap}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-            </MapContainer>
+            <MapWithNoSSR 
+              resellers={filteredResellers}
+              selectedCategory={selectedCategory}
+              onLocationClick={(name: string) => {
+                const element = document.getElementById(`location-${name}`);
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            />
           </div>
 
           {/* Location Cards */}
@@ -332,11 +226,11 @@ const ResellerMap = () => {
             {filteredResellers.map((location, idx) => (
               <motion.div
                 key={idx}
+                id={`location-${location.name}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 1) }}
                 className="bg-white p-4 rounded-xl shadow-md border border-gray-100 cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => zoomToLocation(location.latitude, location.longitude, location.name)}
               >
                 <h4 className="font-bold text-[#F14823] text-lg">{location.name}</h4>
                 <p className="text-gray-600 text-sm">{location.address}</p>
