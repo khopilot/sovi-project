@@ -5,6 +5,7 @@ import VideoGallery from '@/app/components/VideoGallery'
 import UseCases from './components/UseCases'
 import TestimonialsSection from './components/TestimonialsSection'
 import CallToAction from './components/CallToAction'
+import ResellerMap from './components/ResellerMap'
 
 const videos = [
   {
@@ -179,6 +180,7 @@ export default function HomePage() {
       <FeaturedSection />
       <VideoGallery videos={videos} />
       <UseCases />
+      <ResellerMap />
       <TestimonialsSection />
       <CallToAction />
     </main>

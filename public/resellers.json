@@ -1,0 +1,432 @@
+[
+  {
+    "name": "Medilance Pharmacy",
+    "address": "Central Phnom Penh",
+    "latitude": 11.5621,
+    "longitude": 104.9160,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "near Wat Phnom"
+  },
+  {
+    "name": "Pharmacy Chhat",
+    "address": "Central Phnom Penh",
+    "latitude": 11.5621,
+    "longitude": 104.9160,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "central location"
+  },
+  {
+    "name": "Pharmacy Phsar Chas",
+    "address": "Near Phsar Chas Market, Streets 108-110",
+    "latitude": 11.5706,
+    "longitude": 104.9208,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Coordinates based on Phsar Chas market location"
+  },
+  {
+    "name": "Point Sante Pharmacy",
+    "address": "Central Phnom Penh",
+    "latitude": 11.5621,
+    "longitude": 104.9160,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/pointsante.kh/",
+    "notes": ""
+  },
+  {
+    "name": "Aosot Plus",
+    "address": "Near Russian Market",
+    "latitude": 11.5586,
+    "longitude": 104.9176,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/aosotplus.kh/",
+    "notes": "Possibly 'Aosotplus Pharmacy'"
+  },
+  {
+    "name": "Victoria Pharmacy",
+    "address": "#34-36, Preah Ang Duong (St. 110), Phsar Kandal 1",
+    "latitude": 11.5695,
+    "longitude": 104.9260,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://victoriapharma.business.site/",
+    "notes": "near Riverside"
+  },
+  {
+    "name": "U-Care Pharmacy",
+    "address": "#39, Preah Sihanouk Blvd (St. 274), corner of St. 55",
+    "latitude": 11.5580,
+    "longitude": 104.9280,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://www.ucarepharmacy.com/",
+    "notes": "Multiple branches; centrally located"
+  },
+  {
+    "name": "Pharmacie de la Gare",
+    "address": "N° 81Eo, Preah Monivong Blvd",
+    "latitude": 11.5700,
+    "longitude": 104.9220,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://pharmacie-delagare.com/en/",
+    "notes": "Located near the railway station"
+  },
+  {
+    "name": "Help Plus Pharmacy",
+    "address": "No. 322Eo, Preah Monivong Blvd (93), Corner of St. 252",
+    "latitude": 11.5585,
+    "longitude": 104.9230,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Central location; accessible via main roads"
+  },
+  {
+    "name": "Pharmart Pharmacy",
+    "address": "No. 128CEo, Preah Norodom Blvd (41), corner of St. 294",
+    "latitude": 11.5580,
+    "longitude": 104.9270,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://pharmartpharmacy.wixsite.com/pharmacy",
+    "notes": "Situated in a busy commercial area"
+  },
+  {
+    "name": "Western Pharmacy",
+    "address": "No. 116C, Preah Trasak Paem St. (63)",
+    "latitude": 11.5560,
+    "longitude": 104.9280,
+    "category": "Pharmacy",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/WesternPharmacy/",
+    "notes": "Well-known pharmacy chain"
+  },
+  {
+    "name": "The Ring Fitness Club",
+    "address": "Koh Pich (Diamond Island)",
+    "latitude": 11.5495,
+    "longitude": 104.9510,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "https://ringfc.com/",
+    "notes": "Located in Koh Pich area"
+  },
+  {
+    "name": "Villa Martial Art",
+    "address": "#35, Street 123",
+    "latitude": 11.5769,
+    "longitude": 104.9178,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/villamartialarts",
+    "notes": "Hotel and gym near Riverside"
+  },
+  {
+    "name": "Kun Khmer International Federation",
+    "address": "Near Olympic Stadium",
+    "latitude": 11.5586,
+    "longitude": 104.9120,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Headquarters near Olympic Stadium"
+  },
+  {
+    "name": "Phnom Penh Sport Club",
+    "address": "Near Olympic Stadium, Toul Kork",
+    "latitude": 11.5778,
+    "longitude": 104.8976,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/ppsportclub",
+    "notes": "Well-known facility in Toul Kork"
+  },
+  {
+    "name": "Kingdom Fight Gym",
+    "address": "Street 19Z, Toul Kork",
+    "latitude": 11.5770,
+    "longitude": 104.8970,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "https://www.kingdomfightgym.com/",
+    "notes": "Located in Toul Kork district"
+  },
+  {
+    "name": "The Place",
+    "address": "#11, Rue Pasteur No. 51, BKK1",
+    "latitude": 11.5580,
+    "longitude": 104.9270,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Modern gym with various facilities"
+  },
+  {
+    "name": "Banteay Center",
+    "address": "#30, St. 347, Sangkat Beoung Kak 1, Toul Kork",
+    "latitude": 11.5760,
+    "longitude": 104.8990,
+    "category": "Fitness & Sports",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Multi-purpose fitness center"
+  },
+  {
+    "name": "7-Eleven Central Market",
+    "address": "Near Central Market",
+    "latitude": 11.5690,
+    "longitude": 104.9210,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "First store near Central Market"
+  },
+  {
+    "name": "7-Eleven Prek Leap",
+    "address": "#41-43, National Road 6A, Prek Leap",
+    "latitude": 11.6418,
+    "longitude": 104.9176,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "First store, opened August 30, 2021"
+  },
+  {
+    "name": "7-Eleven Prek Pnov",
+    "address": "PTT Station, National Road 5, Prek Pnov",
+    "latitude": 11.6650,
+    "longitude": 104.8850,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Second store in Prek Pnov district"
+  },
+  {
+    "name": "7-Eleven Siem Reap",
+    "address": "Near Pub Street",
+    "latitude": 13.3547,
+    "longitude": 103.8557,
+    "category": "Retail & Convenience",
+    "city": "Siem Reap",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "near tourist hub"
+  },
+  {
+    "name": "7-Eleven Sihanoukville",
+    "address": "Downtown Sihanoukville",
+    "latitude": 10.6250,
+    "longitude": 103.5250,
+    "category": "Retail & Convenience",
+    "city": "Sihanoukville",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Latest provincial branch as of July 2022"
+  },
+  {
+    "name": "SuperDuper",
+    "address": "BKK1 area",
+    "latitude": 11.5520,
+    "longitude": 104.9250,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://super-duper.biz/",
+    "notes": "Flagship store in BKK1"
+  },
+  {
+    "name": "Circle K Riverside",
+    "address": "Near Riverside",
+    "latitude": 11.5760,
+    "longitude": 104.9230,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://circlekcambodia.com/",
+    "notes": "Located near Riverside area"
+  },
+  {
+    "name": "Kabas Concept Store",
+    "address": "Near Wat Phnom",
+    "latitude": 11.5750,
+    "longitude": 104.9170,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/KabasConceptStore",
+    "notes": "Souvenir shop near Wat Phnom"
+  },
+  {
+    "name": "For Someone I Like",
+    "address": "Street 135, BKK1",
+    "latitude": 11.5510,
+    "longitude": 104.9260,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.facebook.com/forsomeoneilikekh",
+    "notes": "Gift shop in BKK1 district"
+  },
+  {
+    "name": "HRK Care",
+    "address": "Central Phnom Penh",
+    "latitude": 11.5621,
+    "longitude": 104.9160,
+    "category": "Healthcare",
+    "city": "Phnom Penh",
+    "website": "https://www.hrkcare.com/",
+    "notes": "Location not specified"
+  },
+  {
+    "name": "Phnom Penh International Airport",
+    "address": "Pochentong Blvd",
+    "latitude": 11.5466,
+    "longitude": 104.8441,
+    "category": "Hospitality & Travel",
+    "city": "Phnom Penh",
+    "website": "https://www.pnh.cambodia-airports.aero/",
+    "notes": "Main airport southwest of city center"
+  },
+  {
+    "name": "21 Degree",
+    "address": "Central Phnom Penh",
+    "latitude": 11.5520,
+    "longitude": 104.9250,
+    "category": "Hospitality & Travel",
+    "city": "Phnom Penh",
+    "website": "",
+    "notes": "Likely near BKK1"
+  },
+  {
+    "name": "7-Eleven Prey Kei",
+    "address": "PTT Station, Prey Kei area",
+    "latitude": 11.5400,
+    "longitude": 104.9100,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "South of city center near Chbar Ampov"
+  },
+  {
+    "name": "7-Eleven Chbar Ampov",
+    "address": "PTT Station, Chbar Ampov",
+    "latitude": 11.5350,
+    "longitude": 104.9250,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Located in Chbar Ampov district"
+  },
+  {
+    "name": "7-Eleven Phsar Touch",
+    "address": "PTT Station, Phsar Touch area",
+    "latitude": 11.5621,
+    "longitude": 104.9160,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Near markets in central Phnom Penh"
+  },
+  {
+    "name": "7-Eleven Monivong",
+    "address": "Monivong Blvd",
+    "latitude": 11.5667,
+    "longitude": 104.9200,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Located on Monivong Boulevard"
+  },
+  {
+    "name": "7-Eleven Veng Sreng",
+    "address": "PTT Station, Veng Sreng Blvd",
+    "latitude": 11.5345,
+    "longitude": 104.8845,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Confirmed via CP ALL Cambodia social media"
+  },
+  {
+    "name": "7-Eleven BKK1",
+    "address": "Street 63, BKK1",
+    "latitude": 11.5510,
+    "longitude": 104.9260,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Located in commercial hub"
+  },
+  {
+    "name": "7-Eleven TK Avenue",
+    "address": "Near TK Avenue, Toul Kork",
+    "latitude": 11.5780,
+    "longitude": 104.8980,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Near TK Avenue mall"
+  },
+  {
+    "name": "7-Eleven Independence Monument",
+    "address": "Near Independence Monument",
+    "latitude": 11.5560,
+    "longitude": 104.9280,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Key commercial district"
+  },
+  {
+    "name": "7-Eleven Wat Phnom",
+    "address": "Near Wat Phnom",
+    "latitude": 11.5750,
+    "longitude": 104.9170,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Tourist and business area"
+  },
+  {
+    "name": "7-Eleven Sen Sok",
+    "address": "Near Sen Sok City Center",
+    "latitude": 11.5830,
+    "longitude": 104.8750,
+    "category": "Retail & Convenience",
+    "city": "Phnom Penh",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Growing residential area"
+  },
+  {
+    "name": "7-Eleven Battambang",
+    "address": "Downtown Battambang",
+    "latitude": 13.1020,
+    "longitude": 103.1980,
+    "category": "Retail & Convenience",
+    "city": "Battambang",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Provincial expansion location"
+  },
+  {
+    "name": "7-Eleven Kampong Cham",
+    "address": "Downtown Kampong Cham",
+    "latitude": 11.9920,
+    "longitude": 105.4640,
+    "category": "Retail & Convenience",
+    "city": "Kampong Cham",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Provincial expansion per SCB.co.th"
+  },
+  {
+    "name": "7-Eleven Takhmao",
+    "address": "Takhmao Town Center",
+    "latitude": 11.4833,
+    "longitude": 104.9500,
+    "category": "Retail & Convenience",
+    "city": "Takhmao",
+    "website": "https://www.7-eleven.com.kh/",
+    "notes": "Near Phnom Penh"
+  }
+] 
