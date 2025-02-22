@@ -455,6 +455,7 @@
   .videoDescription {
     font-size: 0.75rem;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
 
   .playIcon {
