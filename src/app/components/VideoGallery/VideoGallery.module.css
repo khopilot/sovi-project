@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   margin: 0;
-  padding: 6rem max(1rem, calc((100vw - 1200px) / 2));
+  padding: clamp(2rem, 6vw, 6rem) max(1rem, calc((100vw - 1200px) / 2));
   overflow: hidden;
 }
 
@@ -73,7 +73,6 @@
 .mosaicGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 200px);
   gap: 1.5rem;
   width: 100%;
   max-width: 1200px;
@@ -88,6 +87,7 @@
   transition: all 0.3s ease;
   min-height: 200px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 16/9;
 }
 
 /* Grid Item Sizes */
@@ -328,7 +328,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1rem);
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
 }
@@ -336,10 +336,10 @@
 .modalContent {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: min(900px, 95vw);
   background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
+  border-radius: clamp(0.5rem, 1vw, 1rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
   z-index: 1;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
@@ -393,105 +393,123 @@
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .mosaicGrid {
-    grid-template-rows: repeat(4, 180px);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .mosaicItem {
+    min-height: 160px;
   }
 
   .item1 {
     grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .item2, .item3 {
-    grid-column: 3;
     grid-row: span 1;
   }
 
-  .item4, .item5, .item6 {
+  .item2, .item3, .item4, .item5, .item6 {
     grid-column: span 1;
-    grid-row: 3;
+    grid-row: auto;
+  }
+
+  .title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .subtitle {
+    font-size: clamp(0.875rem, 2vw, 1.25rem);
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 2rem 1rem;
+    padding: 1rem;
   }
 
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
+  .header {
+    margin-bottom: 2rem;
   }
 
   .mosaicGrid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 160px);
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+
+  .mosaicItem {
+    min-height: 140px;
   }
 
   .item1 {
     grid-column: span 2;
-    grid-row: span 2;
+    grid-row: span 1;
   }
 
   .item2, .item3, .item4, .item5, .item6 {
     grid-column: span 1;
-    grid-row: span 1;
+    grid-row: auto;
   }
 
-  .modalContent {
-    margin: 1rem;
-    padding: 1rem;
+  .videoTitle {
+    font-size: 0.875rem;
   }
 
-  .closeButton {
-    top: 0.5rem;
-    right: 0.5rem;
+  .videoDescription {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 1;
+  }
+
+  .playIcon {
+    width: 32px;
+    height: 32px;
+    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.5rem;
   }
 
   .mosaicGrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 200px);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 
-  .item1, .item2, .item3, .item4, .item5, .item6 {
-    grid-column: 1;
+  .mosaicItem {
+    min-height: 100px;
+  }
+
+  .item1 {
+    grid-column: span 2;
     grid-row: span 1;
   }
 
-  .videoTitle {
-    font-size: 1rem;
+  .item2, .item3, .item4, .item5, .item6 {
+    grid-column: span 1;
+    grid-row: auto;
   }
 
-  .videoDescription {
-    font-size: 0.75rem;
+  .modalContent {
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .closeButton {
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 2rem;
+    height: 2rem;
   }
 
   .errorActions {
     flex-direction: column;
-    width: 100%;
-    max-width: 200px;
+    gap: 0.5rem;
   }
 
   .retryButton,
   .watchExternalButton {
     width: 100%;
-  }
-
-  .modalInfo {
     padding: 0.75rem;
-  }
-
-  .modalInfo h3 {
-    font-size: 1.25rem;
+    font-size: 0.875rem;
   }
 }
 

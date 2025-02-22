@@ -1,50 +1,90 @@
 .section {
   position: relative;
   width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
+  height: 100vh;
+  margin: 0;
   padding: 0;
-  background-color: #97D6E3;
+  overflow: hidden;
+  background-color: var(--ice);
+}
+
+/* Background Layer */
+.backgroundContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .backgroundImage {
-  position: absolute;
-  inset: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover;
-  object-position: center;
-  z-index: 0;
-  transform: scale(1.1); /* Slight scale to prevent white edges during animations */
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 }
 
-/* Add a background overlay for better content visibility */
-.section::before {
-  content: '';
+.backgroundImage > span {
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+.backgroundImage img {
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: scale(1.1); /* Slight scale to prevent any edge gaps */
+}
+
+/* Logo Layer */
+.logoContainer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(151, 214, 227, 0.2), rgba(151, 214, 227, 0.4));
-  z-index: 1;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
   pointer-events: none;
 }
 
+.logoContainer > span {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.logoContainer img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Content Layer */
 .container {
+  position: relative;
   width: 100%;
+  height: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 /* Header Styles */
 .header {
+  position: relative;
   text-align: center;
   padding: 1rem 0 2rem;
   flex-shrink: 0;
@@ -70,12 +110,10 @@
   line-height: 1.6;
 }
 
-/* Carousel Styles */
+/* Carousel Container */
 .carouselContainer {
   position: relative;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
   flex: 1;
   display: flex;
   align-items: center;
@@ -84,18 +122,56 @@
 }
 
 .carouselSlide {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
   padding: 0 1rem;
 }
 
-/* Product Card */
+/* Products Container */
+.productsContainer {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 2000px;
+}
+
+.cardWrapper {
+  position: absolute;
+  width: 400px;
+  left: 50%;
+  transform-origin: center;
+  will-change: transform;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cardWrapper[data-position='left'] {
+  transform: translateX(calc(-150% - 1rem)) scale(0.85);
+  opacity: 1;
+  z-index: 1;
+}
+
+.cardWrapper[data-position='center'] {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 2;
+}
+
+.cardWrapper[data-position='right'] {
+  transform: translateX(calc(50% + 1rem)) scale(0.85);
+  opacity: 1;
+  z-index: 1;
+}
+
 .productCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  background: white;
   border-radius: 24px;
   overflow: hidden;
   display: flex;
@@ -103,13 +179,16 @@
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  backdrop-filter: blur(10px);
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
   min-height: 420px;
   position: relative;
   isolation: isolate;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+}
+
+.productCard.inactive {
+  opacity: 1;
+  pointer-events: none;
 }
 
 .productImage {
@@ -291,10 +370,9 @@
   display: flex;
   gap: 0.75rem;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.8);
   padding: 0.75rem 1.25rem;
   border-radius: 100px;
-  backdrop-filter: blur(8px);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(255, 255, 255, 0.2) inset;
@@ -331,6 +409,10 @@
   .carouselContainer {
     padding-bottom: 5rem;
   }
+
+  .cardWrapper {
+    width: 300px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -344,6 +426,18 @@
   
   .carouselContainer {
     padding-bottom: 4rem;
+  }
+
+  .cardWrapper {
+    width: 280px;
+  }
+  
+  .cardWrapper[data-position='left'] {
+    transform: translateX(-90%) scale(0.8);
+  }
+  
+  .cardWrapper[data-position='right'] {
+    transform: translateX(-10%) scale(0.8);
   }
 }
 
@@ -405,5 +499,17 @@
 
   .nextButton {
     right: -6px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .cardWrapper {
+    width: 350px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .cardWrapper {
+    width: 350px;
   }
 } 

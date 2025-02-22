@@ -76,7 +76,7 @@ export default function VideoPlayer({ url, onLoad, autoplay = false, title = '' 
   return (
     <div className={styles.videoWrapper} style={{ background: 'black' }}>
       {isLoading && (
-        <div className={styles.loadingState} style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
+        <div className={styles.loadingState}>
           <div className={styles.loadingSpinner}>
             <svg className={styles.spinnerIcon} viewBox="0 0 50 50">
               <circle cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
@@ -96,7 +96,11 @@ export default function VideoPlayer({ url, onLoad, autoplay = false, title = '' 
             <button onClick={handleRetry} className={styles.retryButton}>
               Try Again
             </button>
-            <button onClick={() => window.open(url, '_blank')} className={styles.watchExternalButton}>
+            <button 
+              onClick={() => window.open(url, '_blank')} 
+              className={styles.watchExternalButton}
+              aria-label="Watch video on Facebook"
+            >
               Watch on Facebook
             </button>
           </div>
@@ -111,10 +115,14 @@ export default function VideoPlayer({ url, onLoad, autoplay = false, title = '' 
             opacity: isLoading ? 0 : 1,
             background: 'black',
             position: 'absolute',
-            top: 0,
-            left: 0,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             width: '100%',
             height: '100%',
+            maxWidth: '100vw',
+            maxHeight: '100vh',
+            aspectRatio: '16/9',
             border: 'none'
           }}
           scrolling="no"
@@ -125,6 +133,7 @@ export default function VideoPlayer({ url, onLoad, autoplay = false, title = '' 
           onError={handleError}
           title={title || 'Video player'}
           aria-label={title || 'Video player'}
+          loading="lazy"
         />
       )}
     </div>

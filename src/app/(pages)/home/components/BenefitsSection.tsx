@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HeritageIcon, HandcraftIcon, QualityIcon } from './icons'
 import Image from 'next/image'
 
 const container = {
@@ -34,19 +33,19 @@ const benefits = [
     title: "Petroleum-Free, Safe, and Effective",
     subtitle: "Quality Without Compromise",
     description: "Our products are formulated to deliver relief without compromise. Free from petrochemicals, harsh chemicals and filler additives, Naga Balm provides effective and safe pain relief. Every ingredient matters.",
-    Icon: QualityIcon
+    logo: "/images/Logo/Naga Balm__Brandmark_Fire.png"
   },
   {
     title: "Wide Product Range",
     subtitle: "Versatile Solutions",
     description: "Naga Balm offers versatile pain relief for athletes, professionals, seniors, and everyday users - different formats and use cases, same effectiveness.",
-    Icon: HandcraftIcon
+    logo: "/images/Logo/Naga Balm__Brandmark_Gambodge.png"
   },
   {
     title: "Handcrafted Quality",
     subtitle: "Made in Cambodia",
     description: "Operating from our cosmetics-grade facility in Phnom Penh, Cambodia, we are a specialized handcraft manufacturer—small yet driven, dedicated to raising the standards of topical pain relief. While we appreciate the efficiency of machines, we value people more.",
-    Icon: HeritageIcon
+    logo: "/images/Logo/Naga Balm__Brandmark_Ice.png"
   }
 ]
 
@@ -74,7 +73,7 @@ export default function BenefitsSection() {
           variants={container}
         >
           {/* Decorative background */}
-          <div className="absolute inset-0 bg-[#97D6E3]" />
+          <div className="absolute inset-0 bg-[#FDD26E]" />
           <div className="absolute inset-0 bg-gradient-radial from-transparent to-[#FDD26E]/50" />
           <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
           
@@ -135,9 +134,13 @@ export default function BenefitsSection() {
                     <div className="relative w-16 h-16 md:w-20 md:h-20 mb-8 mx-auto md:mx-0">
                       <div className="absolute inset-0 bg-ice/20 rounded-2xl transform rotate-6 transition-transform group-hover:rotate-12" />
                       <div className="absolute inset-0 bg-white rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 border border-ice/20">
-                        <div className="text-ice">
-                          <benefit.Icon />
-                        </div>
+                        <Image
+                          src={benefit.logo}
+                          alt={benefit.title}
+                          fill
+                          className="object-contain p-3"
+                          sizes="(max-width: 768px) 64px, 80px"
+                        />
                       </div>
                     </div>
                     <div className="text-center md:text-left">

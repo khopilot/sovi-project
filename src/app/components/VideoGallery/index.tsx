@@ -62,13 +62,14 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
             className={styles.logoWrapper}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
             <Image
               src="/images/Naga Balm__SecondaryLogomark_Black.png"
               alt="Naga Balm Logo"
               fill
+              sizes="(max-width: 768px) 80px, 120px"
               className="object-contain"
               priority
             />
@@ -77,7 +78,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
             className={styles.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             Experience Our Story
@@ -86,7 +87,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
             className={styles.subtitle}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             Discover the power of traditional Cambodian healing through our collection of stories, testimonials, and expert insights. See how Naga Balm is making a difference in people&apos;s lives across the country.
@@ -97,7 +98,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
           className={styles.mosaicGrid}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           {videos.slice(0, 6).map((video, index) => (
@@ -107,6 +108,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => openModal(video)}
+              layout
             >
               <div className={styles.thumbnailWrapper}>
                 {video.thumbnailUrl ? (
@@ -115,7 +117,8 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
                     alt={video.title}
                     className={styles.thumbnailImage}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    loading="lazy"
                   />
                 ) : (
                   <div className={styles.placeholderThumbnail}>
@@ -126,7 +129,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
                 )}
                 <div className={styles.mosaicContent}>
                   <div className={styles.playIcon}>
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M8 5v14l11-7z" fill="currentColor"/>
                     </svg>
                   </div>
@@ -145,17 +148,22 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              onClick={closeModal}
             >
-              <div className={styles.modalOverlay} onClick={closeModal} />
               <motion.div 
                 className={styles.modalContent}
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.5, opacity: 0 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={e => e.stopPropagation()}
               >
-                <button className={styles.closeButton} onClick={closeModal}>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <button 
+                  className={styles.closeButton} 
+                  onClick={closeModal}
+                  aria-label="Close video"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
@@ -163,6 +171,7 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
                   <VideoPlayer 
                     url={selectedVideo.videoUrl} 
                     autoplay={true}
+                    title={selectedVideo.title}
                   />
                 </div>
                 <div className={styles.modalInfo}>
