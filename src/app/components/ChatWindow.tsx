@@ -1,9 +1,9 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { useState, useEffect, useRef } from 'react'
 import styles from './ChatWindow.module.css'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -19,23 +19,8 @@ const WELCOME_MESSAGE = {
 // Update to use the renamed logo file
 const LOGO_ICON_PATH = '/images/Naga Balm__SecondaryLogomark_Black.png'
 
-// Create a NoSSR wrapper component
-const NoSSR = ({ children }: { children: React.ReactNode }) => {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return null
-  }
-
-  return <>{children}</>
-}
-
-// Main ChatWindow component wrapped with NoSSR
-const ChatWindow = dynamic(() => Promise.resolve(() => {
+// Main ChatWindow component
+export default function ChatWindow() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -134,21 +119,10 @@ const ChatWindow = dynamic(() => Promise.resolve(() => {
       )}
     </div>
   )
-}), {
-  ssr: false
-})
-
-// Export wrapped component
-export default function ChatWindowWrapper() {
-  return (
-    <NoSSR>
-      <ChatWindow />
-    </NoSSR>
-  )
 }
 
-// ChatInterface component with fixed Hook order
-const ChatInterface = dynamic(() => Promise.resolve(({
+// ChatInterface component
+const ChatInterface = ({
   isOpen,
   onClose,
   messages,
@@ -263,6 +237,7 @@ const ChatInterface = dynamic(() => Promise.resolve(({
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleSubmit} className={styles.inputForm}>
         <input
@@ -283,6 +258,4 @@ const ChatInterface = dynamic(() => Promise.resolve(({
       </form>
     </div>
   )
-}), {
-  ssr: false
-}) 
+} 

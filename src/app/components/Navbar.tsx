@@ -21,6 +21,7 @@ const rightNavLinks = navLinks.slice(navLinks.length / 2);
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
   
   // Handle client-side-only features
@@ -33,29 +34,33 @@ export default function Navbar() {
       setScrolled(window.scrollY > 100) // Adjust this value as needed
     }
     
-    handleScroll() // Set initial state
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    
+    // Set initial states
+    handleScroll()
+    handleResize()
+    
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
-  // Don't render anything until mounted
+  // Static initial render for SSR
   if (!mounted) {
     return (
       <div className="fixed top-4 left-0 right-0 z-50 w-full">
         <div className="max-w-5xl mx-auto px-4">
           <nav className="bg-white/90 backdrop-blur-sm shadow-lg rounded-full">
-            {/* Static initial render */}
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center justify-center w-full">
-                  <Image
-                    src="/images/Naga Balm__SecondaryLogomark_Black.png"
-                    alt="Naga Balm"
-                    width={120}
-                    height={40}
-                    className="h-9 w-auto"
-                    priority
-                  />
+                  <div className="h-9 w-[120px]"></div> {/* Placeholder for logo with fixed dimensions */}
                 </div>
               </div>
             </div>
@@ -251,7 +256,7 @@ export default function Navbar() {
 
           {/* Mobile/Collapsed Menu Overlay */}
           <AnimatePresence>
-            {isMenuOpen && (scrolled || window.innerWidth < 640) && (
+            {isMenuOpen && (scrolled || isMobile) && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Karla, Montserrat } from "next/font/google";
 import "./globals.css";
+
+// Import components
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import ChatWindow from "@/app/components/ChatWindow";
+import ChatWindowWrapper from "@/app/components/ChatWindowWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({ 
@@ -77,14 +79,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.className} ${montserrat.variable} ${karla.variable}`}>
+    <html lang="en" className={`${inter.className} ${montserrat.variable} ${karla.variable}`} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
       </head>
-      <body>
+      <body data-suppress-hydration-warning="true">
         <Navbar />
         {children}
-        <ChatWindow />
+        <ChatWindowWrapper />
         <Footer />
       </body>
     </html>

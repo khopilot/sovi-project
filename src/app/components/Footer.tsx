@@ -1,7 +1,16 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState('2024')
+  
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear().toString())
+  }, [])
+  
   return (
     <footer className="bg-gray-50 text-gray-600 relative overflow-hidden">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 relative">
@@ -159,7 +168,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-200 relative z-10">
           <p className="text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} Naga Balm®. All rights reserved.
+            © {currentYear} Naga Balm®. All rights reserved.
           </p>
         </div>
       </div>
