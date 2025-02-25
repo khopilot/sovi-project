@@ -10,37 +10,37 @@ const History: FC = () => {
       year: "2013",
       title: "The Beginning",
       description: "Coco Khmer began as a triple bottom line social enterprise, producing premium virgin coconut oil.",
-      image: "/images/about-grid/430720496_388817580758751_2341257138742686116_n.jpg"
+      image: "/images/History of CoCo Khmer/The Beginning.jpg"
     },
     {
       year: "2014",
       title: "The Birth",
       description: "The first Naga Balm was formulated, marking the beginning of our journey in traditional healing.",
-      image: "/images/about-grid/391671432_294858683487975_2328397320296936_n.jpg"
+      image: "/images/History of CoCo Khmer/The Birth.jpg"
     },
     {
       year: "2019",
       title: "Global Expansion",
       description: "Naga Balm travelled around the world to Singapore, Australia, Europe, and Greater Asia.",
-      image: "/images/about-grid/391619663_294858813487962_4740528239290929594_n.jpg"
+      image: "/images/History of CoCo Khmer/Global Expansion1.jpg"
     },
     {
       year: "2023",
       title: "The Rebirth",
       description: "After COVID restructuring, we relaunched with a brand refresh and relocated to our purpose-built cosmetics-grade facility in Chak Angre Krom.",
-      image: "/images/about-grid/420033960_348959618077881_592468932604044747_n.jpg"
+      image: "/images/History of CoCo Khmer/The Rebirth.jpg"
     },
     {
       year: "Today",
       title: "Growing Strong",
       description: "Available in 200+ locations around Cambodia, with an impressive 2025 portfolio of 19 SKUs (11 unique products).",
-      image: "/images/about-grid/430720496_388817580758751_2341257138742686116_n.jpg"
+      image: "/images/History of CoCo Khmer/Glow Today.jpg"
     },
     {
       year: "Future",
       title: "Global Vision",
       description: "Committed to making Naga Balm available internationally, offering a petroleum-free and safe option in the traditional healing category.",
-      image: "/images/about-grid/391671432_294858683487975_2328397320296936_n.jpg"
+      image: "/images/History of CoCo Khmer/Global Expansion1.jpg"
     }
   ]
 
