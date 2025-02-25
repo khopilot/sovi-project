@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import styles from './ChatWindow.module.css'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 
 interface Message {
   role: 'user' | 'assistant'
