@@ -153,6 +153,7 @@
   transform: translateZ(15px);
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -276,6 +277,7 @@
   
   .description {
     -webkit-line-clamp: 4;
+    line-clamp: 4;
   }
 }
 
