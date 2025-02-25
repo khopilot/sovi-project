@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 // All photos with evocative alt text
 const nagaBalmPhotos = [
@@ -45,13 +45,7 @@ const nagaBalmPhotos = [
 export default function NagaBalmCommunityGrid() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [gridLayout, setGridLayout] = useState<string>('mosaic')
-  const [isLoaded, setIsLoaded] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-
-  useEffect(() => {
-    // Set loaded state after component mounts to enable animations
-    setIsLoaded(true)
-  }, [])
 
   // Animation variants for grid items
   const gridItemVariants = {
