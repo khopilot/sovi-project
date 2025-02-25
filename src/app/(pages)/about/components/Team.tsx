@@ -12,11 +12,7 @@ interface TeamMember {
 }
 
 // Define team section types
-interface TeamSection {
-  title: string;
-  description: string;
-  members: TeamMember[];
-}
+// Removing the unused interface that was causing the TypeScript error
 
 const Team: FC = () => {
   const [activeTab, setActiveTab] = useState<string>('leadership');
