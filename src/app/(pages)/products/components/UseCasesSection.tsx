@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useAnimation, useDragControls } from 'framer-motion';
+import { motion, useInView, useAnimation } from 'framer-motion';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './UseCasesSection.module.css';
 
 interface UseCase {
@@ -19,68 +18,38 @@ interface UseCase {
 
 const useCases: UseCase[] = [
   {
-    id: 'muscle-pain',
-    title: "For Muscle Pain",
-    description: "An active lifestyle can sometimes bring about muscle pain. These aches may have various origins, but they all lead to discomfort that can hold you back. To help you keep moving, Naga Balm® offers a discreet patch that provides long-lasting relief—perfect for both day and night.",
+    id: 'active-lifestyle',
+    title: "For the Active Lifestyle",
+    description: "Perform, recover, and stay in motion. Whether you're an athlete, fitness enthusiast, or someone who loves staying active, Naga Balm supports your movement by easing post-workout soreness and helping you recover faster.",
     icon: "🏃‍♂️",
     benefits: [
-      "Long-lasting relief",
-      "Discreet application",
-      "Day and night use",
-      "Non-invasive solution"
+      "Post-workout recovery",
+      "Muscle relief",
+      "Performance support",
+      "Quick absorption"
     ],
-    className: styles.musclePain,
-    backgroundImage: "/images/use-case/1. For Muscle Pain.jpg",
-    productCategory: "balms"
+    className: styles.activeLifestyle,
+    backgroundImage: "/images/use-case/3. For Sport.jpg",
+    productCategory: "active"
   },
   {
-    id: 'stiffness',
-    title: "For Stiffness",
-    description: "Regardless of your lifestyle, you may occasionally experience stiffness in your upper back, neck, and shoulders. For many, these recurring tensions can limit your ability to fully enjoy life. Naga Balm® presents an unobtrusive solution with its innovative patch, designed to deliver continuous relief whether you're at work or at rest.",
-    icon: "💆‍♂️",
-    benefits: [
-      "Targeted relief",
-      "Continuous comfort",
-      "Work-friendly solution",
-      "Natural movement support"
-    ],
-    className: styles.stiffness,
-    backgroundImage: "/images/use-case/For Stiffness .jpg",
-    productCategory: "oils"
-  },
-  {
-    id: 'daily-use',
-    title: "For Daily Use",
-    description: "Our everyday routines can sometimes generate stress and tension. Extended periods of standing, repetitive movements, or long hours at a desk can lead to discomfort in the lower back, neck, or shoulders. No matter the source, Naga Balm® products are here to support you, easing tension so you can embrace every moment with ease.",
+    id: 'everyday-relief',
+    title: "For Everyday Relief",
+    description: "Soothe aches, tension, and stiffness from daily life. From long work hours to household chores, Naga Balm delivers fast-acting, natural relief for the entire family.",
     icon: "🌟",
     benefits: [
-      "Stress relief",
-      "Tension reduction",
-      "Everyday comfort",
-      "Versatile application"
+      "Tension relief",
+      "Stress reduction",
+      "Family-friendly",
+      "Natural ingredients"
     ],
-    className: styles.dailyUse,
+    className: styles.everydayRelief,
     backgroundImage: "/images/use-case/2. For Daily Use.jpg",
-    productCategory: "sprays"
-  },
-  {
-    id: 'sports',
-    title: "For Sports",
-    description: "Whether you engage in regular training or enjoy occasional workouts, sports can be demanding. A proper warm-up and recovery are essential to prevent strain. Naga Balm® supports your active lifestyle through a range of products—from massage balms to lotions and fluids—allowing you to choose the formula that best suits your needs.",
-    icon: "🏋️‍♂️",
-    benefits: [
-      "Pre-workout preparation",
-      "Post-exercise recovery",
-      "Multiple product options",
-      "Athletic performance support"
-    ],
-    className: styles.sports,
-    backgroundImage: "/images/use-case/3. For Sport.jpg",
-    productCategory: "inhalers"
+    productCategory: "daily"
   }
 ];
 
-const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: number; isActive: boolean }) => {
+const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-100px" });
   const controls = useAnimation();
@@ -111,8 +80,8 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
     }
   };
 
-  const rotateX = isTouchDevice ? 0 : mousePosition.y * 20 - 10;
-  const rotateY = isTouchDevice ? 0 : mousePosition.x * 20 - 10;
+  const rotateX = isTouchDevice ? 0 : mousePosition.y * 10 - 5; // Reduced rotation for better usability
+  const rotateY = isTouchDevice ? 0 : mousePosition.x * 10 - 5; // Reduced rotation for better usability
 
   const handleExploreProducts = () => {
     const productsSection = document.getElementById('products-section');
@@ -121,7 +90,7 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
     }
     
     const event = new CustomEvent('updateProductFilter', {
-      detail: { useCase: useCase.id }
+      detail: { category: useCase.productCategory }
     });
     window.dispatchEvent(event);
   };
@@ -129,7 +98,7 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
   return (
     <motion.div
       ref={cardRef}
-      className={`${styles.useCase} ${isActive ? styles.active : ''}`}
+      className={styles.useCase}
       initial="hidden"
       animate={controls}
       variants={{
@@ -156,8 +125,12 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
           <motion.div
             className="absolute inset-0"
             animate={{
-              scale: isActive ? 1.1 : 1,
-              filter: isActive ? 'brightness(0.8)' : 'brightness(0.6)'
+              scale: 1,
+              filter: 'brightness(0.6)'
+            }}
+            whileHover={{
+              scale: 1.05,
+              filter: 'brightness(0.8)'
             }}
             transition={{ duration: 0.6 }}
           >
@@ -181,8 +154,8 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
         >
           <motion.div 
             className={styles.iconContainer}
-            whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 0] }}
-            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
           >
             <span className={styles.icon} aria-hidden="true">
               {useCase.icon}
@@ -252,94 +225,7 @@ const UseCaseCard = ({ useCase, index, isActive }: { useCase: UseCase; index: nu
   );
 };
 
-interface DragEndInfo {
-  offset: {
-    x: number;
-    y: number;
-  };
-  velocity: {
-    x: number;
-    y: number;
-  };
-}
-
 export default function UseCasesSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const dragControls = useDragControls();
-
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window);
-  }, []);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!containerRef.current || !touchStart) return;
-
-    const touchEnd = e.touches[0].clientX;
-    const diff = touchStart - touchEnd;
-    
-    if (Math.abs(diff) > 50) { // Minimum swipe distance
-      const direction = diff > 0 ? 1 : -1;
-      const newIndex = Math.max(0, Math.min(activeIndex + direction, useCases.length - 1));
-      scrollToIndex(newIndex);
-      setTouchStart(0);
-    }
-  };
-
-  const scrollToIndex = (index: number) => {
-    if (containerRef.current) {
-      const container = containerRef.current;
-      const cards = container.children;
-      if (cards[index]) {
-        const cardWidth = cards[0].clientWidth;
-        const gap = parseInt(window.getComputedStyle(container).gap);
-        const scrollPosition = index * (cardWidth + gap);
-        
-        container.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth'
-        });
-        setActiveIndex(index);
-      }
-    }
-  };
-
-  const handleScroll = () => {
-    if (containerRef.current && !isDragging) {
-      const container = containerRef.current;
-      const scrollPosition = container.scrollLeft;
-      const cardWidth = container.children[0].clientWidth;
-      const gap = parseInt(window.getComputedStyle(container).gap);
-      const newIndex = Math.round(scrollPosition / (cardWidth + gap));
-      setActiveIndex(newIndex);
-    }
-  };
-
-  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: DragEndInfo) => {
-    setIsDragging(false);
-    if (containerRef.current) {
-      const container = containerRef.current;
-      const cardWidth = container.children[0].clientWidth + 32;
-      const delta = info.offset.x;
-      
-      if (Math.abs(delta) > cardWidth / 3) {
-        const newIndex = delta > 0 
-          ? Math.max(activeIndex - 1, 0)
-          : Math.min(activeIndex + 1, useCases.length - 1);
-        scrollToIndex(newIndex);
-      } else {
-        scrollToIndex(activeIndex);
-      }
-    }
-  };
-
   return (
     <section className={styles.useCasesSection}>
       <motion.div
@@ -356,77 +242,14 @@ export default function UseCasesSection() {
         </p>
       </motion.div>
 
-      <div className="relative">
-        <motion.div
-          ref={containerRef}
-          className={styles.useCasesContainer}
-          onScroll={handleScroll}
-          drag={isTouchDevice ? false : "x"}
-          dragControls={dragControls}
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.1}
-          onDragStart={() => setIsDragging(true)}
-          onDragEnd={handleDragEnd}
-          whileTap={{ cursor: "grabbing" }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-        >
-          {useCases.map((useCase, index) => (
-            <UseCaseCard
-              key={useCase.id}
-              useCase={useCase}
-              index={index}
-              isActive={index === activeIndex}
-            />
-          ))}
-        </motion.div>
-
-        {/* Navigation Dots - Show only on mobile */}
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2 md:hidden">
-          {useCases.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToIndex(index)}
-              className={styles.navigationDot}
-              aria-label={`Go to slide ${index + 1}`}
-            >
-              <motion.div
-                className={`w-full h-full rounded-full transition-all duration-300 ${
-                  index === activeIndex 
-                    ? 'bg-emerald-500 scale-125' 
-                    : 'bg-emerald-200'
-                }`}
-                whileTap={{ scale: 0.8 }}
-              />
-            </button>
-          ))}
-        </div>
-
-        {/* Navigation Arrows - Hide on mobile */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 hidden md:flex justify-between pointer-events-none">
-          <motion.button
-            onClick={() => scrollToIndex(Math.max(activeIndex - 1, 0))}
-            className={`p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg pointer-events-auto transition-opacity duration-300 ${
-              activeIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            disabled={activeIndex === 0}
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </motion.button>
-          <motion.button
-            onClick={() => scrollToIndex(Math.min(activeIndex + 1, useCases.length - 1))}
-            className={`p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg pointer-events-auto transition-opacity duration-300 ${
-              activeIndex === useCases.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            disabled={activeIndex === useCases.length - 1}
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
-          </motion.button>
-        </div>
+      <div className={styles.useCasesGrid}>
+        {useCases.map((useCase, index) => (
+          <UseCaseCard
+            key={useCase.id}
+            useCase={useCase}
+            index={index}
+          />
+        ))}
       </div>
     </section>
   );
