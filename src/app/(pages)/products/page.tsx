@@ -1,9 +1,20 @@
 import { Metadata, Viewport } from 'next'
 import Image from 'next/image'
 import { getProducts } from './products'
+import { nagaBalmIngredients } from './ingredients'
 import SearchWrapper from './components/SearchWrapper'
 import BackToTop from '../home/components/BackToTop'
 import UseCasesSection from './components/UseCasesSection'
+import dynamic from 'next/dynamic'
+
+const IngredientsEncyclopedia = dynamic(() => import('./components/IngredientsEncyclopedia'), {
+  ssr: true,
+  loading: () => (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-ice"></div>
+    </div>
+  ),
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -75,11 +86,11 @@ export default async function ProductsPage() {
           <div className="space-y-8">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
               <span className="block mb-2">Welcome to Our</span>
-              <span className="block bg-gradient-to-r from-emerald-200 to-white bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-ice to-white bg-clip-text text-transparent">
                 Wellness Boutique
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-emerald-50 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-ice-light max-w-3xl mx-auto leading-relaxed">
               Explore our curated collection of premium healing balms and remedies. 
               Each product tells a story of Cambodian tradition, crafted with care for your well-being.
             </p>
@@ -88,13 +99,13 @@ export default async function ProductsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <a 
                 href="#products"
-                className="px-8 py-4 bg-white text-emerald-800 rounded-full font-semibold hover:bg-emerald-50 transform hover:scale-105 transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                className="px-8 py-4 bg-white text-azure rounded-full font-semibold hover:bg-ice-light transform hover:scale-105 transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-ice focus:ring-offset-2"
               >
                 Browse Collection
               </a>
               <a 
                 href="#bestsellers"
-                className="px-8 py-4 border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+                className="px-8 py-4 border-2 border-ice text-white rounded-full font-semibold hover:bg-ice/10 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-ice focus:ring-offset-2"
               >
                 View Bestsellers
               </a>
@@ -127,6 +138,11 @@ export default async function ProductsPage() {
       {/* Products Section */}
       <section id="products" className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <SearchWrapper products={products} />
+      </section>
+
+      {/* Ingredients Encyclopedia Section */}
+      <section id="ingredients" className="bg-gradient-to-b from-ice-light/30 to-white py-16">
+        <IngredientsEncyclopedia ingredients={nagaBalmIngredients} />
       </section>
 
       {/* Back to Top Button */}
