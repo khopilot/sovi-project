@@ -1,9 +1,16 @@
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 import Image from 'next/image'
 import { getProducts } from './products'
 import SearchWrapper from './components/SearchWrapper'
 import BackToTop from '../home/components/BackToTop'
 import UseCasesSection from './components/UseCasesSection'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: 'Naga Balm Products | Wellness Boutique',

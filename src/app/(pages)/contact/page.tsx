@@ -6,10 +6,18 @@ import Hero from './components/Hero'
 import ContactForm from './components/ContactForm'
 import ContactInfo from './components/ContactInfo'
 import Map from './components/Map'
+import { Viewport } from 'next'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+}
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-amber-50">
+    <main className="relative min-h-screen bg-gradient-to-b from-white to-amber-50 overflow-hidden">
       {/* Hero Section */}
       <Hero />
       
