@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700;800&display=swap');
+@import './styles/fonts.css';
 
 @tailwind base;
 @tailwind components;
@@ -34,7 +34,7 @@ html, body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-karla), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
   position: relative;
 }
 

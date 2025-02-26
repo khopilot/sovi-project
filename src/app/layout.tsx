@@ -7,16 +7,24 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import ChatWindowWrapper from "@/app/components/ChatWindowWrapper";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
 const montserrat = Montserrat({ 
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-montserrat',
+  preload: true,
 });
+
 const karla = Karla({ 
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-karla',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -79,11 +87,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.className} ${montserrat.variable} ${karla.variable}`} suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
-      </head>
-      <body data-suppress-hydration-warning="true">
+    <html 
+      lang="en" 
+      className={`${montserrat.variable} ${karla.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <body 
+        className={`${inter.className}`}
+        data-suppress-hydration-warning="true"
+      >
         <Navbar />
         {children}
         <ChatWindowWrapper />

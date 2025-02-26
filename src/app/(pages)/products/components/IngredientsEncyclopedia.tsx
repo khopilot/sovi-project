@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Dialog } from '@headlessui/react'
 import { BeakerIcon, SparklesIcon, BookOpenIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Search, Leaf, Filter, Droplets, Flame } from 'lucide-react'
+import Image from 'next/image'
 
 interface Ingredient {
   name: string
@@ -92,28 +93,61 @@ const IngredientCard = memo(function IngredientCard({
 }) {
   const categoryColorClass = getCategoryColorClass(ingredient.category);
   
-  // Get background image based on category
-  const getBackgroundImage = () => {
+  // Get brandmark logo based on category - using a static string instead of a function
+  const brandmarkLogo = (() => {
     switch(ingredient.category) {
       case 'Moisturizer': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 1.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Ice.png";
       case 'Product Enhancer': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 2.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Gambodge.png";
       case 'Analgesic': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 3.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Fire.png";
       case 'Anti-Inflammatory': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 4.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Ice.png";
       case 'Circulatory Stimulant': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 1.png')";
+        return "/images/Logo/Naga Balm__Brandmark_White.png";
       case 'Counterirritant': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 2.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Gambodge.png";
       default: 
-        return "url('/images/Naga Balm Element (Cloud)/Background 3.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Black.png";
     }
-  };
+  })();
   
-  // Get explicit gradient class instead of using the variable
-  const getExplicitGradient = () => {
+  // Get background image based on category
+  const backgroundImage = (() => {
+    switch(ingredient.category) {
+      case 'Moisturizer': 
+        return "/images/Naga Balm Element (Cloud)/Background 1.png";
+      case 'Product Enhancer': 
+        return "/images/Naga Balm Element (Cloud)/Background 2.png";
+      case 'Analgesic': 
+        return "/images/Naga Balm Element (Cloud)/Background 3.png";
+      case 'Anti-Inflammatory': 
+        return "/images/Naga Balm Element (Cloud)/Background 4.png";
+      case 'Circulatory Stimulant': 
+        return "/images/Naga Balm Element (Cloud)/Background 1.png";
+      case 'Counterirritant': 
+        return "/images/Naga Balm Element (Cloud)/Background 2.png";
+      default: 
+        return "/images/Naga Balm Element (Cloud)/Background 3.png";
+    }
+  })();
+  
+  // Get text color class based on category
+  const textColorClass = (() => {
+    switch(ingredient.category) {
+      case 'Moisturizer': return 'text-azure';
+      case 'Product Enhancer': return 'text-gamboge';
+      case 'Analgesic': return 'text-fire';
+      case 'Anti-Inflammatory': return 'text-ice';
+      case 'Circulatory Stimulant': return 'text-salmon';
+      case 'Counterirritant': return 'text-ochre';
+      default: return 'text-gray-700';
+    }
+  })();
+  
+  // Get explicit gradient for the top bar
+  const explicitGradient = (() => {
     switch(ingredient.category) {
       case 'Moisturizer': return 'bg-gradient-to-r from-azure to-azure/70';
       case 'Product Enhancer': return 'bg-gradient-to-r from-gamboge to-gamboge/70';
@@ -123,27 +157,46 @@ const IngredientCard = memo(function IngredientCard({
       case 'Counterirritant': return 'bg-gradient-to-r from-ochre to-ochre/70';
       default: return 'bg-gradient-to-r from-gray-500 to-gray-300';
     }
-  };
+  })();
   
   return (
     <motion.div
       onClick={() => onSelect(ingredient)}
-      className={`group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl border border-gray-100`}
-      style={{
-        backgroundImage: getBackgroundImage(),
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
+      className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl border border-gray-200 shadow-sm"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
       transition={{ duration: 0.3 }}
     >
-      {/* Top accent bar based on category - using explicit gradient */}
-      <div className={`h-2 w-full ${getExplicitGradient()}`} />
+      {/* Background image layer */}
+      <div 
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        {/* Gradient overlay to improve content readability */}
+        <div className={`absolute inset-0 ${explicitGradient} opacity-80 backdrop-blur-[1px]`}></div>
+      </div>
       
-      <div className="p-6 bg-white/90 backdrop-blur-sm">
+      {/* Top accent bar based on category - using explicit gradient */}
+      <div className={`h-3 w-full ${explicitGradient} relative z-10`} />
+      
+      {/* Brandmark watermark - increased opacity and adjusted position */}
+      <div className="absolute right-3 bottom-3 opacity-40 pointer-events-none z-10">
+        <Image 
+          src={brandmarkLogo} 
+          alt="Naga Balm Brandmark" 
+          width={96}
+          height={96}
+          className="object-contain"
+        />
+      </div>
+      
+      <div className="p-6 bg-white/40 backdrop-blur-sm relative z-10">
         <div className="flex items-start gap-3 mb-4">
           <div className={`p-3 rounded-full ${categoryColorClass.split(' ')[0]} shadow-md`}>
             {getCategoryIcon(ingredient.category)}
@@ -163,8 +216,8 @@ const IngredientCard = memo(function IngredientCard({
         </p>
 
         <div className="flex justify-end">
-          <motion.span 
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 flex items-center gap-1"
+          <motion.div 
+            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium ${textColorClass} bg-white/80 border border-current shadow-sm`}
             whileHover={{ x: 5 }}
             transition={{ duration: 0.2 }}
           >
@@ -172,7 +225,7 @@ const IngredientCard = memo(function IngredientCard({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </motion.span>
+          </motion.div>
         </div>
       </div>
     </motion.div>
@@ -194,28 +247,48 @@ const IngredientDetail = memo(function IngredientDetail({
   const categoryColorClass = getCategoryColorClass(ingredient.category);
   const gradientClass = getCategoryGradientClass(ingredient.category);
   
-  // Get background image based on category
-  const getBackgroundImage = () => {
+  // Get brandmark logo based on category - using a static string instead of a function
+  const brandmarkLogo = (() => {
     switch(ingredient.category) {
       case 'Moisturizer': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 1.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Ice.png";
       case 'Product Enhancer': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 2.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Gambodge.png";
       case 'Analgesic': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 3.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Fire.png";
       case 'Anti-Inflammatory': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 4.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Ice.png";
       case 'Circulatory Stimulant': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 1.png')";
+        return "/images/Logo/Naga Balm__Brandmark_White.png";
       case 'Counterirritant': 
-        return "url('/images/Naga Balm Element (Cloud)/Background 2.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Gambodge.png";
       default: 
-        return "url('/images/Naga Balm Element (Cloud)/Background 3.png')";
+        return "/images/Logo/Naga Balm__Brandmark_Black.png";
     }
-  };
+  })();
+  
+  // Get background image based on category
+  const backgroundImage = (() => {
+    switch(ingredient.category) {
+      case 'Moisturizer': 
+        return "/images/Naga Balm Element (Cloud)/Background 1.png";
+      case 'Product Enhancer': 
+        return "/images/Naga Balm Element (Cloud)/Background 2.png";
+      case 'Analgesic': 
+        return "/images/Naga Balm Element (Cloud)/Background 3.png";
+      case 'Anti-Inflammatory': 
+        return "/images/Naga Balm Element (Cloud)/Background 4.png";
+      case 'Circulatory Stimulant': 
+        return "/images/Naga Balm Element (Cloud)/Background 1.png";
+      case 'Counterirritant': 
+        return "/images/Naga Balm Element (Cloud)/Background 2.png";
+      default: 
+        return "/images/Naga Balm Element (Cloud)/Background 3.png";
+    }
+  })();
   
   // Get text color class based on category
-  const getTextColorClass = () => {
+  const textColorClass = (() => {
     switch(ingredient.category) {
       case 'Moisturizer': return 'text-azure';
       case 'Product Enhancer': return 'text-gamboge';
@@ -225,10 +298,10 @@ const IngredientDetail = memo(function IngredientDetail({
       case 'Counterirritant': return 'text-ochre';
       default: return 'text-gray-700';
     }
-  };
+  })();
   
   // Get explicit gradient for the top bar
-  const getExplicitGradient = () => {
+  const explicitGradient = (() => {
     switch(ingredient.category) {
       case 'Moisturizer': return 'bg-gradient-to-r from-azure to-azure/70';
       case 'Product Enhancer': return 'bg-gradient-to-r from-gamboge to-gamboge/70';
@@ -238,7 +311,7 @@ const IngredientDetail = memo(function IngredientDetail({
       case 'Counterirritant': return 'bg-gradient-to-r from-ochre to-ochre/70';
       default: return 'bg-gradient-to-r from-gray-500 to-gray-300';
     }
-  };
+  })();
   
   // Get color for minor benefits section
   const getMinorBenefitsColor = () => {
@@ -338,29 +411,39 @@ const IngredientDetail = memo(function IngredientDetail({
   return (
     <Dialog.Panel 
       className="relative w-full max-w-6xl transform rounded-2xl bg-white shadow-2xl transition-all overflow-hidden"
-      style={{
-        backgroundImage: getBackgroundImage(),
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
     >
+      {/* Remove the background image layer and keep only a subtle gradient */}
+      <div 
+        className="absolute inset-0 w-full h-full z-0 bg-gradient-to-br from-white via-gray-50 to-gray-100"
+      />
+      
       {/* Top accent bar based on category */}
-      <div className={`h-3 w-full ${getExplicitGradient()}`} />
+      <div className={`h-4 w-full ${explicitGradient} relative z-10`} />
+      
+      {/* Brandmark watermark - increased opacity and adjusted position */}
+      <div className="absolute right-12 top-12 opacity-40 pointer-events-none z-10">
+        <Image 
+          src={brandmarkLogo} 
+          alt="Naga Balm Brandmark" 
+          width={288}
+          height={288}
+          className="object-contain"
+        />
+      </div>
       
       <button
         type="button"
-        className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ice transition-all duration-200"
+        className="absolute right-4 top-6 z-20 rounded-full bg-white/90 p-2.5 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ice transition-all duration-200 shadow-md"
         onClick={onClose}
       >
         <span className="sr-only">Close</span>
         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 lg:p-8 bg-white/90 backdrop-blur-md">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 lg:p-8 bg-white/60 backdrop-blur-md relative z-10">
         <div className="space-y-6">
-          <div className="flex items-start gap-3">
-            <div className={`p-3 rounded-full ${categoryColorClass.split(' ')[0]} shadow-md`}>
+          <div className="flex items-start gap-4 bg-white/80 p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className={`p-4 rounded-full ${categoryColorClass.split(' ')[0]} shadow-md`}>
               {getCategoryIcon(ingredient.category)}
             </div>
             <div>
@@ -369,70 +452,191 @@ const IngredientDetail = memo(function IngredientDetail({
                   {ingredient.name}
                 </span>
               </h2>
-              <span className={`mt-1 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${categoryColorClass}`}>
+              <span className={`mt-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${categoryColorClass}`}>
                 {ingredient.category}
               </span>
             </div>
           </div>
 
           <div className="prose prose-ice max-w-none">
-            <div className={`bg-gradient-to-r ${gradientClass} rounded-xl p-5 border backdrop-blur-sm`}>
-              <div className="flex items-center gap-2 mb-2">
-                <SparklesIcon className={`h-5 w-5 ${getTextColorClass()} flex-shrink-0`} />
-                <h4 className="font-semibold text-gray-900">Major Benefit</h4>
+            {/* Major Benefit card with background image */}
+            <div 
+              className={`relative rounded-xl p-5 border backdrop-blur-sm shadow-sm overflow-hidden`}
+              style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              {/* Overlay for better readability */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass} opacity-90`}></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2">
+                  <SparklesIcon className={`h-5 w-5 ${textColorClass} flex-shrink-0`} />
+                  <h4 className="font-semibold text-gray-900">Major Benefit</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.majorBenefit)}</p>
               </div>
-              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.majorBenefit)}</p>
             </div>
 
-            <div className={`bg-gradient-to-r ${minorBenefitsColor.gradient} rounded-xl p-5 mt-4 border ${minorBenefitsColor.border} backdrop-blur-sm`}>
-              <div className="flex items-center gap-2 mb-2">
-                <Leaf className={`h-5 w-5 ${minorBenefitsColor.text} flex-shrink-0`} />
-                <h4 className="font-semibold text-gray-900">Minor Benefits</h4>
+            {/* Minor Benefits card with background image */}
+            <div 
+              className={`relative rounded-xl p-5 mt-4 border shadow-sm overflow-hidden`}
+              style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              {/* Overlay for better readability */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${minorBenefitsColor.gradient} opacity-90`}></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2">
+                  <Leaf className={`h-5 w-5 ${minorBenefitsColor.text} flex-shrink-0`} />
+                  <h4 className="font-semibold text-gray-900">Minor Benefits</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.minorBenefit)}</p>
               </div>
-              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.minorBenefit)}</p>
             </div>
 
-            <div className={`bg-gradient-to-r ${traditionalUseColor.gradient} rounded-xl p-5 mt-4 border ${traditionalUseColor.border} backdrop-blur-sm`}>
-              <div className="flex items-center gap-2 mb-2">
-                <BookOpenIcon className={`h-5 w-5 ${traditionalUseColor.text} flex-shrink-0`} />
-                <h4 className="font-semibold text-gray-900">Traditional Use</h4>
+            {/* Traditional Use card with background image */}
+            <div 
+              className={`relative rounded-xl p-5 mt-4 border shadow-sm overflow-hidden`}
+              style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              {/* Overlay for better readability */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${traditionalUseColor.gradient} opacity-90`}></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2">
+                  <BookOpenIcon className={`h-5 w-5 ${traditionalUseColor.text} flex-shrink-0`} />
+                  <h4 className="font-semibold text-gray-900">Traditional Use</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.useCases)}</p>
               </div>
-              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.useCases)}</p>
             </div>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className={`bg-gradient-to-r ${scientificInsightsColor.gradient} rounded-xl p-6 border ${scientificInsightsColor.border} backdrop-blur-sm`}>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <BeakerIcon className={`h-5 w-5 ${scientificInsightsColor.text}`} />
-              Scientific Insights
-            </h4>
-            <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.scientificInsight)}</p>
+          {/* Scientific Insights card with background image */}
+          <div 
+            className={`relative rounded-xl p-6 border shadow-sm overflow-hidden`}
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Overlay for better readability */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${scientificInsightsColor.gradient} opacity-90`}></div>
+            
+            <div className="relative z-10">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <BeakerIcon className={`h-5 w-5 ${scientificInsightsColor.text}`} />
+                Scientific Insights
+              </h4>
+              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.scientificInsight)}</p>
+            </div>
           </div>
 
-          <div className={`bg-gradient-to-r ${sourceColor.gradient} rounded-xl p-6 border ${sourceColor.border} backdrop-blur-sm`}>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Leaf className={`h-5 w-5 ${sourceColor.text}`} />
-              Source
-            </h4>
-            <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.source)}</p>
+          {/* Source card with background image */}
+          <div 
+            className={`relative rounded-xl p-6 border shadow-sm overflow-hidden`}
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Overlay for better readability */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${sourceColor.gradient} opacity-90`}></div>
+            
+            <div className="relative z-10">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Leaf className={`h-5 w-5 ${sourceColor.text}`} />
+                Source
+              </h4>
+              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.source)}</p>
+            </div>
           </div>
 
-          <div className={`bg-gradient-to-r ${khmerTraditionColor.gradient} rounded-xl p-6 border ${khmerTraditionColor.border} backdrop-blur-sm`}>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <BookOpenIcon className={`h-5 w-5 ${khmerTraditionColor.text}`} />
-              Khmer Tradition
-            </h4>
-            <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.khmerTradition)}</p>
+          {/* Khmer Tradition card with background image */}
+          <div 
+            className={`relative rounded-xl p-6 border shadow-sm overflow-hidden`}
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Overlay for better readability */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${khmerTraditionColor.gradient} opacity-90`}></div>
+            
+            <div className="relative z-10">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <BookOpenIcon className={`h-5 w-5 ${khmerTraditionColor.text}`} />
+                Khmer Tradition
+              </h4>
+              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.khmerTradition)}</p>
+            </div>
           </div>
 
-          <div className={`bg-gradient-to-r ${culturalFactColor.gradient} rounded-xl p-6 border ${culturalFactColor.border} backdrop-blur-sm`}>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <SparklesIcon className={`h-5 w-5 ${culturalFactColor.text}`} />
-              Cultural Fact
-            </h4>
-            <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.culturalFact)}</p>
+          {/* Cultural Fact card with background image */}
+          <div 
+            className={`relative rounded-xl p-6 border shadow-sm overflow-hidden`}
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Overlay for better readability */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${culturalFactColor.gradient} opacity-90`}></div>
+            
+            <div className="relative z-10">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <SparklesIcon className={`h-5 w-5 ${culturalFactColor.text}`} />
+                Cultural Fact
+              </h4>
+              <p className="text-gray-700 leading-relaxed">{cleanText(ingredient.culturalFact)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Footer with category-based styling */}
+      <div className={`p-4 ${explicitGradient} bg-opacity-10 border-t border-gray-200 flex justify-between items-center`}>
+        <div className="flex items-center gap-2">
+          <div className={`p-2 rounded-full bg-white/80 shadow-sm`}>
+            {getCategoryIcon(ingredient.category)}
+          </div>
+          <span className="text-sm font-medium text-gray-700">Naga Balm Ingredient</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-gray-500">Share this ingredient:</span>
+          <div className="flex gap-2">
+            <button className={`p-2 rounded-full bg-white/80 ${textColorClass} hover:bg-white transition-colors duration-200 shadow-sm`}>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+              </svg>
+            </button>
+            <button className={`p-2 rounded-full bg-white/80 ${textColorClass} hover:bg-white transition-colors duration-200 shadow-sm`}>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+              </svg>
+            </button>
+            <button className={`p-2 rounded-full bg-white/80 ${textColorClass} hover:bg-white transition-colors duration-200 shadow-sm`}>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.170 14.999c-.538.021-1.053.235-1.53.646-.477.412-.718.975-.718 1.691 0 .716.241 1.279.718 1.691.477.411.992.625 1.53.646.56-.021 1.086-.235 1.573-.646.487-.412.731-.975.731-1.691 0-.716-.244-1.279-.731-1.691-.487-.411-1.013-.625-1.573-.646zm9.66 0c-.538.021-1.053.235-1.53.646-.477.412-.718.975-.718 1.691 0 .716.241 1.279.718 1.691.477.411.992.625 1.53.646.56-.021 1.086-.235 1.573-.646.487-.412.731-.975.731-1.691 0-.716-.244-1.279-.731-1.691-.487-.411-1.013-.625-1.573-.646zm9.66 0c-.538.021-1.053.235-1.53.646-.477.412-.718.975-.718 1.691 0 .716.241 1.279.718 1.691.477.411.992.625 1.53.646.56-.021 1.086-.235 1.573-.646.487-.412.731-.975.731-1.691 0-.716-.244-1.279-.731-1.691-.487-.411-1.013-.625-1.573-.646zm9.66 0c-.538.021-1.053.235-1.53.646-.477.412-.718.975-.718 1.691 0 .716.241 1.279.718 1.691.477.411.992.625 1.53.646.56-.021 1.086-.235 1.573-.646.487-.412.731-.975.731-1.691 0-.716-.244-1.279-.731-1.691-.487-.411-1.013-.625-1.573-.646z" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

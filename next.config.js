@@ -1,16 +1,42 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'www.facebook.com',
-      'scontent.fpnh1-1.fna.fbcdn.net',
-      'scontent.fpnh2-1.fna.fbcdn.net',
-      'scontent.fpnh3-1.fna.fbcdn.net',
-      'scontent.fpnh4-1.fna.fbcdn.net',
-      'scontent.fpnh5-1.fna.fbcdn.net',
-      'scontent-sin6-1.xx.fbcdn.net',
-      'scontent-sin6-2.xx.fbcdn.net'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.facebook.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.fpnh1-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.fpnh2-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.fpnh3-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.fpnh4-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.fpnh5-1.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent-sin6-1.xx.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent-sin6-2.xx.fbcdn.net',
+      },
     ],
+    // Allow unoptimized images for local files in public directory
+    unoptimized: process.env.NODE_ENV === 'development',
   },
   async headers() {
     return [
