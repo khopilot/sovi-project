@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaFacebook, FaInstagram } from 'react-icons/fa'
 
 export default function ContactInfo() {
   return (
@@ -50,9 +50,10 @@ export default function ContactInfo() {
             <div className="ml-3">
               <h3 className="text-base font-medium text-gray-800 font-karla">Address</h3>
               <address className="mt-1 text-sm text-gray-600 not-italic font-montserrat">
-                123 Norodom Boulevard<br />
-                Phnom Penh, Cambodia<br />
-                12000
+                Coco Khmer Co., Ltd.<br />
+                #1529, NR. 2, Chakangre Krom<br />
+                Khan Mean Chey, Phnom Penh<br />
+                Cambodia
               </address>
             </div>
           </div>
@@ -84,10 +85,10 @@ export default function ContactInfo() {
               <h3 className="text-base font-medium text-gray-800 font-karla">Phone</h3>
               <div className="mt-1 text-sm font-montserrat">
                 <Link 
-                  href="tel:+85523456789" 
+                  href="tel:016269359" 
                   className="text-[#EE4922] hover:text-[#D43812] transition-colors"
                 >
-                  +855 23 456 789
+                  016 269 359
                 </Link>
               </div>
             </div>
@@ -102,11 +103,7 @@ export default function ContactInfo() {
                 <dd>8:00 AM - 5:00 PM</dd>
               </div>
               <div className="flex justify-between">
-                <dt>Saturday:</dt>
-                <dd>9:00 AM - 2:00 PM</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt>Sunday:</dt>
+                <dt>Saturday - Sunday:</dt>
                 <dd>Closed</dd>
               </div>
             </dl>
@@ -124,7 +121,7 @@ export default function ContactInfo() {
           <h3 className="text-base font-medium text-gray-800 font-karla">Follow Us</h3>
           <div className="mt-3 sm:mt-4 flex space-x-5 sm:space-x-6">
             <Link 
-              href="https://facebook.com" 
+              href="https://www.facebook.com/nagabalmkh/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-[#EE4922] transition-colors"
@@ -133,22 +130,13 @@ export default function ContactInfo() {
               <FaFacebook className="h-5 w-5 sm:h-6 sm:w-6" />
             </Link>
             <Link 
-              href="https://instagram.com" 
+              href="https://www.instagram.com/nagabalm?igsh=dWhhYW1sd3M4d2Iy" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-[#EE4922] transition-colors"
             >
               <span className="sr-only">Instagram</span>
               <FaInstagram className="h-5 w-5 sm:h-6 sm:w-6" />
-            </Link>
-            <Link 
-              href="https://twitter.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#EE4922] transition-colors"
-            >
-              <span className="sr-only">Twitter</span>
-              <FaTwitter className="h-5 w-5 sm:h-6 sm:w-6" />
             </Link>
           </div>
         </motion.div>

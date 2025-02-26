@@ -1,8 +1,13 @@
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+// Check if OpenAI API key is available
+const apiKey = process.env.OPENAI_API_KEY
+const isApiKeyAvailable = apiKey && apiKey !== 'your_openai_api_key_here'
+
+// Only initialize OpenAI if API key is available
+const openai = isApiKeyAvailable 
+  ? new OpenAI({ apiKey })
+  : null
 
 const SYSTEM_PROMPT = `You are a helpful assistant for Naga Balm, a Cambodian company that produces traditional balms and remedies.
 Your role is to help customers with product information, usage guidelines, and general inquiries.
@@ -25,9 +30,20 @@ When responding:
 
 export async function POST(req: Request) {
   try {
+    // Check if OpenAI API is available
+    if (!isApiKeyAvailable) {
+      return Response.json(
+        { 
+          role: "assistant",
+          content: "I'm sorry, but the chat service is currently unavailable. Please try again later or contact customer service for assistance."
+        },
+        { status: 200 }
+      )
+    }
+    
     const { messages } = await req.json()
     
-    const completion = await openai.chat.completions.create({
+    const completion = await openai!.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
@@ -46,10 +62,10 @@ export async function POST(req: Request) {
     console.error('Error in chat API:', error)
     return Response.json(
       { 
-        error: 'Failed to process request',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        role: "assistant",
+        content: "I'm sorry, but I encountered an error processing your request. Please try again later."
       },
-      { status: 500 }
+      { status: 200 }
     )
   }
 } 
