@@ -6,14 +6,6 @@ import Hero from './components/Hero'
 import ContactForm from './components/ContactForm'
 import ContactInfo from './components/ContactInfo'
 import Map from './components/Map'
-import { Viewport } from 'next'
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  viewportFit: 'cover',
-}
 
 export default function ContactPage() {
   return (
