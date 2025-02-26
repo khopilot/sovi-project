@@ -1,4 +1,4 @@
-import { Metadata, Viewport } from 'next'
+import { Viewport } from 'next'
 import { redirect } from 'next/navigation'
 
 export const viewport: Viewport = {
